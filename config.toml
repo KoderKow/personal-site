@@ -43,7 +43,7 @@ disqusShortname = "koderkow"
 [params]
     since = 2019
     author = "Kyle Harris"       # Author's name
-    subtitle = ""   # Subtitle
+    subtitle = "Welcome to My Humble Abode"   # Subtitle
     cdn_url = ""                # Base CDN URL
     home_mode = ""              # post or other
 
@@ -66,10 +66,10 @@ disqusShortname = "koderkow"
 
 
 [params.social]
-    GitHub = "https://github.com/KoderKow"
-    Linkedin = "https://www.linkedin.com/in/kylewharris/"
-    Twitter = "https://twitter.com/KoderKow"
-    Instagram = "https://www.instagram.com/koderkow/"
+    GitHub = "koderkow"
+    Linkedin = "kylewharris"
+    Twitter = "koderkow"
+    Instagram = "koderkow"
     #Email   = "xxxx"
     #Facebook = "xxxx"
     #Telegram = "xxxx"
