@@ -1,0 +1,2041 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kyle Harris on Kyle Harris</title>
+    <link>/</link>
+    <description>Recent content in Kyle Harris on Kyle Harris</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 10 May 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Fri, 10 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>
+
+&lt;h1 id=&#34;hello&#34;&gt;Hello!&lt;/h1&gt;
+
+&lt;p&gt;My name is Kyle Harris. I am a data analytics associate at CLA (CliftonLarsonAllen). I have a double major in Health Data Science and Informatics. My educational interests include solving data related issues, R programming, and machine learning.&lt;/p&gt;
+
+&lt;p&gt;My personal hobbies include spending time with my girlfriend Lexi, petting my cats, playing video games, studying/reading about data science and machine learning, and listening to audio books.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Indy Civic Food Security Hackathon</title>
+      <link>/2018/2018-07-03-indy-civic-food-security-hackathon/</link>
+      <pubDate>Tue, 03 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/2018-07-03-indy-civic-food-security-hackathon/</guid>
+      <description>
+
+
+&lt;p&gt;This will be a short post (Hopefully a header image soon. Ha!). This is more of a reference to show what my friends and I from Health Data Science were able to build in 24 hours at the Indy Civic Food Security Hackathon! Link to their site is below.&lt;/p&gt;
+&lt;p&gt;Our App was made with Rshiny to help show nearby food options for those in need. It will show U-Picks (open gardens), SNAP certified grocery stores, and farmers markets. We also put bus stops in to help with transportation needs.&lt;/p&gt;
+&lt;p&gt;Go to the website &lt;a href=&#34;https://sugarshoedev.shinyapps.io/foodhackathon/&#34;&gt;here&lt;/a&gt; and you can enable the markers on the map by clicking the top right box to bring up a menu. There is also an option to get your current location as well as a voice assistance for those who need help using the application. There is one command; ‘ZIP’. If you want you can enable microphone access and say a zipcode in indianapolis you are interested in. Ex: “ZIP 46202”. This will result in the mapview to change to that zip code.&lt;/p&gt;
+&lt;p&gt;There is also a skeleton logic of snap questions on the other tab we made to show the power and multiple options that can be implemented with RShiny.&lt;/p&gt;
+&lt;p&gt;Again, this is a quick write up to share this great app we made! Shout out to Dan, Becca, and Satirios on this amazing application, and thank you to Indy Chamber for hosting this event!&lt;/p&gt;
+&lt;p&gt;Links:
+&lt;a href=&#34;https://indychamber.com/hack/&#34; class=&#34;uri&#34;&gt;https://indychamber.com/hack/&lt;/a&gt;
+&lt;a href=&#34;https://sugarshoedev.shinyapps.io/foodhackathon/&#34; class=&#34;uri&#34;&gt;https://sugarshoedev.shinyapps.io/foodhackathon/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Making the Transcribing Process a Bit Simpler</title>
+      <link>/2018/2018-06-10-making-the-transcribing-process-a-bit-simpler/</link>
+      <pubDate>Sun, 10 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/2018-06-10-making-the-transcribing-process-a-bit-simpler/</guid>
+      <description>
+
+
+&lt;p&gt;For the past year I have had the pleasure of working with the data visualization team at IUPUI. I approached Professor Reda looking to explore the realm of research. He gave me the opportunity to sit in their team meetings for the spring semester. As fall came around I joined the team.&lt;/p&gt;
+&lt;p&gt;For those who have worked in research, you may have crossed paths with user testing and the art of transcription. This was my first encounter with transcription and as the few jokes I heard about it, it wasn’t/isn’t that great of a time. With each user test being close to a hour, the time to transribe can be cumbersome. After some failed attemptes of hacky audio to text methods I ran into something that worked fairly well, YouTube!&lt;/p&gt;
+&lt;p&gt;YouTube makes auto closed captions for videos. Using their automation I was able to &lt;b&gt;privately&lt;/b&gt; upload the videos and have them be transcribed fairly accurately. YouTube has a great UI for editing closed captions, allowing me to watch the full video with the auto generated captions to ensure accuracy. After that all that is left to do is download the file and convert it to a csv file.&lt;/p&gt;
+&lt;p&gt;During this process I added certain code words at the start of sentences, for example if any of the research members spoke during the test I started the line with “staff:”. Later on this will help seperate the text into different columns (user text and staff text). If anyone is reading this that wants to do this for their transcription, feel free to make your own code words, you will have to change the R code a bit for the sbv to csv converter below. Sbv is the file format you save the YouTube close captionings.&lt;/p&gt;
+&lt;p&gt;There can be difficulties with this method. A big one is audio quality. Making sure the audio is clear with no background noise is important. I have had multiple videos be translated to spanish and german due to the service not being able to depict the language at the start. Another issue is two people talking at once. The service will get confused and try to choose a word that sounds like the words that both people are saying. Making sure one person speaks at a time ensures a easy transcription process. At worst YouTube does not auto transcribe for you. You can still make your own file on the site. There are convenient hotkeys to use while transcribing. Again, the UI is great for this type of work.&lt;/p&gt;
+&lt;p&gt;All around this method has saved our team a lot of time during the transcribing process. I wanted to share this method in hopes to save others who do transcriptions by ear. Below is a write I did for my team and the R code to convert the sbv files.&lt;/p&gt;
+&lt;p&gt;I want to emphasize about privacy. Videos are uploaded privately and deleted right after the process is complete. On top of that there is no way to identify any user in the videos due to not being able to see them.&lt;/p&gt;
+&lt;p&gt;Here is a great article that summarizes the work our research team does at IUPUI:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://soic.iupui.edu/news/reda-nsf-crii-grant/&#34;&gt;HCC faculty member awarded NSF grant for data visualization research&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;Download the video(s) from box of the necessary session&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;Upload them to YouTube (you will need a YouTube/google account)
+&lt;ol style=&#34;list-style-type: lower-alpha&#34;&gt;
+&lt;li&gt;Make sure you set publish setting to PRIVATE!&lt;/li&gt;
+&lt;li&gt;Also make sure you delete the video after you are completely done&lt;br /&gt;
+ &lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;After the video has finished upload, it may take several hours for YouTube to automatically generate close captioning’s.
+&lt;ol style=&#34;list-style-type: lower-alpha&#34;&gt;
+&lt;li&gt;Close captioning’s will be our transcription in this case&lt;br /&gt;
+ &lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;To see if the automatic translation is complete, start at the homepage of YouTube
+&lt;ol style=&#34;list-style-type: lower-alpha&#34;&gt;
+&lt;li&gt;Click on the top right icon (your profile icon) and click ‘Creator Studio.’&lt;/li&gt;
+&lt;li&gt;On the next page click ‘Video Manager’ on the left side.&lt;/li&gt;
+&lt;li&gt;Find the video you need on the list and click ‘Edit’ on that video&lt;/li&gt;
+&lt;li&gt;On the top menu, all the way to the right, click on ‘Subtitles/CC’&lt;/li&gt;
+&lt;li&gt;To the right of the video underneath the blue bar that says ‘Add new subtitles or CC’ it will have a title that says ‘Published’&lt;/li&gt;
+&lt;li&gt;If it has gone according to plan, it will say ‘English (Automatic)’. Click this.
+&lt;ul&gt;
+&lt;li&gt;If it lists a different language, it means the audio quality was not clear and you will have to either start doing the transcription manually, or if you are efficient with video/audio editing you can try to clean up the audio&lt;/li&gt;
+&lt;li&gt;If it does not show up at all after 6 hours, it will be due to the audio quality not being clear (from what I have read online)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt; 
+5. After clicking ‘English (automatic)’ click edit on the top right
+ 
+6. Get familiar with this layout!
+a. You can click the times on the left to go directly to that spot on the timeline
+b. You can edit the text directly while listening
+c. Hotkeys I use:
+- Shift + Space = play/pause
+- Shift + Left/Right arrow = go forward/back a few seconds&lt;/p&gt;
+&lt;p&gt; 
+7. Listen to the whole video and read along with what is said in the video&lt;/p&gt;
+&lt;p&gt; 
+8. Important: When a member of the research team speaks start that line with ‘staff:’
+a. This is very important for the format of the final csv, I use this exact string to separate user text and staff text into separate columns in the R script.&lt;/p&gt;
+&lt;p&gt; 
+9. I manually insert a few important parts
+a. When a video starts; ‘MVI 0001 Starts’
+b. When a video ends; ‘MVI 0001 Ends’
+c. When a question is SUBMITTED; ‘Q. I want to see…’
+d. When a graph is generated ‘**Graph is Generated**’&lt;/p&gt;
+&lt;p&gt; 
+10. Once you are happy with the entirety of the proof-read script, click on ‘Actions’ which is located right above the text editing area.&lt;/p&gt;
+&lt;p&gt; 
+11. Save it as a ‘.sbv’ file&lt;/p&gt;
+&lt;p&gt; 
+12. Once you have saved it you can message me and I can quickly do the rest, upload it to the box [Symbol] (I will add the R .sbv to .csv script soon)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# If you do not have tidyverse:
+# install.packages(&amp;#39;tidyverse&amp;#39;)
+#
+# CTRL + ENTER to run lines. run library and function.
+#
+# The last line is where you need to edit the
+# string to files you want to edit
+
+library(tidyverse)
+
+sbv_to_csv &amp;lt;- function(filepath, savename){
+  rawData &amp;lt;- read.table(filepath,
+                    header = F,
+                    sep = &amp;quot;\n&amp;quot;,
+                    quote=&amp;quot;\&amp;quot;&amp;quot;)
+  
+  rawData &amp;lt;- droplevels(rawData)
+  rawData &amp;lt;- rawData %&amp;gt;% mutate(dont_keep = str_detect(rawData$V1, &amp;quot;0:&amp;quot;))
+  
+  # We decided we did not team time stamps (dont_keep)
+  df &amp;lt;- data.frame(words = rawData %&amp;gt;%
+                     filter(dont_keep == F) %&amp;gt;% select(V1))
+  colnames(df) &amp;lt;- &amp;#39;words&amp;#39;
+  
+  df$words &amp;lt;- as.character(df$words)
+  
+  df &amp;lt;- df %&amp;gt;% mutate(test = str_detect(words, &amp;#39;staff:&amp;#39;) |
+                        str_detect(words, &amp;#39;Staff:&amp;#39;),
+                      interviewer = ifelse(test, words, &amp;quot;&amp;quot;),
+                      text = ifelse(test, &amp;quot;&amp;quot;, words))
+  
+# this line is for start/end time colums. fix select on line 26 to include this.
+#transcribedData &amp;lt;- df %&amp;gt;% separate(time, c(&amp;quot;startTime&amp;quot;, &amp;quot;endTime&amp;quot;), &amp;quot;,&amp;quot;)
+  
+  transcribedData &amp;lt;- df %&amp;gt;% select(text, interviewer)
+  
+  write.csv(transcribedData, file = savename)
+}
+
+# First param is path to file, if you are on windows
+# you will need to escape the \, so &amp;quot;\\&amp;quot; as shown below
+#
+# Second param is the output, make sure it ends with
+# .csv. this can also be a file path to save where you want it
+#
+# By default it is your documents I believe, or you
+# can set your working directory with setwd(*FOLDERPATH*)
+
+sbv_to_csv(&amp;#39;C:...\\MVI_0115.sbv&amp;#39;, &amp;#39;0115.csv&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- ```{r echo=FALSE} --&gt;
+&lt;!-- blogdown::shortcode(&#39;googleAdsense&#39;) --&gt;
+&lt;!-- ``` --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Accidental Drug Related Deaths</title>
+      <link>/2018/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut/</link>
+      <pubDate>Sun, 27 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;The opioid epidemic is a nationwide issue for the United States. Among the states Connecticut takes second place in terms of deaths from opioids in the years 2014-2015. As the years go on death rates are doubling from the abuse of opioids. Heroin overdoses continue to rise and now fentanyl is joining its ranks. Fentanyl has been getting mixed with heroin to increase its potency and in return it increases the chance of overdosing (Rondinone, 2017). This report will be looking over the top 5 opioids that are related to overdosing. The data used is from &lt;a href=&#34;https://data.ct.gov/Health-and-Human-Services/Accidental-Drug-Related-Deaths-2012-2017/rybz-nyjw&#34;&gt;data.ct.gov&lt;/a&gt;. This project was done during a class at IUPUI in November 2017.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;div id=&#34;data-exploration&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data Exploration&lt;/h2&gt;
+&lt;p&gt;We loaded the data into a dataframe called ‘odDat’. Our first step is to make more columns according to the date.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;odDat$yearMon &amp;lt;- as.yearmon(odDat$Date,&amp;#39;%m/%d/%Y&amp;#39;)
+odDat$yearMonNum &amp;lt;- as.numeric(odDat$yearMon)
+odDat$year &amp;lt;- year(mdy(odDat$Date))
+odDat$month &amp;lt;- month(mdy(odDat$Date))
+odDat$day &amp;lt;- day(mdy(odDat$Date))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We will be looking into the location type for the drug over doses. Lets see a count of them.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;odDat %&amp;gt;%
+  group_by(Location) %&amp;gt;%
+  summarise(n = n()) %&amp;gt;%
+  arrange(desc(n))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Location
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Residence
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1854
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Hospital
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1175
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Other
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+528
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+22
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Convalescent Home
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Hospice
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Most of our data is within 3 locations. So we will be aggragating and grouping our data based off these 3 locations. We will be working with the dataset renamed as ‘od’.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;od &amp;lt;- odDat %&amp;gt;%
+  filter(Location == &amp;quot;Residence&amp;quot; |
+           Location == &amp;quot;Hospital&amp;quot; |
+           Location == &amp;quot;Other&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Lets look at an example of the data we are wanting to find out about. For this example we will be looking at heroin overdoses in locations marked as “Other.”&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;od %&amp;gt;%
+  filter(Location == &amp;quot;Other&amp;quot; &amp;amp; Heroin == &amp;quot;Y&amp;quot;) %&amp;gt;%
+  summarise(n = n())&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+330
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;There are 330 counts of heroin overdose in the location known as other. I want to clean the overdose data to perform better insights. Any case of ‘Y’ or ‘y’ will be marked as a 1, if it is not a Y then we will label it as a 0.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;od[,16:27] &amp;lt;- ifelse(od[,16:27] == &amp;quot;Y&amp;quot; | od[,16:27] == &amp;#39;y&amp;#39;,1, 0)
+od[,29] &amp;lt;- ifelse(od[,29] == &amp;quot;Y&amp;quot; | od[,29] == &amp;#39;y&amp;#39;, 1, 0)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For this project we are interested in the top 5 drugs by count of overdoses. We will use dplyr to select the columns, and then summarize them to find the top 5 most common overdoses.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;drugs &amp;lt;- od %&amp;gt;%
+  select_(.dots = c(&amp;quot;Location&amp;quot;, &amp;quot;Heroin&amp;quot;, &amp;quot;Cocaine&amp;quot;, &amp;quot;Fentanyl&amp;quot;,
+                    &amp;quot;Oxycodone&amp;quot;, &amp;quot;Oxymorphone&amp;quot;, &amp;quot;EtOH&amp;quot;,
+                    &amp;quot;Hydrocodone&amp;quot;, &amp;quot;Benzodiazepine&amp;quot;, &amp;quot;Methadone&amp;quot;,
+                    &amp;quot;Amphet&amp;quot;, &amp;quot;Tramad&amp;quot;, &amp;quot;Morphine..not.heroin.&amp;quot;,
+                    &amp;quot;Any.Opioid&amp;quot;, &amp;quot;yearMon&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: select_() is deprecated. 
+## Please use select() instead
+## 
+## The &amp;#39;programming&amp;#39; vignette or the tidyeval book can help you
+## to program with select() : https://tidyeval.tidyverse.org
+## This warning is displayed once per session.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;drugCount &amp;lt;- drugs %&amp;gt;%
+  summarise(Heroin = sum(Heroin),
+            Cocaine = sum(Cocaine),
+            Fenentanyl = sum(Fentanyl),
+            Oxycodone = sum(Oxycodone),
+            Oxymorphone = sum(Oxymorphone),
+            Etoh = sum(EtOH),
+            Hydrocodone = sum(Hydrocodone),
+            Benzodiazepine = sum(Benzodiazepine),
+            Methadone = sum(Methadone),
+            Amphet = sum(Amphet),
+            Tramad = sum(Tramad))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Display the top 10 opioids.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;drugCount %&amp;gt;%
+  gather() %&amp;gt;%
+  top_n(10) %&amp;gt;%
+  arrange(desc(value))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+key
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+value
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Heroin
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1926
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Fenentanyl
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1102
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Cocaine
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+990
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Benzodiazepine
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+877
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Etoh
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+768
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Oxycodone
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+489
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Methadone
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+333
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Hydrocodone
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+97
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Oxymorphone
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+95
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Amphet
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+80
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The top 5 in order of highest to lowest is heroin, fentanyl, cocaine, benzodiazepine, and etOh. It is no surprise to see heroin and fentanyl are on top. Looking at the information for these opioids we are able to look into where the most common area for overdosing is to happen.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;drugs5 &amp;lt;- od %&amp;gt;%
+  select_(.dots = c(&amp;quot;Location&amp;quot;, &amp;quot;Heroin&amp;quot;, &amp;quot;Cocaine&amp;quot;,
+                    &amp;quot;Fentanyl&amp;quot;, &amp;quot;EtOH&amp;quot;, &amp;quot;Benzodiazepine&amp;quot;,
+                    &amp;quot;yearMon&amp;quot;))
+
+drugs5 %&amp;gt;% summarize(Residence = sum(Location == &amp;#39;Residence&amp;#39;),
+                     Hospital = sum(Location == &amp;#39;Hospital&amp;#39;),
+                     Other = sum(Location == &amp;#39;Other&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Residence
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Hospital
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Other
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1854
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1175
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+528
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Residence has the most occurances, followed by hospital then other. Now lets look at how location is distributed among the top 5 drugs. We will do this with two different bar plots. The first will be a normal bar plot, with each bar representing counts of location per drug.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;drugs5Loc &amp;lt;- drugs5 %&amp;gt;%
+  group_by(Location) %&amp;gt;%
+  summarize(nHeroin = sum(Heroin),
+            nFentanyl = sum(Fentanyl),
+            nCocaine = sum(Cocaine),
+            nBenzodiazepine = sum(Benzodiazepine),
+            nEtOh = sum(EtOH)) %&amp;gt;%
+  gather(opioid, count, 2:6)
+
+drugs5Loc$opioid &amp;lt;- str_replace(drugs5Loc$opioid, &amp;#39;n&amp;#39;, &amp;#39;&amp;#39;)
+
+ggplot(data = drugs5Loc,
+       aes(x = reorder(opioid, count), y = count, fill = Location)) +
+  geom_bar(stat = &amp;#39;identity&amp;#39;, position=&amp;#39;dodge&amp;#39;,
+           color = &amp;#39;black&amp;#39;) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  labs(x = &amp;#39;opioid&amp;#39;, y = &amp;#39;Count&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The other bar plot I will use is a proportion based bar plot so it is easier to see how location makes up each opiod.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = drugs5Loc, aes(x = opioid, fill = Location, y = count)) +
+  geom_bar(position = &amp;#39;fill&amp;#39;, stat = &amp;#39;identity&amp;#39;) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  ylab(&amp;#39;Proportion&amp;#39;) +
+  xlab(&amp;#39;opioid&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Looking at these graphs we can confirm that residence makes up most cases for each drug. Generally hospital and other are lower counts, with hospital being the next common and then other. Now that we have an understanding of the top opioids and locations that they occur, it is time to look into overdose counts over the months and years.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;yearMonDrug &amp;lt;- od %&amp;gt;%
+  group_by(yearMon, Location) %&amp;gt;%
+  summarize(Heroin = sum(Heroin),
+            Cocaine = sum(Cocaine),
+            Fentanyl = sum(Fentanyl),
+            Etoh = sum(EtOH),
+            Benzo = sum(Benzodiazepine)) %&amp;gt;%
+  gather(opioid, count, 3:7)
+
+yearMonDrug %&amp;gt;%
+  ggplot(aes(x = yearMon, y = count, fill = opioid)) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;) +
+  facet_grid(opioid ~ Location) +
+  labs(y = &amp;#39;Count&amp;#39;, x = &amp;#39;Year&amp;#39;) +
+  scale_colour_gdocs() + theme_gdocs()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can see that fentanyl has had a huge spike in overdoses in 2016. Before late 2015 fentanyl is one of the lowest overdosed drugs. This truly shines the light on how fentanyl is a major epidemic. There is a constant increase for all drugs in all locations with a very few observations of strong decreases.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;yearMonDrug %&amp;gt;%
+  ggplot(aes(x = yearMon, y = count, fill = opioid)) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;) + facet_wrap( ~ Location) +
+  labs(x = &amp;quot;Year&amp;quot;, y = &amp;quot;Count&amp;quot;) +
+  theme(axis.text.x  = element_text(angle=45)) + 
+          scale_x_continuous(breaks=c(2012, 2013, 2014, 2015, 2016
+                                      ,2017))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can clearly see the constant increase of overdoses. Next we will facet the plot to look at each opioid individually.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot to show count of top 5 drugs over 2012-2017
+yearMonDrug %&amp;gt;%
+  ggplot(aes(x = yearMon, y = count, fill = opioid)) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;) + facet_wrap( ~ opioid) +
+  labs(x = &amp;quot;Year&amp;quot;, y = &amp;quot;Count&amp;quot;) +
+  theme(axis.text.x  = element_text(angle=45)) + 
+          scale_x_continuous(breaks=c(2012, 2013, 2014, 2015, 2016
+                                      ,2017))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Looking at all of the data we can see that the primary location for overdosing is residence. In all locations we can see that the count is increasing. Heroin and fentanyl are the most common as well. It is interesting to see the huge spike in fentanyl count over the past few years. The large increase is so much it now has a higher count than heroin.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;simulation&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Simulation&lt;/h2&gt;
+&lt;p&gt;Moving on past visual representation and aggragation of our data we will now look into the last 6 months of our data set, more specifically the first 6 months of 2017. I will be using these 6 months to simulate the next few months that are not present in our data. Janurary overdose count will be used for July, Feburary for August, ect. I Will be simulated the first 3 months for each drug. Then I will break down the simulation by location for the first three months, then I am interested in doing heroin, the most popular opioid, by location for the last 6 months.&lt;/p&gt;
+&lt;p&gt;This process may not make sense logically. This was a requirement by the project to implement simulation. It is moreso theory in how to apply simulation in this kind of setting and how to interpret it.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+
+od2 &amp;lt;- od %&amp;gt;%
+  select(Heroin, Cocaine, Fentanyl, EtOH,
+         Benzodiazepine, yearMon, year, month, Location)
+
+# values for overdoses in Jan 2017
+od20171 &amp;lt;- od2 %&amp;gt;%
+  group_by(Location) %&amp;gt;%
+  filter(year == 2017 &amp;amp; month == 1) %&amp;gt;%
+  summarize(nHeroin = sum(Heroin),
+            nCocaine = sum(Cocaine),
+            nFentanyl = sum(Fentanyl),
+            nEtoh = sum(EtOH),
+            nBenzo = sum(Benzodiazepine))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Location
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+nHeroin
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+nCocaine
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+nFentanyl
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+nEtoh
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+nBenzo
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Hospital
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+15
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Other
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Residence
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+15
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+24
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+13
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This shows us the counts of opioids in Janurary 2017.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# sim for july
+set.seed(char2seed(&amp;#39;Kyle&amp;#39;))
+# sims for each drug by total
+july2017 &amp;lt;- data.frame(Heroin=rpois(1000,sum(od20171$nHeroin)),
+                       Cocaine=rpois(1000,sum(od20171$nCocaine)),
+                       Fent=rpois(1000,sum(od20171$nFentanyl)),
+                       Etoh=rpois(1000,sum(od20171$nEtoh)),
+                       Benzo=rpois(1000,
+                                sum(od20171$nBenzo)))
+july2017 %&amp;gt;%
+  gather() %&amp;gt;% 
+  ggplot(aes(value)) +
+  facet_wrap(~ key, scales = &amp;quot;free&amp;quot;) +
+  geom_histogram(color=&amp;#39;black&amp;#39;,binwidth = 2,aes(fill=key)) +
+  theme(legend.position=&amp;quot;none&amp;quot;) +
+  labs(x=&amp;quot;opioid&amp;quot;, y=&amp;quot;Overdose Count&amp;quot;, title = &amp;quot;July 2017 Simulation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This is five separate simulations for each drug to show, in a simulated manner, the count of overdoses for July 2017 based off the counts of Janurary 2017. Taking information from these simulations we can see that Benzo will have around 10 overdoses on the low end and we can expect a high of around 30 (10-30). Following this template, cocaine will have 20-42, Etoh 5-17, fentanyl will have 35 - 70, and heroin 31 - 65. Looking at summaries of our data before it is to be expected heroin would be higher. I will do a few more simulations for August and September to see if fentanyl is on top and to see if our simulated results show an increase/decrease to other.&lt;/p&gt;
+&lt;p&gt;To avoid summarizing each set, I will add the results of observations into a data frame and print it out.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;od20172 &amp;lt;- od2 %&amp;gt;%
+  group_by(Location) %&amp;gt;%
+  filter(year == 2017 &amp;amp; month == 2) %&amp;gt;%
+  summarize(nHeroin = sum(Heroin),
+            nCocaine = sum(Cocaine),
+            nFentanyl = sum(Fentanyl),
+            nEtoh = sum(EtOH),
+            nBenzodiazepine = sum(Benzodiazepine))
+
+set.seed(char2seed(&amp;#39;Kyle&amp;#39;))
+# sims for each drug by total
+august2017 &amp;lt;- data.frame(Heroin=rpois(1000,sum(od20172$nHeroin)),
+                       Cocaine=rpois(1000,sum(od20172$nCocaine)),
+                       Fent=rpois(1000,sum(od20172$nFentanyl)),
+                       Etoh=rpois(1000,sum(od20172$nEtoh)),
+                       Benzo=rpois(1000,
+                                sum(od20172$nBenzodiazepine)))
+august2017 %&amp;gt;%
+  gather() %&amp;gt;% 
+  ggplot(aes(value)) +
+  facet_wrap(~ key, scales = &amp;quot;free&amp;quot;) +
+  geom_histogram(color=&amp;#39;black&amp;#39;,binwidth = 2,aes(fill=key)) +
+  theme(legend.position=&amp;quot;none&amp;quot;) +
+  labs(x=&amp;quot;opioid&amp;quot;, y=&amp;quot;Overdose Count&amp;quot;, title = &amp;quot;August 2017 Simulation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-22-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;od20173 &amp;lt;- od2 %&amp;gt;%
+  group_by(Location) %&amp;gt;%
+  filter(year == 2017 &amp;amp; month == 3) %&amp;gt;%
+  summarize(nHeroin = sum(Heroin),
+            nCocaine = sum(Cocaine),
+            nFentanyl = sum(Fentanyl),
+            nEtoh = sum(EtOH),
+            nBenzodiazepine = sum(Benzodiazepine))
+
+set.seed(char2seed(&amp;#39;Kyle&amp;#39;))
+# sims for each drug by total
+sept2017 &amp;lt;- data.frame(Heroin=rpois(1000,sum(od20173$nHeroin)),
+                       Cocaine=rpois(1000,sum(od20173$nCocaine)),
+                       Fent=rpois(1000,sum(od20173$nFentanyl)),
+                       Etoh=rpois(1000,sum(od20173$nEtoh)),
+                       Benzo=rpois(1000,
+                                sum(od20173$nBenzodiazepine)))
+sept2017 %&amp;gt;%
+  gather() %&amp;gt;% 
+  ggplot(aes(value)) +
+  facet_wrap(~ key, scales = &amp;quot;free&amp;quot;) +
+  geom_histogram(color=&amp;#39;black&amp;#39;,binwidth = 2,aes(fill=key)) +
+  theme(legend.position=&amp;quot;none&amp;quot;) +
+  labs(x=&amp;quot;opioid&amp;quot;, y=&amp;quot;Overdose Count&amp;quot;, title = &amp;quot;September 2017 Simulation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;simRange %&amp;gt;%
+  filter(opioid %in% c(&amp;quot;Fentanyl&amp;quot;, &amp;quot;Heroin&amp;quot;, &amp;quot;Benzo&amp;quot;,
+                                   &amp;quot;Cocaine&amp;quot;, &amp;quot;Etoh&amp;quot;)) %&amp;gt;%
+  arrange(opioid)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+opioid
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Month
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Range
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Benzo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Jul
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+10-30
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Benzo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Aug
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+12-36
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Benzo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Sept
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+15-40
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Cocaine
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Jul
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+20-42
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Cocaine
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Aug
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+15-42
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Cocaine
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Sept
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+18-44
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Etoh
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Jul
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+5-17
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Etoh
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Aug
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+0-17
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Etoh
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Sept
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+0-20
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Fentanyl
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Jul
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+35-70
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Fentanyl
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Aug
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+30-66
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Fentanyl
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Sept
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+37-76
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Heroin
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Jul
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+41-65
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Heroin
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Aug
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+22-50
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Heroin
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Sept
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+27-56
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;To conclude our simulations for the next three months we can see that benzo overdoses are on the rise. Cocaine is roughly constant. Etoh is also constant and is the lower overdose count. Fentanyl seems to be the most common overdose in 2017, it has a large range and the highest values. Heroin is now the second most common in these 2017 simulations, and it appears there is a big drop off from 41 to the 20s of overdose counts.&lt;/p&gt;
+&lt;p&gt;To finalize the simulations I will simulate July 2017 for heroin based off of location.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;locationSim &amp;lt;- od2 %&amp;gt;%
+  group_by(Location) %&amp;gt;%
+  filter(year == 2017 &amp;amp; month == 1) %&amp;gt;%
+  summarize(nHeroin = sum(Heroin))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Location
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+nHeroin
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Hospital
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+15
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Other
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Residence
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+22
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;julyLocSim &amp;lt;- data.frame(Hospital = rpois(1000,
+                                        locationSim$nHeroin[1]),
+                         Other = rpois(1000,
+                                         locationSim$nHeroin[2]),
+                         Residence = rpois(1000,
+                                        locationSim$nHeroin[3]))
+
+julyLocSim %&amp;gt;%
+  gather() %&amp;gt;% 
+  ggplot(aes(value)) +
+  facet_wrap(~ key, scales = &amp;quot;free&amp;quot;) +
+  geom_histogram(color=&amp;#39;black&amp;#39;,binwidth = 2,aes(fill=key)) +
+  theme(legend.position=&amp;quot;none&amp;quot;) +
+  labs(x=&amp;quot;Location&amp;quot;, y=&amp;quot;Overdose Count&amp;quot;, title = &amp;quot;July 2017 Location Simulation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut_files/figure-html/unnamed-chunk-29-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The distribution of these poisson simulations look normal. This is because they have a smaller lamba due to the total count for the month being split into three separate locations. For heroin count in the hospital in July 20717 is no less than 8 and expect a high of 26. For ther it is 4 to 23, and 10 to 37 for residence. From this breakdown we are able to confirm what was observed earlier with our data exploration. According to our simulations residence is the most common location, followed by hospital, then other. I wanted to show a simulation breakdown according to location for a particular drug. This can be applied to any drug of interest.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;predictive-modeling&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Predictive Modeling&lt;/h2&gt;
+&lt;p&gt;Making a model for this dataset will require aggregating the data and getting the total counts by month and year. This is because we will be using a poisson model and it will require total counts. If we try to use the base data set we will not get the results we are expecting because opioids are composed of 0’s and 1’s. The training set, all data before 2017, will be used to train our model. For this example we will be looking specifically at the opioid fentanyl. Then I will test the model against a test set, all data after 2017. At the end the error will be calculated to show us the accuracy of the model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trainod &amp;lt;- od2 %&amp;gt;%
+  filter(year &amp;lt; 2017) %&amp;gt;%
+  group_by(Location, year, month) %&amp;gt;%
+  summarize(nHeroin = sum(Heroin),
+            nCocaine = sum(Cocaine),
+            nFentanyl = sum(Fentanyl),
+            nEtoh = sum(EtOH),
+            nBenzodiazepine = sum(Benzodiazepine))
+
+model1 &amp;lt;- glm(nFentanyl ~ Location + year + month, data = trainod,
+            family = &amp;#39;poisson&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+term
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+estimate
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+std.error
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+statistic
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+p.value
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+(Intercept)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-1826.96
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+77.81
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-23.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+LocationOther
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.86
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.11
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-7.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+LocationResidence
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.08
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6.15
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+year
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.91
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.04
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+23.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+month
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.05
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4.42
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The model, model1, will be used now predict the first month of 2017. Showing the actual data and the predicted data will show if the model is predicting close to the real data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;new.predict1 &amp;lt;- predict(model1,newdata = data.frame(year=2016, Location = c(&amp;#39;Hospital&amp;#39;, &amp;#39;Other&amp;#39;, &amp;#39;Residence&amp;#39;), month=12), type = &amp;quot;response&amp;quot;)
+names(new.predict1) &amp;lt;- c(&amp;#39;Hospital&amp;#39;,&amp;#39;Other&amp;#39;,&amp;#39;Residence&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# predicted values for Jan 2017 in all locations for fentanyl
+new.predict1&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Hospital
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Other
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Residence
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+16.3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6.91
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+26.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Actual values for Jan 2017 in all locations for fentanyl.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;od2 %&amp;gt;%
+  filter(year == 2017 &amp;amp; month == 1) %&amp;gt;%
+  summarize(nFentanyl = sum(Fentanyl))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed table-bordered&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+nFentanyl
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+52
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;As shown after adding up the three individual predictions our predicted values are very close to the actual data. Exciting! To test the accuracy of the model I will now run the model against the test data, which is data in 2017. This way we will be able to gauge the accuracy of our model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;testod &amp;lt;- od2 %&amp;gt;%
+  filter(year &amp;lt; 2017) %&amp;gt;%
+  group_by(Location, year, month) %&amp;gt;%
+  summarize(nHeroin = sum(Heroin),
+            nCocaine = sum(Cocaine),
+            nFentanyl = sum(Fentanyl),
+            nEtoh = sum(EtOH),
+            nBenzodiazepine = sum(Benzodiazepine))
+
+predTest &amp;lt;- predict(model1, newdata = testod, type = &amp;quot;response&amp;quot;) 
+
+errTest &amp;lt;- mean((testod$nFentanyl - predTest) ^ 2)
+
+sqrt(errTest)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 2.5&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The model has a 2.5 error, meaning our predications are potentially off by 2.5. I believe this is accurate for our model. This could be very useful to predict upcoming months for the overdoses. The model is for heroin, but it can easily be switched with any of the other drugs in the data set.&lt;/p&gt;
+&lt;p&gt;To summarize our findings there is definite proof that overdose counts are on the rise. Residences are common locations for these accidents. Heroin is the most common in the data set, but it is slowly getting over taken by fentanyl. We are able to simulate ranges for expected overdoses in the data. This could be used for professionals to get an idea what they are looking for in the future. Finally we built a fairly accurate model. This model is able to take in year, month, and location and return a value that represents the count of overdoses. I believe this model could be useful to see if counts increase in the future. Furthermore after more data is acquired it would be great to see predicted counts go down because this would show overdose situations are under control.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sources-related-links&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Sources + Related Links&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.courant.com/breaking-news/hc-cdc-fentanyl-overdoses-20170105-story.html&#34;&gt;Nicholas Rondinone, CDC: Connecticut Second In Percent Increase Of Synthetic Opioid Deaths Rate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.middletownpress.com/news/article/Sen-Murphy-in-Haddam-on-opioid-crisis-This-12548669.php&#34;&gt;Jeff Mill, Sen. Murphy in Haddam on opioid crisis: ‘This is getting worse, not better’&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.law.com/ctlawtribune/sites/ctlawtribune/2018/01/24/attorneys-for-connecticut-cities-pledge-to-fight-any-move-to-opioid-mdl/&#34;&gt;Robert Storace, Attorneys for CT Cities Pledge Fight Against Move to Opioid MDL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.courant.com/politics/hc-pol-new-connecticut-laws-january-20171227-story.html&#34;&gt;Russel Blair, Eight New Laws That Take Effect in Connecticut on Jan. 1&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- ```{r echo=FALSE} --&gt;
+&lt;!-- blogdown::shortcode(&#39;googleAdsense&#39;) --&gt;
+&lt;!-- ``` --&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Web Scraping World of Warcraft Weapons</title>
+      <link>/2018/2018-05-24-web-scraping-world-of-warcraft-weapons/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/2018-05-24-web-scraping-world-of-warcraft-weapons/</guid>
+      <description>
+
+
+&lt;p&gt;The main goal of this project was to learn how to use the R libraries rvest and RSelenium. The web scraping would be taking place on the website wowhead.com. There is about 10,000 rows of data to collect.&lt;/p&gt;
+&lt;div id=&#34;learning-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Learning Points&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Navigate the DOM to capture desired element values&lt;/li&gt;
+&lt;li&gt;Used R’s &lt;em&gt;RSelenium&lt;/em&gt; and &lt;em&gt;rvest&lt;/em&gt; library to capture data&lt;/li&gt;
+&lt;li&gt;Construct a R script to automate the complete web scraping process&lt;/li&gt;
+&lt;li&gt;Made a data frame with captured data to save to a csv file for data analysis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;web-scraping-process&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Web Scraping Process&lt;/h2&gt;
+&lt;p&gt;The web scraper goes to the wowhead.com weapon page. There is about 10,000 weapons worth of data. All of the data we want to collect from these weapons are not presented in the rows of the table. For each page, there are 50 weapons.&lt;/p&gt;
+&lt;div id=&#34;example-of-table-view-of-weapons&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Example of table view of weapons&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;/img/wow-scraper/table_view.png&#34; width=&#34;80%&#34; height=&#34;80%&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In order to capture all of the data we want we will need to click on each row, collect the data, go back to the previous page, and then click on the next item.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;example-of-weapon-view-for-all-attributes&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Example of weapon view for all attributes&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;/img/wow-scraper/item_view.png&#34; width=&#34;80%&#34; height=&#34;80%&#34;&gt;&lt;/p&gt;
+&lt;p&gt;At the start I was collecting the data directly from the elements shown on the top left box of the page. Issues started coming up when a weapon had a different amount of attributes. For example, if a weapon had two attributes such as strength and agility, that takes up 2 spaces on the DOM. Then if the next weapon had only one attribute, the script would return an error. After exploring the DOM I was able to find all of the data in a &amp;lt;noscript&amp;gt; tag. All of the attributes had different code tags (ie;‘!–stat3–&amp;gt;\+’ = agility). After sorting out all of the tags I was able to use string manipulation to return the information desired.&lt;/p&gt;
+&lt;p&gt;First time running the script all the way through with no errors showed the next hurdle to jump. The original default weapon data only showed about 1,000 of the 10,000 total weapons. The next step was to automate a filtering process to collect all the weapons.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;by-default-the-page-displays-around-1000-max&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;By default, the page displays around 1000 max&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;/img/wow-scraper/item_displayed_vs_total.png&#34; width=&#34;80%&#34; height=&#34;80%&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I decided to search for weapons based on their item level. For example, levels 1-25, 26-35, etc. This would return all the weapons in chunks. Once the first chunk of weapons was collected the script clears the filter and inputs the next number range.&lt;/p&gt;
+&lt;p&gt;After thinking this project was complete I showed the data to my professor. We found out the weapon attributes were not correct. My string manipulation was not collecting stats correctly that had a comma in it (ex: 1,247). This was a simple fix, but then I noticed something completely different on the website. When you click a weapon and then go back, the order the weapons on the table were not static. The order changed! Eventually I found a solution, constantly sort the table by the weapon name everytime the script goes back to the main page.&lt;/p&gt;
+&lt;p&gt;Unfortunately during this time, World of Warcraft introduced weapon scalability to their weapons. To put it simply and in terms I understand, a large amount of weapons in their game now ‘upgrade’ as you level up. For example, I am level one and have a level one sword that does 1-2 damage and has +1 strength. When I level up to level two the sword now does 2-3 damage and has +2 strength. World of Warcraft has 120 levels. This now means a lot of the weapons have different stats on 120 levels. This really put a thud on this web scraper.&lt;/p&gt;
+&lt;p&gt;After talking to my professor, if I chose to continue with this project and wanted to do data analysis on the data, I could make an assumption that all weapons would be looked at in a maxed level view (player level = 120). Sadly, however, this will require going back and changing how a lot of the data is collected.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;reflection&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Reflection&lt;/h2&gt;
+&lt;p&gt;It is unfortunate to get hit by that update, but the process of collecting the data and fixing all the issues that came up was an amazing learning experience. There is still possibility of data analysis with the old data I collected that had the comma issue.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data&lt;/h2&gt;
+&lt;p&gt;The data (.csv file) is on my &lt;a href=&#34;https://github.com/KoderKow/wow_scraper&#34;&gt;github&lt;/a&gt;. I wanted to share what the data looked like and that I had success in gathering a lot of different attributes for every weapon.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;acknowledgments&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Acknowledgments&lt;/h2&gt;
+&lt;p&gt;I want to thank Professor Lourens for sharing his idea for this project. Professor Lourens assisted me on learning web scraping through rvest/RSelenium and addressed errors I came across.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;code&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Code&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# scraping libraries
+library(RSelenium)
+library(rvest)
+# XML, allows access to xpath selector
+library(XML)
+# string splice library
+library(stringr)
+
+## create a remoteDriver class object
+rD &amp;lt;- rsDriver()
+
+## extract client from rD
+remDr &amp;lt;- rD[[&amp;quot;client&amp;quot;]]
+
+## Navigate to a page 
+remDr$maxWindowSize()
+remDr$navigate(&amp;quot;http://www.wowhead.com/weapons&amp;quot;)
+## If the popup shows up, click it to get rid of it
+
+popUp &amp;lt;- remDr$findElement(using =&amp;#39;css&amp;#39;, value = &amp;#39;#item-gallery-listview &amp;gt; div.walkthrough-details-wrapper &amp;gt; div &amp;gt; div &amp;gt; div &amp;gt; div.walkthrough-details-text.right &amp;gt; div &amp;gt; a&amp;#39;)
+popUp$clickElement()
+
+## ---- Loop ----
+i &amp;lt;- 1 # for rows 1 - 50
+j &amp;lt;- 1 # for data frame rows
+f &amp;lt;- 1 # for filter seach count
+rlvl90counter &amp;lt;- 0
+filterHighValue &amp;lt;- &amp;#39;&amp;#39;
+timeVec &amp;lt;- numeric()
+
+# Total Weapons Amount
+totalWeapons &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = &amp;#39;//*[@id=&amp;quot;tab-items&amp;quot;]/div[1]/div[2]&amp;#39;)
+totalWeapons &amp;lt;- totalWeapons$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+totalWeapons &amp;lt;- as.numeric(str_split(totalWeapons, pattern = &amp;#39; &amp;#39;)[[1]][1])
+
+# test for filter automation
+reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;1&amp;#39;)) 
+reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;25&amp;#39;)) 
+
+# apply filter button
+applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+applyFilter$clickElement()
+
+# filtered weapon count
+filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+
+# sort table by name to avoid random order on back()s
+sortByItem &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = &amp;#39;//*[@id=&amp;quot;tab-items&amp;quot;]/div[2]/table/thead/tr/th[2]/div/a/span&amp;#39;)
+sortByItem$clickElement()
+
+initialStart &amp;lt;- Sys.time()
+
+while(j &amp;lt;= 10000){
+  
+  startTime &amp;lt;- Sys.time()
+  # sort back to original name order
+  sortByItem &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = &amp;#39;//*[@id=&amp;quot;tab-items&amp;quot;]/div[2]/table/thead/tr/th[2]/div/a/span&amp;#39;)
+  sortLogic &amp;lt;- sortByItem$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+  if(sortLogic != &amp;quot;&amp;lt;span&amp;gt;Name&amp;lt;/span&amp;gt;&amp;quot;){
+    sortByItem$clickElement()
+    if(sortLogic != &amp;quot;&amp;lt;span&amp;gt;Name&amp;lt;/span&amp;gt;&amp;quot;){
+      sortByItem$clickElement()
+    }
+  }
+  
+  URLData &amp;lt;- remDr$getCurrentUrl()
+  
+  # find all weapons ----
+  print(paste(&amp;#39;select weapons table round&amp;#39;, j, &amp;#39;..&amp;#39;))
+  weapons &amp;lt;- remDr$findElements(using = &amp;quot;css&amp;quot;, value = &amp;quot;#tab-items &amp;gt; div.listview-scroller &amp;gt; table &amp;gt; tbody &amp;gt; tr&amp;quot;)
+  
+  # select weapon i from list
+  print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;..&amp;#39;))
+  selectWeapon &amp;lt;- weapons[[i]]$findChildElement(using = &amp;quot;css&amp;quot;, value = &amp;quot;td:nth-child(3) &amp;gt; div &amp;gt; a&amp;quot;)
+  
+  # required lvl
+  print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;required level...&amp;#39;))
+  reqLvl &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = paste(&amp;quot;//*[@id=\&amp;quot;tab-items\&amp;quot;]/div[2]/table/tbody/tr[&amp;quot;, i, &amp;quot;]/td[5]&amp;quot;))
+  reqLvl &amp;lt;- reqLvl$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+  reqLvl &amp;lt;- as.numeric(reqLvl)
+  
+  
+  # click selected weapon
+  print(paste(&amp;#39;clicking weapon&amp;#39;, i, &amp;#39;..&amp;#39;))
+  selectWeapon$clickElement()
+  
+  # grab page&amp;#39;s url for item # (not sure if this is used anymore..)
+  print(paste(&amp;#39;selecting URL&amp;#39;, i, &amp;#39;..&amp;#39;))
+  URL &amp;lt;- remDr$getCurrentUrl()
+  
+  # split string for item number
+  print(paste(&amp;#39;selecting item #&amp;#39;, i, &amp;#39;..&amp;#39;))
+  itemNum &amp;lt;- str_split(str_split(URL, pattern = &amp;#39;=&amp;#39;)[[1]][2], pattern = &amp;#39;/&amp;#39;)[[1]][1]
+  
+  # Weapon Data from div[x]/noscript. x changes between 2 or 3 based on ads----
+  weaponData &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = paste(&amp;quot;//*[@id=\&amp;quot;main-contents\&amp;quot;]/div[2]/noscript&amp;quot;, sep = &amp;quot;&amp;quot;))
+  WeaponDataText &amp;lt;- weaponData$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+  
+  # Weapon Name ----
+  print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;name...&amp;#39;))
+  weaponName &amp;lt;- remDr$findElement(using = &amp;quot;xpath&amp;quot;, value = paste(&amp;quot;//*[@id=&amp;#39;main-contents&amp;#39;]/div[2]/h1&amp;quot;, sep = &amp;quot;&amp;quot;))
+  name &amp;lt;- weaponName$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+  name &amp;lt;- str_split(name, &amp;#39;&amp;lt;span&amp;#39;)[[1]][1]
+  
+  # Weapon Item Level ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;item level...&amp;#39;))
+  weaponItemLevel &amp;lt;- remDr$findElement(using = &amp;quot;xpath&amp;quot;, value = paste(&amp;quot;/html/head/meta[5]&amp;quot;, sep = &amp;quot;&amp;quot;))
+  itemLevel &amp;lt;- weaponItemLevel$getElementAttribute(&amp;#39;content&amp;#39;)
+  itemLevel &amp;lt;- str_split(itemLevel,&amp;#39;item level of &amp;#39;)[[1]][2]
+  itemLevel &amp;lt;- str_split(itemLevel,&amp;#39;. &amp;#39;)[[1]][1]
+  
+  # Upgrade ----
+  weaponUpgrade &amp;lt;- str_split(WeaponDataText, &amp;#39;Level &amp;amp;lt;!--uindex--&amp;amp;gt;&amp;#39;)[[1]][2]
+  weaponUpgrade &amp;lt;- str_trim(str_split(weaponUpgrade, &amp;#39;/&amp;#39;)[[1]][2])
+  upgradeLvl &amp;lt;- str_split(weaponUpgrade, &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]
+  
+  # Weapon Bind on Pick Up ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;bind setting...&amp;#39;))
+  bind &amp;lt;- str_split(WeaponDataText, &amp;#39;!--bo--&amp;amp;gt;&amp;#39;)
+  bind &amp;lt;- str_split(bind[[1]][2], &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]
+  
+  # Weapon Hand Characteristic ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;hand value...&amp;#39;))
+  hand &amp;lt;- str_split(WeaponDataText, &amp;#39;width=\&amp;quot;100%\&amp;quot;&amp;amp;gt;&amp;amp;lt;tr&amp;amp;gt;&amp;amp;lt;td&amp;amp;gt;&amp;#39;)[[1]][2]
+  hand &amp;lt;- str_split(hand, &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]
+
+  # Weapon Type ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;type...&amp;#39;))
+  type &amp;lt;- str_split(WeaponDataText, &amp;#39;class=\&amp;quot;q1\&amp;quot;&amp;amp;gt;&amp;#39;)[[1]][2]
+  type &amp;lt;- str_split(type, &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]
+  
+  # Weapon Damage Range (High + Low) ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;damage range...&amp;#39;))
+  damageRange &amp;lt;- str_split(WeaponDataText, &amp;#39;!--dmg--&amp;amp;gt;&amp;#39;)[[1]][2]
+  damageRange &amp;lt;- str_split(damageRange, &amp;#39; &amp;#39;)
+  # Weapon Low Damage
+  damageLow &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, damageRange[[1]][1]))
+  # Weapon High Damage
+  damageHigh &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, damageRange[[1]][3]))
+  
+  # Weapon Speed ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;speed...&amp;#39;))
+  speed &amp;lt;- str_split(WeaponDataText, &amp;#39;!--spd--&amp;amp;gt;&amp;#39;)[[1]][2]
+  speed &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_split(speed, &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]))
+  
+  # Weapon DPS ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;dps...&amp;#39;))
+  dps &amp;lt;- str_split(WeaponDataText,&amp;#39;!--dps--&amp;amp;gt;\\(&amp;#39;)
+  dps &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(dps[[1]][2], &amp;#39;damage&amp;#39;)[[1]][1])))
+  
+  # Weapon Or Option ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;Or Option...&amp;#39;))
+  or &amp;lt;- str_split(WeaponDataText,&amp;#39;damage per second\\)&amp;amp;lt;br /&amp;amp;gt;&amp;amp;lt;span&amp;amp;gt;&amp;amp;lt;&amp;#39;)
+  or &amp;lt;- str_split(dps[[1]][2], &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]
+  if(!is.na(str_detect(or, &amp;#39;or&amp;#39;))){
+    orOption &amp;lt;- 1
+  }else{
+    orOption &amp;lt;- NA
+  }
+  
+  # Agility Test ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Agility level...&amp;#39;))
+  weaponAgility &amp;lt;- str_split(WeaponDataText, &amp;#39;!--stat3--&amp;amp;gt;\\+&amp;#39;)[[1]][2]
+  agility &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponAgility, &amp;#39;Agility&amp;#39;)[[1]][1])))
+  
+  # Intellect Test ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Intellect level...&amp;#39;))
+  weaponIntellect &amp;lt;- str_split(WeaponDataText, &amp;#39;!--stat5--&amp;amp;gt;\\+&amp;#39;)[[1]][2]
+  intellect &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponIntellect, &amp;#39;Intellect&amp;#39;)[[1]][1])))
+  
+  # Mastery Test ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Mastery level...&amp;#39;))
+  weaponMastery &amp;lt;- str_split(WeaponDataText, &amp;#39;!--rtg49--&amp;amp;gt;&amp;#39;)[[1]][2]
+  mastery &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponMastery, &amp;#39;Mastery&amp;#39;)[[1]][1])))
+  
+  # Stamina Test ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Stanima level...&amp;#39;))
+  weaponStamina &amp;lt;- str_split(WeaponDataText, &amp;#39;!--stat7--&amp;amp;gt;\\+&amp;#39;)[[1]][2]
+  stamina &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponStamina, &amp;#39;Stamina&amp;#39;)[[1]][1])))
+  
+  
+  # Strength Test ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Stanima level...&amp;#39;))
+  weaponStrength &amp;lt;- str_split(WeaponDataText, &amp;#39;!--stat4--&amp;amp;gt;\\+&amp;#39;)[[1]][2]
+  strength &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponStrength, &amp;#39;Strength&amp;#39;)[[1]][1])))
+  
+  # Critical Strike Test ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Critical Strike level...&amp;#39;))
+  weaponCritStrike &amp;lt;- str_split(WeaponDataText, &amp;#39;!--rtg32--&amp;amp;gt;&amp;#39;)[[1]][2]
+  critStrike &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponCritStrike, &amp;#39;Critical&amp;#39;)[[1]][1])))
+  
+  # Durability Test ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Durability level...&amp;#39;))
+  weaponDurability &amp;lt;- str_split(WeaponDataText, &amp;#39;Durability &amp;#39;)[[1]][2]
+  durability &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_split(weaponDurability, &amp;#39; &amp;#39;)[[1]][1]))
+  
+  # Haste ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Haste level...&amp;#39;))
+  weaponHaste &amp;lt;- str_split(WeaponDataText, &amp;#39;!--rtg36--&amp;amp;gt;&amp;#39;)[[1]][2]
+  haste &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponHaste, &amp;#39;Haste&amp;#39;)[[1]][1])))
+  
+  # Versatility ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Versatility level...&amp;#39;))
+  weaponVersatility &amp;lt;- str_split(WeaponDataText, &amp;#39;!--rtg40--&amp;amp;gt;&amp;#39;)[[1]][2]
+  versatility &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_trim(str_split(weaponVersatility, &amp;#39;Versatility&amp;#39;)[[1]][1])))
+  
+  # Classes ---- took out, unsure of best method
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i,&amp;#39;Class level...&amp;#39;))
+  # weaponClasses &amp;lt;- str_split(WeaponDataText, &amp;#39;class=\&amp;quot;c7\&amp;quot;&amp;amp;gt;&amp;#39;)[[1]][2]
+  # classes &amp;lt;- str_split(weaponClasses, &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]
+  
+  # Weapon Sell Price ----
+  # print(paste(&amp;#39;selecting weapon&amp;#39;, i, &amp;#39;sell price...&amp;#39;))
+  sellPriceGold &amp;lt;- str_split(WeaponDataText, &amp;#39;class=\&amp;quot;moneygold\&amp;quot;&amp;amp;gt;&amp;#39;)
+  sellPriceGold &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_split(sellPriceGold[[1]][2], &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]))
+  # Silver
+  sellPriceSilver &amp;lt;- str_split(WeaponDataText, &amp;#39;class=\&amp;quot;moneysilver\&amp;quot;&amp;amp;gt;&amp;#39;)
+  sellPriceSilver &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_split(sellPriceSilver[[1]][2], &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]))
+  # Copper
+  sellPriceCopper &amp;lt;- str_split(WeaponDataText, &amp;#39;class=\&amp;quot;moneycopper\&amp;quot;&amp;amp;gt;&amp;#39;)
+  sellPriceCopper &amp;lt;- as.numeric(gsub(&amp;#39;,&amp;#39;, &amp;#39;&amp;#39;, str_split(sellPriceCopper[[1]][2], &amp;#39;&amp;amp;lt;&amp;#39;)[[1]][1]))
+  
+  # Weapon Patch / Expansion ----
+  weaponPatch &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = paste(&amp;quot;/html/head/meta[6]&amp;quot;, sep = &amp;quot;&amp;quot;))
+  patch &amp;lt;- weaponPatch$getElementAttribute(&amp;#39;content&amp;#39;)
+  patch &amp;lt;- str_split(patch, &amp;#39;Item, &amp;#39;)[[1]][2]
+  patch &amp;lt;- str_split(patch, &amp;#39;, &amp;#39;)
+  patchNum &amp;lt;- patch[[1]][1]
+  if(patch[[1]][2] == &amp;quot;Alliance&amp;quot; | patch[[1]][2] == &amp;quot;Horde&amp;quot;){
+    side &amp;lt;- patch[[1]][2]
+    expansion &amp;lt;- patch[[1]][3]
+  }else{
+    expansion &amp;lt;- patch[[1]][2]
+    side &amp;lt;- NA
+  }
+  
+  # Create Date Frame ----
+  print(paste(&amp;#39;Creating data frame row&amp;#39;, j))
+  if(!exists(&amp;#39;wowWeapons&amp;#39;)){
+    wowWeapons &amp;lt;- data.frame(name, itemLevel, upgradeLvl, bind, hand, type, damageLow, damageHigh, speed, dps, orOption, agility, critStrike, haste, intellect, mastery, stamina, strength, versatility, durability, reqLvl, sellPriceGold, sellPriceSilver, sellPriceCopper, side, expansion, patchNum)
+    colnames(wowWeapons)[1] &amp;lt;- &amp;#39;name&amp;#39;
+    colnames(wowWeapons)[5] &amp;lt;- &amp;#39;hand&amp;#39;
+    colnames(wowWeapons)[6] &amp;lt;- &amp;#39;type&amp;#39;
+    
+  }else{
+    newRow &amp;lt;- data.frame(name, itemLevel, upgradeLvl, bind, hand, type, damageLow, damageHigh, speed, dps, orOption, agility, critStrike, haste, intellect, mastery, stamina, strength, versatility, durability, reqLvl, sellPriceGold, sellPriceSilver, sellPriceCopper, side, expansion, patchNum)
+    names(newRow) &amp;lt;- names(wowWeapons)
+    wowWeapons &amp;lt;- rbind(wowWeapons, newRow)
+  }
+  
+  print(paste(&amp;#39;Weapon&amp;#39;, j, &amp;#39;complete! Going Back..&amp;#39;))
+  timeVec[j] &amp;lt;- endTime - startTime
+  remDr$goBack()
+
+  # logic for going to next page
+  if(i == 50){
+    print(&amp;#39;Going to the next page&amp;#39;)
+    nextPage &amp;lt;- remDr$findElement(using =&amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; a:nth-child(4)&amp;#39;)
+    nextPage$clickElement()
+    i &amp;lt;- 0
+  }
+  
+  # filter automation start (up to rlvl 89) ----
+  if(f == filterWeaponCount){
+    print(&amp;#39;f == filterWeaponCount&amp;#39;)
+    filterHighValue &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = &amp;#39;//*[@id=&amp;quot;filter-facet-max-req-level&amp;quot;]&amp;#39;)
+    filterHighValue &amp;lt;- filterHighValue$getElementAttribute(&amp;#39;value&amp;#39;)
+    
+    # 26-55
+    if(filterHighValue == &amp;#39;25&amp;#39;){
+      print(&amp;#39;f == filterWeaponCount&amp;#39;)
+      
+      # test for filter automation
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;26&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;55&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      #56-65
+    }else if(filterHighValue == &amp;#39;55&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;56&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;65&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      # 66 - 70
+    }else if(filterHighValue == &amp;#39;65&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;66&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;70&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      # 71-79
+    }else if(filterHighValue == &amp;#39;70&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;71&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;79&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      # 80-80
+    }else if(filterHighValue == &amp;#39;79&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;80&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;80&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      #81-85
+    }else if(filterHighValue == &amp;#39;80&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;81&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;85&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      #86-90
+    }else if(filterHighValue == &amp;#39;85&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;86&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;89&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      # 91-99
+    }else if(filterHighValue == &amp;#39;89&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;90&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;90&amp;#39;))
+      
+      # rlvl 90 filter 1
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(1)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(2)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(3)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(4)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(5)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(6)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(7)&amp;#39;)
+      f90$clickElement()
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      rlvl90filter1 &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = &amp;#39;//*[@id=&amp;quot;tab-items&amp;quot;]/div[1]/div[1]/span/b[3]&amp;#39;)
+      rlvl90filter1 &amp;lt;- rlvl90filter1$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      rlvl90filter1 &amp;lt;- as.numeric(rlvl90filter1)
+      
+      filterHighValue &amp;lt;- remDr$findElement(using = &amp;#39;xpath&amp;#39;, value = &amp;#39;//*[@id=&amp;quot;filter-facet-max-req-level&amp;quot;]&amp;#39;)
+      filterHighValue &amp;lt;- filterHighValue$getElementAttribute(&amp;#39;value&amp;#39;)
+      
+      
+    }
+    
+    else if(rlvl90counter == rlvl90filter1){
+      # clear filter 1 button
+      clearfilterlist &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type-clear-link&amp;#39;)
+      clearfilterlist$clickElement()
+      
+      # rlvl 90 filter 2
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(8)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(9)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(10)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(11)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(12)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(13)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(14)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(15)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(16)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(17)&amp;#39;)
+      f90$clickElement()
+      f90 &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type &amp;gt; option:nth-child(18)&amp;#39;)
+      f90$clickElement()
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      # 100
+    }else if(filterHighValue == &amp;#39;90&amp;#39;){
+      clearfilterlist &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-type-clear-link&amp;#39;)
+      clearfilterlist$clickElement()
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;91&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;99&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      # 100
+    }
+    
+    else if(filterHighValue == &amp;#39;99&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;100&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;100&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+      # 101-110
+    }else if(filterHighValue == &amp;#39;100&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;101&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;110&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+    }else if(filterHighValue == &amp;#39;110&amp;#39;){
+      reqLvlLow &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-min-req-level&amp;#39;)
+      reqLvlLow$clearElement()
+      reqLvlLowText &amp;lt;- reqLvlLow$sendKeysToElement(list(&amp;#39;0&amp;#39;)) 
+      reqLvlHigh &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#filter-facet-max-req-level&amp;#39;)
+      reqLvlHigh$clearElement()
+      reqLvlHighText &amp;lt;- reqLvlHigh$sendKeysToElement(list(&amp;#39;0&amp;#39;)) 
+      
+      # apply filter button
+      applyFilter &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#fi &amp;gt; form &amp;gt; div.filter-row &amp;gt; button&amp;#39;)
+      applyFilter$clickElement()
+      sortByItem$clickElement()
+      # filtered weapon count
+      filterWeaponCount &amp;lt;- remDr$findElement(using = &amp;#39;css&amp;#39;, value = &amp;#39;#tab-items &amp;gt; div.listview-band-top &amp;gt; div.listview-nav &amp;gt; span &amp;gt; b:nth-child(3)&amp;#39;)
+      filterWeaponCount &amp;lt;- filterWeaponCount$getElementAttribute(&amp;#39;innerHTML&amp;#39;)
+      filterWeaponCount &amp;lt;- as.numeric(filterWeaponCount)
+      f &amp;lt;- 0
+      i &amp;lt;- 0
+      
+    }else if(filterHighValue == &amp;#39;0&amp;#39;){
+      print(&amp;#39;testing breaks&amp;#39;)
+      break
+    }
+  }
+  # end filter logic 
+  
+  i &amp;lt;- i + 1
+  j &amp;lt;- j + 1
+  f &amp;lt;- f + 1
+  if(filterHighValue == &amp;#39;90&amp;#39;){
+    rlvl90counter &amp;lt;- rlvl90counter + 1
+  }
+  
+}
+finalTime &amp;lt;- Sys.time()
+# Loop Finish ----&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- ```{r echo=FALSE} --&gt;
+&lt;!-- blogdown::shortcode(&#39;googleAdsense&#39;) --&gt;
+&lt;!-- ``` --&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>/post/2015-07-23-r-rmarkdown/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/post/2015-07-23-r-rmarkdown/</guid>
+      <description>
+
+
+&lt;div id=&#34;r-markdown&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;R Markdown&lt;/h1&gt;
+&lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;a href=&#34;http://rmarkdown.rstudio.com&#34; class=&#34;uri&#34;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can embed an R code chunk like this:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(cars)
+##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00
+fit &amp;lt;- lm(dist ~ speed, data = cars)
+fit
+## 
+## Call:
+## lm(formula = dist ~ speed, data = cars)
+## 
+## Coefficients:
+## (Intercept)        speed  
+##     -17.579        3.932&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;including-plots&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Including Plots&lt;/h1&gt;
+&lt;p&gt;You can also embed plots. See Figure &lt;a href=&#34;#fig:pie&#34;&gt;1&lt;/a&gt; for example:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;),
+  col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;),
+  init.angle = -50, border = NA
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:pie&#34;&gt;&lt;/span&gt;
+&lt;img src=&#34;/post/2015-07-23-r-rmarkdown_files/figure-html/pie-1.png&#34; alt=&#34;A fancy pie chart.&#34; width=&#34;672&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;
+Figure 1: A fancy pie chart.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Migrate to Hugo from Jekyll</title>
+      <link>/projects/migrate-from-jekyll/</link>
+      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/migrate-from-jekyll/</guid>
+      <description>
+
+&lt;h2 id=&#34;move-static-content-to-static&#34;&gt;Move static content to &lt;code&gt;static&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Jekyll has a rule that any directory not starting with &lt;code&gt;_&lt;/code&gt; will be copied as-is to the &lt;code&gt;_site&lt;/code&gt; output. Hugo keeps all static content under &lt;code&gt;static&lt;/code&gt;. You should therefore move it all there.
+With Jekyll, something that looked like&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/
+    ▾ images/
+        logo.png
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;should become&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/
+    ▾ static/
+        ▾ images/
+            logo.png
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as &lt;code&gt;CNAME&lt;/code&gt;) to be moved to &lt;code&gt;static&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;create-your-hugo-configuration-file&#34;&gt;Create your Hugo configuration file&lt;/h2&gt;
+
+&lt;p&gt;Hugo can read your configuration as JSON, YAML or TOML. Hugo supports parameters custom configuration too. Refer to the &lt;a href=&#34;/overview/configuration/&#34;&gt;Hugo configuration documentation&lt;/a&gt; for details.&lt;/p&gt;
+
+&lt;h2 id=&#34;set-your-configuration-publish-folder-to-site&#34;&gt;Set your configuration publish folder to &lt;code&gt;_site&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;The default is for Jekyll to publish to &lt;code&gt;_site&lt;/code&gt; and for Hugo to publish to &lt;code&gt;public&lt;/code&gt;. If, like me, you have &lt;a href=&#34;http://blog.blindgaenger.net/generate_github_pages_in_a_submodule.html&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;_site&lt;/code&gt; mapped to a git submodule on the &lt;code&gt;gh-pages&lt;/code&gt; branch&lt;/a&gt;, you&amp;rsquo;ll want to do one of two alternatives:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Change your submodule to point to map &lt;code&gt;gh-pages&lt;/code&gt; to public instead of &lt;code&gt;_site&lt;/code&gt; (recommended).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule deinit _site
+git rm _site
+git submodule add -b gh-pages git@github.com:your-username/your-repo.git public
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Or, change the Hugo configuration to use &lt;code&gt;_site&lt;/code&gt; instead of &lt;code&gt;public&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+    ..
+    &amp;quot;publishdir&amp;quot;: &amp;quot;_site&amp;quot;,
+    ..
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;convert-jekyll-templates-to-hugo-templates&#34;&gt;Convert Jekyll templates to Hugo templates&lt;/h2&gt;
+
+&lt;p&gt;That&amp;rsquo;s the bulk of the work right here. The documentation is your friend. You should refer to &lt;a href=&#34;http://jekyllrb.com/docs/templates/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;Jekyll&amp;rsquo;s template documentation&lt;/a&gt; if you need to refresh your memory on how you built your blog and &lt;a href=&#34;/layout/templates/&#34;&gt;Hugo&amp;rsquo;s template&lt;/a&gt; to learn Hugo&amp;rsquo;s way.&lt;/p&gt;
+
+&lt;p&gt;As a single reference data point, converting my templates for &lt;a href=&#34;http://heyitsalex.net/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;heyitsalex.net&lt;/a&gt; took me no more than a few hours.&lt;/p&gt;
+
+&lt;h2 id=&#34;convert-jekyll-plugins-to-hugo-shortcodes&#34;&gt;Convert Jekyll plugins to Hugo shortcodes&lt;/h2&gt;
+
+&lt;p&gt;Jekyll has &lt;a href=&#34;http://jekyllrb.com/docs/plugins/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;plugins&lt;/a&gt;; Hugo has &lt;a href=&#34;/doc/shortcodes/&#34;&gt;shortcodes&lt;/a&gt;. It&amp;rsquo;s fairly trivial to do a port.&lt;/p&gt;
+
+&lt;h3 id=&#34;implementation&#34;&gt;Implementation&lt;/h3&gt;
+
+&lt;p&gt;As an example, I was using a custom &lt;a href=&#34;https://github.com/alexandre-normand/alexandre-normand/blob/74bb12036a71334fdb7dba84e073382fc06908ec/_plugins/image_tag.rb&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;image_tag&lt;/code&gt;&lt;/a&gt; plugin to generate figures with caption when running Jekyll. As I read about shortcodes, I found Hugo had a nice built-in shortcode that does exactly the same thing.&lt;/p&gt;
+
+&lt;p&gt;Jekyll&amp;rsquo;s plugin:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module Jekyll
+  class ImageTag &amp;lt; Liquid::Tag
+    @url = nil
+    @caption = nil
+    @class = nil
+    @link = nil
+    // Patterns
+    IMAGE_URL_WITH_CLASS_AND_CAPTION =
+    IMAGE_URL_WITH_CLASS_AND_CAPTION_AND_LINK = /(\w+)(\s+)((https?:\/\/|\/)(\S+))(\s+)&amp;quot;(.*?)&amp;quot;(\s+)-&amp;gt;((https?:\/\/|\/)(\S+))(\s*)/i
+    IMAGE_URL_WITH_CAPTION = /((https?:\/\/|\/)(\S+))(\s+)&amp;quot;(.*?)&amp;quot;/i
+    IMAGE_URL_WITH_CLASS = /(\w+)(\s+)((https?:\/\/|\/)(\S+))/i
+    IMAGE_URL = /((https?:\/\/|\/)(\S+))/i
+    def initialize(tag_name, markup, tokens)
+      super
+      if markup =~ IMAGE_URL_WITH_CLASS_AND_CAPTION_AND_LINK
+        @class   = $1
+        @url     = $3
+        @caption = $7
+        @link = $9
+      elsif markup =~ IMAGE_URL_WITH_CLASS_AND_CAPTION
+        @class   = $1
+        @url     = $3
+        @caption = $7
+      elsif markup =~ IMAGE_URL_WITH_CAPTION
+        @url     = $1
+        @caption = $5
+      elsif markup =~ IMAGE_URL_WITH_CLASS
+        @class = $1
+        @url   = $3
+      elsif markup =~ IMAGE_URL
+        @url = $1
+      end
+    end
+    def render(context)
+      if @class
+        source = &amp;quot;&amp;lt;figure class=&#39;#{@class}&#39;&amp;gt;&amp;quot;
+      else
+        source = &amp;quot;&amp;lt;figure&amp;gt;&amp;quot;
+      end
+      if @link
+        source += &amp;quot;&amp;lt;a href=\&amp;quot;#{@link}\&amp;quot;&amp;gt;&amp;quot;
+      end
+      source += &amp;quot;&amp;lt;img src=\&amp;quot;#{@url}\&amp;quot;&amp;gt;&amp;quot;
+      if @link
+        source += &amp;quot;&amp;lt;/a&amp;gt;&amp;quot;
+      end
+      source += &amp;quot;&amp;lt;figcaption&amp;gt;#{@caption}&amp;lt;/figcaption&amp;gt;&amp;quot; if @caption
+      source += &amp;quot;&amp;lt;/figure&amp;gt;&amp;quot;
+      source
+    end
+  end
+end
+Liquid::Template.register_tag(&#39;image&#39;, Jekyll::ImageTag)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;is written as this Hugo shortcode:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- image --&amp;gt;
+&amp;lt;figure {{ with .Get &amp;quot;class&amp;quot; }}class=&amp;quot;{{.}}&amp;quot;{{ end }}&amp;gt;
+    {{ with .Get &amp;quot;link&amp;quot;}}&amp;lt;a href=&amp;quot;{{.}}&amp;quot;&amp;gt;{{ end }}
+        &amp;lt;img src=&amp;quot;{{ .Get &amp;quot;src&amp;quot; }}&amp;quot; {{ if or (.Get &amp;quot;alt&amp;quot;) (.Get &amp;quot;caption&amp;quot;) }}alt=&amp;quot;{{ with .Get &amp;quot;alt&amp;quot;}}{{.}}{{else}}{{ .Get &amp;quot;caption&amp;quot; }}{{ end }}&amp;quot;{{ end }} /&amp;gt;
+    {{ if .Get &amp;quot;link&amp;quot;}}&amp;lt;/a&amp;gt;{{ end }}
+    {{ if or (or (.Get &amp;quot;title&amp;quot;) (.Get &amp;quot;caption&amp;quot;)) (.Get &amp;quot;attr&amp;quot;)}}
+    &amp;lt;figcaption&amp;gt;{{ if isset .Params &amp;quot;title&amp;quot; }}
+        {{ .Get &amp;quot;title&amp;quot; }}{{ end }}
+        {{ if or (.Get &amp;quot;caption&amp;quot;) (.Get &amp;quot;attr&amp;quot;)}}&amp;lt;p&amp;gt;
+        {{ .Get &amp;quot;caption&amp;quot; }}
+        {{ with .Get &amp;quot;attrlink&amp;quot;}}&amp;lt;a href=&amp;quot;{{.}}&amp;quot;&amp;gt; {{ end }}
+            {{ .Get &amp;quot;attr&amp;quot; }}
+        {{ if .Get &amp;quot;attrlink&amp;quot;}}&amp;lt;/a&amp;gt; {{ end }}
+        &amp;lt;/p&amp;gt; {{ end }}
+    &amp;lt;/figcaption&amp;gt;
+    {{ end }}
+&amp;lt;/figure&amp;gt;
+&amp;lt;!-- image --&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;usage&#34;&gt;Usage&lt;/h3&gt;
+
+&lt;p&gt;I simply changed:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{% image full http://farm5.staticflickr.com/4136/4829260124_57712e570a_o_d.jpg &amp;quot;One of my favorite touristy-type photos. I secretly waited for the good light while we were &amp;quot;having fun&amp;quot; and took this. Only regret: a stupid pole in the top-left corner of the frame I had to clumsily get rid of at post-processing.&amp;quot; -&amp;gt;http://www.flickr.com/photos/alexnormand/4829260124/in/set-72157624547713078/ %}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;to this (this example uses a slightly extended version named &lt;code&gt;fig&lt;/code&gt;, different than the built-in &lt;code&gt;figure&lt;/code&gt;):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{% fig class=&amp;quot;full&amp;quot; src=&amp;quot;http://farm5.staticflickr.com/4136/4829260124_57712e570a_o_d.jpg&amp;quot; title=&amp;quot;One of my favorite touristy-type photos. I secretly waited for the good light while we were having fun and took this. Only regret: a stupid pole in the top-left corner of the frame I had to clumsily get rid of at post-processing.&amp;quot; link=&amp;quot;http://www.flickr.com/photos/alexnormand/4829260124/in/set-72157624547713078/&amp;quot; %}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As a bonus, the shortcode named parameters are, arguably, more readable.&lt;/p&gt;
+
+&lt;h2 id=&#34;finishing-touches&#34;&gt;Finishing touches&lt;/h2&gt;
+
+&lt;h3 id=&#34;fix-content&#34;&gt;Fix content&lt;/h3&gt;
+
+&lt;p&gt;Depending on the amount of customization that was done with each post with Jekyll, this step will require more or less effort. There are no hard and fast rules here except that &lt;code&gt;hugo server --watch&lt;/code&gt; is your friend. Test your changes and fix errors as needed.&lt;/p&gt;
+
+&lt;h3 id=&#34;clean-up&#34;&gt;Clean up&lt;/h3&gt;
+
+&lt;p&gt;You&amp;rsquo;ll want to remove the Jekyll configuration at this point. If you have anything else that isn&amp;rsquo;t used, delete it.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-practical-example-in-a-diff&#34;&gt;A practical example in a diff&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://heyitsalex.net/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;Hey, it&amp;rsquo;s Alex&lt;/a&gt; was migrated in less than a &lt;em&gt;father-with-kids day&lt;/em&gt; from Jekyll to Hugo. You can see all the changes (and screw-ups) by looking at this &lt;a href=&#34;https://github.com/alexandre-normand/alexandre-normand/compare/869d69435bd2665c3fbf5b5c78d4c22759d7613a...b7f6605b1265e83b4b81495423294208cc74d610&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;diff&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

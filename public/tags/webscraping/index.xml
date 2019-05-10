@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Webscraping on Kyle Harris</title>
+    <link>/tags/webscraping/</link>
+    <description>Recent content in Webscraping on Kyle Harris</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 24 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/webscraping/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Web Scraping World of Warcraft Weapons</title>
+      <link>/2018/2018-05-24-web-scraping-world-of-warcraft-weapons/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/2018-05-24-web-scraping-world-of-warcraft-weapons/</guid>
+      <description>The main goal of this project was to learn how to use the R libraries rvest and RSelenium. The web scraping would be taking place on the website wowhead.com. There is about 10,000 rows of data to collect.
+Learning Points  Navigate the DOM to capture desired element values Used R’s RSelenium and rvest library to capture data Construct a R script to automate the complete web scraping process Made a data frame with captured data to save to a csv file for data analysis   Web Scraping Process The web scraper goes to the wowhead.</description>
+    </item>
+    
+  </channel>
+</rss>

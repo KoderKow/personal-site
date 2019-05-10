@@ -1,0 +1,25 @@
+---
+title: Indy Civic Food Security Hackathon
+author: Kyle Harris
+date: '2018-07-03'
+slug: indy-civic-food-security-hackathon
+categories: []
+tags: []
+header:
+  caption: ''
+  image: ''
+---
+
+This will be a short post (Hopefully a header image soon. Ha!). This is more of a reference to show what my friends and I from Health Data Science were able to build in 24 hours at the Indy Civic Food Security Hackathon! Link to their site is below.
+
+Our App was made with Rshiny to help show nearby food options for those in need. It will show U-Picks (open gardens), SNAP certified grocery stores, and farmers markets. We also put bus stops in to help with transportation needs.
+
+Go to the website [here](https://sugarshoedev.shinyapps.io/foodhackathon/) and you can enable the markers on the map by clicking the top right box to bring up a menu. There is also an option to get your current location as well as a voice assistance for those who need help using the application. There is one command; 'ZIP'. If you want you can enable microphone access and say a zipcode in indianapolis you are interested in. Ex: "ZIP 46202". This will result in the mapview to change to that zip code.
+
+There is also a skeleton logic of snap questions on the other tab we made to show the power and multiple options that can be implemented with RShiny.
+
+Again, this is a quick write up to share this great app we made! Shout out to Dan, Becca, and Satirios on this amazing application, and thank you to Indy Chamber for hosting this event!
+
+Links:
+https://indychamber.com/hack/
+https://sugarshoedev.shinyapps.io/foodhackathon/

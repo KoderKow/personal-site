@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>transcription on Kyle Harris</title>
+    <link>/tags/transcription/</link>
+    <description>Recent content in transcription on Kyle Harris</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 10 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/transcription/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Making the Transcribing Process a Bit Simpler</title>
+      <link>/2018/2018-06-10-making-the-transcribing-process-a-bit-simpler/</link>
+      <pubDate>Sun, 10 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/2018-06-10-making-the-transcribing-process-a-bit-simpler/</guid>
+      <description>For the past year I have had the pleasure of working with the data visualization team at IUPUI. I approached Professor Reda looking to explore the realm of research. He gave me the opportunity to sit in their team meetings for the spring semester. As fall came around I joined the team.
+For those who have worked in research, you may have crossed paths with user testing and the art of transcription.</description>
+    </item>
+    
+  </channel>
+</rss>

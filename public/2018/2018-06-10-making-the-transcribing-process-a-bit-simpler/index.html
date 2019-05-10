@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  
+  
+  
+  
+  
+  <link rel="prev" href="/2018/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut/" />
+  <link rel="next" href="/2018/2018-07-03-indy-civic-food-security-hackathon/" />
+  <link rel="canonical" href="/2018/2018-06-10-making-the-transcribing-process-a-bit-simpler/" />
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Making the Transcribing Process a Bit Simpler | Kyle Harris
+       
+  </title>
+  <meta name="title" content="Making the Transcribing Process a Bit Simpler | Kyle Harris">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Making the Transcribing Process a Bit Simpler"/>
+<meta name="twitter:description" content="For the past year I have had the pleasure of working with the data visualization team at IUPUI. I approached Professor Reda looking to explore the realm of research. He gave me the opportunity to sit in their team meetings for the spring semester. As fall came around I joined the team.
+For those who have worked in research, you may have crossed paths with user testing and the art of transcription."/>
+
+  <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Making the Transcribing Process a Bit Simpler",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "\/2018\/2018-06-10-making-the-transcribing-process-a-bit-simpler\/"
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "\/cover.png",
+    "width":  800 ,
+    "height":  600 
+  },
+  "genre": "posts",
+  "keywords": "transcription, tidyverse",
+  "wordcount":  1237 ,
+  "url": "\/2018\/2018-06-10-making-the-transcribing-process-a-bit-simpler\/",
+  "datePublished": "2018-06-10T00:00:00\x2b00:00",
+  "dateModified": "2018-06-10T00:00:00\x2b00:00",
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fastbyte01",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "\/logo.png",
+      "width":  127 ,
+      "height":  40 
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Kyle Harris"
+  },
+  "description": ""
+}
+</script>
+</head>
+
+  
+
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="/">Kyle Harris</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about" title="">About</a>
+                
+                <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;<a href="/">Kyle Harris</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp">
+    <header class="post-header">
+        <h1 class="post-title">Making the Transcribing Process a Bit Simpler</h1>
+        <div class="post-meta">
+            Written by <a href="/" rel="author">Kyle Harris</a> with ♥ 
+                <span class="post-time">
+                    on <time datetime=2018-06-10 >10 June 2018</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="/categories/r/"> R </a>
+                        
+                </span>
+                <i class="iconfont icon-timer"></i>
+                6 min
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          
+
+
+<p>For the past year I have had the pleasure of working with the data visualization team at IUPUI. I approached Professor Reda looking to explore the realm of research. He gave me the opportunity to sit in their team meetings for the spring semester. As fall came around I joined the team.</p>
+<p>For those who have worked in research, you may have crossed paths with user testing and the art of transcription. This was my first encounter with transcription and as the few jokes I heard about it, it wasn’t/isn’t that great of a time. With each user test being close to a hour, the time to transribe can be cumbersome. After some failed attemptes of hacky audio to text methods I ran into something that worked fairly well, YouTube!</p>
+<p>YouTube makes auto closed captions for videos. Using their automation I was able to <b>privately</b> upload the videos and have them be transcribed fairly accurately. YouTube has a great UI for editing closed captions, allowing me to watch the full video with the auto generated captions to ensure accuracy. After that all that is left to do is download the file and convert it to a csv file.</p>
+<p>During this process I added certain code words at the start of sentences, for example if any of the research members spoke during the test I started the line with “staff:”. Later on this will help seperate the text into different columns (user text and staff text). If anyone is reading this that wants to do this for their transcription, feel free to make your own code words, you will have to change the R code a bit for the sbv to csv converter below. Sbv is the file format you save the YouTube close captionings.</p>
+<p>There can be difficulties with this method. A big one is audio quality. Making sure the audio is clear with no background noise is important. I have had multiple videos be translated to spanish and german due to the service not being able to depict the language at the start. Another issue is two people talking at once. The service will get confused and try to choose a word that sounds like the words that both people are saying. Making sure one person speaks at a time ensures a easy transcription process. At worst YouTube does not auto transcribe for you. You can still make your own file on the site. There are convenient hotkeys to use while transcribing. Again, the UI is great for this type of work.</p>
+<p>All around this method has saved our team a lot of time during the transcribing process. I wanted to share this method in hopes to save others who do transcriptions by ear. Below is a write I did for my team and the R code to convert the sbv files.</p>
+<p>I want to emphasize about privacy. Videos are uploaded privately and deleted right after the process is complete. On top of that there is no way to identify any user in the videos due to not being able to see them.</p>
+<p>Here is a great article that summarizes the work our research team does at IUPUI:</p>
+<ul>
+<li><a href="https://soic.iupui.edu/news/reda-nsf-crii-grant/">HCC faculty member awarded NSF grant for data visualization research</a></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><p>Download the video(s) from box of the necessary session</p></li>
+<li>Upload them to YouTube (you will need a YouTube/google account)
+<ol style="list-style-type: lower-alpha">
+<li>Make sure you set publish setting to PRIVATE!</li>
+<li>Also make sure you delete the video after you are completely done<br />
+ </li>
+</ol></li>
+<li>After the video has finished upload, it may take several hours for YouTube to automatically generate close captioning’s.
+<ol style="list-style-type: lower-alpha">
+<li>Close captioning’s will be our transcription in this case<br />
+ </li>
+</ol></li>
+<li>To see if the automatic translation is complete, start at the homepage of YouTube
+<ol style="list-style-type: lower-alpha">
+<li>Click on the top right icon (your profile icon) and click ‘Creator Studio.’</li>
+<li>On the next page click ‘Video Manager’ on the left side.</li>
+<li>Find the video you need on the list and click ‘Edit’ on that video</li>
+<li>On the top menu, all the way to the right, click on ‘Subtitles/CC’</li>
+<li>To the right of the video underneath the blue bar that says ‘Add new subtitles or CC’ it will have a title that says ‘Published’</li>
+<li>If it has gone according to plan, it will say ‘English (Automatic)’. Click this.
+<ul>
+<li>If it lists a different language, it means the audio quality was not clear and you will have to either start doing the transcription manually, or if you are efficient with video/audio editing you can try to clean up the audio</li>
+<li>If it does not show up at all after 6 hours, it will be due to the audio quality not being clear (from what I have read online)</li>
+</ul></li>
+</ol></li>
+</ol>
+<p> 
+5. After clicking ‘English (automatic)’ click edit on the top right
+ 
+6. Get familiar with this layout!
+a. You can click the times on the left to go directly to that spot on the timeline
+b. You can edit the text directly while listening
+c. Hotkeys I use:
+- Shift + Space = play/pause
+- Shift + Left/Right arrow = go forward/back a few seconds</p>
+<p> 
+7. Listen to the whole video and read along with what is said in the video</p>
+<p> 
+8. Important: When a member of the research team speaks start that line with ‘staff:’
+a. This is very important for the format of the final csv, I use this exact string to separate user text and staff text into separate columns in the R script.</p>
+<p> 
+9. I manually insert a few important parts
+a. When a video starts; ‘MVI 0001 Starts’
+b. When a video ends; ‘MVI 0001 Ends’
+c. When a question is SUBMITTED; ‘Q. I want to see…’
+d. When a graph is generated ‘**Graph is Generated**’</p>
+<p> 
+10. Once you are happy with the entirety of the proof-read script, click on ‘Actions’ which is located right above the text editing area.</p>
+<p> 
+11. Save it as a ‘.sbv’ file</p>
+<p> 
+12. Once you have saved it you can message me and I can quickly do the rest, upload it to the box [Symbol] (I will add the R .sbv to .csv script soon)</p>
+<pre class="r"><code># If you do not have tidyverse:
+# install.packages(&#39;tidyverse&#39;)
+#
+# CTRL + ENTER to run lines. run library and function.
+#
+# The last line is where you need to edit the
+# string to files you want to edit
+
+library(tidyverse)
+
+sbv_to_csv &lt;- function(filepath, savename){
+  rawData &lt;- read.table(filepath,
+                    header = F,
+                    sep = &quot;\n&quot;,
+                    quote=&quot;\&quot;&quot;)
+  
+  rawData &lt;- droplevels(rawData)
+  rawData &lt;- rawData %&gt;% mutate(dont_keep = str_detect(rawData$V1, &quot;0:&quot;))
+  
+  # We decided we did not team time stamps (dont_keep)
+  df &lt;- data.frame(words = rawData %&gt;%
+                     filter(dont_keep == F) %&gt;% select(V1))
+  colnames(df) &lt;- &#39;words&#39;
+  
+  df$words &lt;- as.character(df$words)
+  
+  df &lt;- df %&gt;% mutate(test = str_detect(words, &#39;staff:&#39;) |
+                        str_detect(words, &#39;Staff:&#39;),
+                      interviewer = ifelse(test, words, &quot;&quot;),
+                      text = ifelse(test, &quot;&quot;, words))
+  
+# this line is for start/end time colums. fix select on line 26 to include this.
+#transcribedData &lt;- df %&gt;% separate(time, c(&quot;startTime&quot;, &quot;endTime&quot;), &quot;,&quot;)
+  
+  transcribedData &lt;- df %&gt;% select(text, interviewer)
+  
+  write.csv(transcribedData, file = savename)
+}
+
+# First param is path to file, if you are on windows
+# you will need to escape the \, so &quot;\\&quot; as shown below
+#
+# Second param is the output, make sure it ends with
+# .csv. this can also be a file path to save where you want it
+#
+# By default it is your documents I believe, or you
+# can set your working directory with setwd(*FOLDERPATH*)
+
+sbv_to_csv(&#39;C:...\\MVI_0115.sbv&#39;, &#39;0115.csv&#39;)</code></pre>
+<!-- ```{r echo=FALSE} -->
+<!-- blogdown::shortcode('googleAdsense') -->
+<!-- ``` -->
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Kyle Harris </span>
+                </p>
+            
+           
+            <p class="copyright-item">
+                    <span>Words:</span>
+                   <span>1237</span>
+            </p>
+            
+            <p class="copyright-item">
+                
+                <span>Share:</span>
+                <span>
+
+      
+        <a href="//twitter.com/share?url=%2f2018%2f2018-06-10-making-the-transcribing-process-a-bit-simpler%2f&amp;text=Making%20the%20Transcribing%20Process%20a%20Bit%20Simpler&amp;via=https%3a%2f%2ftwitter.com%2fKoderKow" target="_blank" title="Share on Twitter">
+          <i class="iconfont icon-twitter"></i>
+        </a>
+        
+      
+      
+        <a href="//www.facebook.com/sharer/sharer.php?u=%2f2018%2f2018-06-10-making-the-transcribing-process-a-bit-simpler%2f" target="_blank" title="Share on Facebook">
+          <i class="iconfont icon-facebook"></i>
+        </a>
+        
+      
+      
+      
+      
+        <a href="//www.linkedin.com/shareArticle?url=%2f2018%2f2018-06-10-making-the-transcribing-process-a-bit-simpler%2f&amp;title=Making%20the%20Transcribing%20Process%20a%20Bit%20Simpler" target="_blank" title="Share on LinkedIn">
+          <i class="iconfont icon-linkedin"></i>
+        </a>
+        
+      
+      
+        
+      
+        
+      
+
+          
+
+          
+
+          
+
+          
+</span>
+            </p>
+                       
+
+             
+            <p class="copyright-item">
+                Released under <a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-icon-tag"></i>Tag: 
+            
+            <span class="tag"><a href="/tags/transcription/">
+                    #transcription</a></span>
+            
+            <span class="tag"><a href="/tags/tidyverse/">
+                    #tidyverse</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">Back</a></span> · 
+                <span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="/2018/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut/" class="prev" rel="prev" title="Accidental Drug Related Deaths"><i class="iconfont icon-dajiantou"></i>&nbsp;Accidental Drug Related Deaths</a>
+         
+        
+        <a href="/2018/2018-07-03-indy-civic-food-security-hackathon/" class="next" rel="next" title="Indy Civic Food Security Hackathon">Indy Civic Food Security Hackathon&nbsp;<i class="iconfont icon-xiaojiantou"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+          <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'koderkow';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+
+
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2019 - 2019</span>
+        
+         
+            <span class="author" itemprop="copyrightHolder"><a href="/">Kyle Harris</a> | </span>
+         
+
+		  <span>Crafted with ❤️ by <a href="https://github.com/Fastbyte01/KeepIt" target="_blank" rel="external nofollow noopener noreffer">KeepIt</a> & <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a></span>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119864602-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+     </div>
+  </body>
+</html>
