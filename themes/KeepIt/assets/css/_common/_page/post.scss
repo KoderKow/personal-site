@@ -234,3 +234,7 @@
         padding: 3em 0;
     }
 }
+
+.dark-theme .post-warp .post-content code:not([class]):not([class]) {
+    background: transparent;
+}
