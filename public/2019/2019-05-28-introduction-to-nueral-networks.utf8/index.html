@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  
+  
+  
+  
+  
+  <link rel="prev" href="/2018/2018-07-03-indy-civic-food-security-hackathon/" />
+  <link rel="next" href="/2019/2019-05-28-introduction-to-nueral-networks.knit/" />
+  <link rel="canonical" href="/2019/2019-05-28-introduction-to-nueral-networks.utf8/" />
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Introduction to Nueral Networks | Kyle Harris
+       
+  </title>
+  <meta name="title" content="Introduction to Nueral Networks | Kyle Harris">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Introduction to Nueral Networks"/>
+<meta name="twitter:description" content=".column-left{ float: left; width: 50%; text-align: left; } .column-right{ float: right; width: 50%; text-align: left; } html { scroll-behavior: smooth; }  Top --    
+Overview  [What Are Neural Networks?] [Structure of a Neuron] [Visual Representation of Neural Networks] [Layers of a Neural Network] [Feedforward and Feedback Neural Networks] [Neural Network Application - The Faraway Way]  [Examine the Estimated Weights] [Drawbacks of a Neural Network Model] [Weight Interpretation] [Improving the Fit] [Demonstration Wrap-Up] [Final Model Fit]  [Conclusion]  Goal Slides Available @: http://bit."/>
+
+  <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Introduction to Nueral Networks",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "\/2019\/2019-05-28-introduction-to-nueral-networks.utf8\/"
+  },
+  
+  "genre": "posts",
+  
+  "wordcount":  1702 ,
+  "url": "\/2019\/2019-05-28-introduction-to-nueral-networks.utf8\/",
+  "datePublished": "2019-05-28T00:00:00\x2b00:00",
+  "dateModified": "2019-05-28T00:00:00\x2b00:00",
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fastbyte01",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "\/",
+      "width":  null ,
+      "height":  null 
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Kyle Harris"
+  },
+  "description": ""
+}
+</script>
+</head>
+
+  
+
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="/">Kyle Harris</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about" title="">About</a>
+                
+                <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;<a href="/">Kyle Harris</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp">
+    <header class="post-header">
+        <h1 class="post-title">Introduction to Nueral Networks</h1>
+        <div class="post-meta">
+            Written by <a href="/" rel="author">Kyle Harris</a> with ♥ 
+                <span class="post-time">
+                    on <time datetime=2019-05-28 >28 May 2019</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="/categories/r/"> R </a>
+                        <a href="/categories/machine-learning/"> machine learning </a>
+                        
+                </span>
+                <i class="iconfont icon-timer"></i>
+                8 min
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          
+
+<style>
+.column-left{
+  float: left;
+  width: 50%;
+  text-align: left;
+}
+.column-right{
+  float: right;
+  width: 50%;
+  text-align: left;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+</style>
+
+<p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
+
+<!-- <button onclick="topFunction()" id="myBtn" title="Go to top of page">Top</button> -->
+
+<p><a href="https://twitter.com/KoderKow"> <i class='fab fa-twitter'></i></a> <a href="https://www.instagram.com/koderkow/"> <i class='fab fa-instagram'></i></a> <a href="https://github.com/KoderKow/"><i class='fab fa-github'></i></a> <a href="https://koderkow.rbind.io"><i class='fas fa-globe'></i></a></p>
+
+<h1 id="overview">Overview</h1>
+
+<ul>
+<li>[What Are Neural Networks?]</li>
+<li>[Structure of a Neuron]</li>
+<li>[Visual Representation of Neural Networks]</li>
+<li>[Layers of a Neural Network]</li>
+<li>[Feedforward and Feedback Neural Networks]</li>
+<li>[Neural Network Application - The Faraway Way]
+
+<ul>
+<li>[Examine the Estimated Weights]</li>
+<li>[Drawbacks of a Neural Network Model]</li>
+<li>[Weight Interpretation]</li>
+<li>[Improving the Fit]</li>
+<li>[Demonstration Wrap-Up]</li>
+<li>[Final Model Fit]</li>
+</ul></li>
+<li>[Conclusion]</li>
+</ul>
+
+<h1 id="goal">Goal</h1>
+
+<p>Slides Available @: <strong><a href="http://bit.ly/intro-to-neural-networks" rel="nofollow noreferrer" target="_blank">http://bit.ly/intro-to-neural-networks</a></strong></p>
+
+<h1 id="what-are-neural-networks">What Are Neural Networks?</h1>
+
+<p>A Neural network, or Artificial Neural Network, is a set of algorithms, modeled loosely after the human brain to help recognize patterns. The brain has about $1.5 \times 10^{10}$ neurons each with 10 to 104 connections called synapses. The speed of messages between neurons is about 100 m/sec which is much slower than CPU speed. The human brain&rsquo;s fastest reaction time is around 100 ms. A neuron computation time is 1–10 ms. Computation (to no surprise) is 10 times faster! That is just for one simple task!</p>
+
+<p>The original idea behind neural networks was to use a computer-based model of the human brain. We can recognize people in fractions of a second, but computers find this task diffucult. So why not make software more like the human brain?
+The brain model of connected neurons, first suggested by <a href="http://wwwold.ece.utep.edu/research/webfuzzy/docs/kk-thesis/kk-thesis-html/node12.html" rel="nofollow noreferrer" target="_blank">McCulloch and Pitts (1943)</a>, is too simplistic given more recent research.</p>
+
+<p>As with artificial intelligence and the sentient takeover, the promise of neural networks is not matched by the reality of their performance. Atleast for now..
+<center>
+  <figure>
+    <img src="https://img.buzzfeed.com/buzzfeed-static/static/2015-04/1/17/enhanced/webdr07/anigif_enhanced-29933-1427925503-3.gif" width=40% />
+    <figcaption><a href="https://www.buzzfeed.com/norbertobriceno/01101010101001001">Image Source</a></figcaption>
+  </figure>
+</center></p>
+
+<p>Neural networks have various purposes such as biological models, hardware implementation for adaptive contorl and many more! We are inerested in the data analysis application of neural network; classification, clustering methods, regression methods.</p>
+
+<h1 id="structure-of-a-neuron">Structure of a Neuron</h1>
+
+<p><center>
+  <figure>
+    <img src="https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-whyareneuron.jpg" width=80% />
+    <figcaption><a href="https://medicalxpress.com/news/2018-07-neuron-axons-spindly-theyre-optimizing.html">Image Source</a></figcaption>
+  </figure>
+</center></p>
+
+<ul>
+<li><em>Dendrites</em> receive signals</li>
+<li><em>Cell body</em> sums up the inputs of the signals to generate output</li>
+<li><em>Axon terminals</em> is the final output<sup>2</sup></li>
+</ul>
+
+<h1 id="visual-representation-of-neural-networks">Visual Representation of Neural Networks</h1>
+
+<p><center>
+  <figure>
+    <img src="https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg" width=40% />
+    <figcaption><a href="https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg">Image Source</a></figcaption>
+    </figure>
+</center></p>
+
+<p>Here we can see how a neural network resembles a neuron. Neural networks are collections of thousands  of these simple processing units that together perform useful computations.</p>
+
+<ul>
+<li><strong>Inputs $x_1, x_2, \dots, x_n$</strong>: independent variables</li>
+<li><strong>Weights $w_1, w_2, \dots, w_n$:</strong> learns the weights from the data</li>
+<li><strong>Bias $b$:</strong> the intercept</li>
+<li><strong>Activation Function $f$:</strong> defines the output of the nueron
+
+<ul>
+<li><em>Identity Function:</em> linear fit</li>
+<li><em>Sigmoid Function:</em> logistic fit, where $y$ is binary</li>
+<li><em>ReLu (rectified linear fit):</em> linear fit, outputs 0 for negative values</li>
+</ul></li>
+</ul>
+
+<h1 id="layers-of-a-neural-network">Layers of a Neural Network</h1>
+
+<p><center>
+  <img src="https://i.stack.imgur.com/Kc50L.jpg" width = 40%/>
+</center></p>
+
+<p><strong>Input Layer:</strong> the raw data, think of each &ldquo;node&rdquo; as a variable in our data
+<strong>Hidden Layer:</strong> this is where the &ldquo;black magic&rdquo; happens</p>
+
+<ul>
+<li>Each layer is focused on learning about the data</li>
+<li>We can think about each layer is learning about an aspect of the data</li>
+<li>Larger and more complex data may require multiple hidden layers</li>
+</ul>
+
+<p><strong>Output Layer:</strong> the final output. This is generally a single output of the input(s)</p>
+
+<h1 id="feedforward-and-feedback-neural-networks">Feedforward and Feedback Neural Networks</h1>
+
+<figure>
+    <img src="https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg" width=40% />
+    <figcaption><a href="https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg">Image Source</a></figcaption>
+    </figure>
+
+<div class="column-left">
+<h3>Feedforward</h3>
+- Signal goes from input to output
+- No loops
+<br>
+<br><br>
+<center>
+<img src="https://thumbs.gfycat.com/EnviousNiftyCorydorascatfish-size_restricted.gif" width="450px" height="250px"/>
+</center>
+</div>
+
+<div class="column-right">
+<h3>Feedback</h3>
+- The neural network is recursive
+- These networks go in cycles and the data goes in both directions
+<br><br>
+<center>
+<img src="https://thumbs.gfycat.com/MiniatureDependentCob-size_restricted.gif" width="450px" height="250px"/>
+</center>
+</div>
+<br>
+
+[Image Source](https://www.youtube.com/watch?v=aircAruvnKk)
+
+# Neural Network Application - The Faraway Way
+
+
+```r
+library(nnet)
+data(ozone, package = "faraway")
+```
+
+We will start with three variables for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:
+
+
+```r
+set.seed(2019)
+nnet_model <- nnet(
+  formula = O3 ~ temp + ibh + ibt,
+  data = ozone,
+  size = 2,
+  linout = TRUE,
+  trace = FALSE
+  )
+```
+
+- `nnet()` fits a single-hidden-layer neural network
+- `formula = O3 ~ temp + ibh + ibt`: formula interface
+- `data = ozone`: data where the formula variables reside
+- `size = 2`: number of neurons in the hidden layer (this can be optimized)
+- `linout = TRUE`: tells the model that it will have lienar output units
+- `trace = FALSE`: hides the printed out optimization information
+
+# Neural Network Application
+
+If you repeat this, your result may differ slightly because of the random starting point of the algorithm, but you will likely get a similar result.
+
+
+```
+## RSS Value: 21099.4
+```
+
+The RSS of 21099.4 is almost equal to $\sum_i(y_i - \hat{y})^2$, so the fit is not any better than the null model.
+
+
+```r
+sum((ozone$O3 - mean(ozone$O3))^2)
+```
+
+```
+## [1] 21115.41
+```
+
+The problem lies with the initial selection of weights. It is hard to do this well when the variables have very different scales.
+
+
+```r
+scale_ozone <- scale(ozone)
+```
+
+Due to the random starting point the algorithm uses it may not actually converge. We will fit the model 100 times and pick the one that has the lowest RSS. In theory this will choose a random starting point that leads to the true minimum.
+
+
+```r
+set.seed(2019)
+
+## fit 100 nn models
+results <- 1:100 %>%
+  map(~nnet(
+    formula = O3 ~ temp + ibh + ibt,
+    data = scale_ozone,
+    size = 2,
+    linout = TRUE,
+    trace = FALSE))
+
+## get the index of the model with the lowest RSS
+best_model_index <- results %>%
+  map_dbl(~.x$value) %>%
+  which.min()
+
+## select best model
+best_nn <- results[[best_model_index]]
+```
+
+<center>
+
+</center>
+
+
+```r
+best_nn
+```
+
+```
+## a 3-2-1 network with 11 weights
+## inputs: temp ibh ibt 
+## output(s): O3 
+## options were - linear output units
+```
+
+
+```
+## Best RSS Value: 89.0786
+```
+
+Our `best_nn` model has 11 parameters or weights (The parameters are shown below). For each of the parameteres there is optimization that occurs. The surface optimization problem has multiple peaks and valleys. The model can converge on one of these minimums. This is why we run our model 100 times to test out multiple random starting points for our model, to hopefully find the global minimum!
+
+# Examine the Estimated Weights
+
+
+```r
+summary(best_nn)
+```
+
+```
+## a 3-2-1 network with 11 weights
+## options were - linear output units 
+##  b->h1 i1->h1 i2->h1 i3->h1 
+##  -1.14   0.95  -0.83  -0.28 
+##  b->h2 i1->h2 i2->h2 i3->h2 
+##  35.90 -18.32  63.10  34.91 
+##   b->o  h1->o  h2->o 
+##  -1.83   4.51   0.69
+```
+
+<div class="column-left">
+- $b$: bias
+- $i_x$: input where $x$ is the index of the variable
+- $h_y$: hidden neuron where $y$ is the index of the hidden neuron
+- $o$: output
+- $i_1 \rightarrow h_1$: refers to the link between input 1 and the first hidden neuron
+- $b \rightarrow o$: is a one skip-layer connection, from the bias to the output
+<br><br><br><br><br>
+</div>
+
+<div class="column-right">
+<center>
+<figure>
+<img src="https://memegenerator.net/img/instances/68631115/neural-networks-so-hot-right-now.jpg" width = 40%/>
+<figcaption><a href="https://memegenerator.net/">Image Source</a></figcaption>
+</figure>
+</center>
+<br><br><br>
+</div>
+
+<h1 id="drawbacks-of-a-neural-network-model">Drawbacks of a Neural Network Model</h1>
+
+<ul>
+<li>Parameters are uninterpretable</li>
+<li>Not based on a probability models that expresses the structure and variation
+
+<ul>
+<li>No standard errors</li>
+<li>Some inference is possible with bootstrapping</li>
+</ul></li>
+<li>We can get an $R^2$ estimate:
+<br /></li>
+</ul>
+
+<pre><code class="language-r">  1 - best_nn$value / sum((scale_ozone[, 1] - mean(scale_ozone[, 1]))^2)
+</code></pre>
+
+<pre><code>  ## [1] 0.7292443
+</code></pre>
+
+<p>This is a similar to the additive model fit for these predictors that Faraway fits in previous chapters of his <a href="https://www.amazon.com/Extending-Linear-Model-Generalized-Nonparametric/dp/149872096X" rel="nofollow noreferrer" target="_blank">book</a>.</p>
+
+<h1 id="weight-interpretation">Weight Interpretation</h1>
+
+<p><img src="2019-05-28-introduction-to-nueral-networks_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+
+<p>Although the neural network weights may be difficult to interpret, we can get some sense of the effect of the predictors by observing the marginal effect of changes in one or more predictor as other predictors are held fixed. Here, we vary each predictor individually while keeping the other predictors fixed at their mean values. Because the data has been centered and scaled for the neural network fitting, we need to restore the original scales.</p>
+
+<p><img src="2019-05-28-introduction-to-nueral-networks_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+
+<p>As seen in the plots there are large discontinuities in the lines plots. This does not follow the linear trend we are expecting. Looking back at the weights of <code>summary(best_nn)</code> we can see that some weights have extremely large values despite the scaling of the data, $i_2 \rightarrow h_2 = 63.10$. This means there is a lot of variability in this neuron. This is analogous to the collinearity problem in linear regression. The neural network is choosing these large values to optimize the fit.</p>
+
+<h1 id="improving-the-fit">Improving the Fit</h1>
+
+<p>We can use a penalty function, as with smoothing splines, to obtain a more stable fit. Instead of minimizing MSE, we minimize: $MSE + \lambda \sum\limits_{i} w_i^2$. We can introduce a <em>weight decay</em> to our nueral network, this is a similar approach we take with ridge regression. Lets set $\lambda = 0.001$ and create 100 models again.</p>
+
+<pre><code class="language-r">set.seed(2019)
+## fit 100 nn models
+results_decay &lt;- 1:100 %&gt;%
+  map(~nnet(
+    formula = O3 ~ temp + ibh + ibt,
+    data = scale_ozone,
+    size = 2,
+    linout = TRUE,
+    trace = FALSE,
+    `decay = 0.001`))
+
+## get the index of the model with the lowest RSS
+best_decay_index &lt;- results_decay %&gt;%
+  map_dbl(~.x$value) %&gt;%
+  which.min()
+
+## select best model
+best_decay &lt;- results[[best_decay_index]]
+</code></pre>
+
+<pre><code class="language-r">best_decay$value
+</code></pre>
+
+<pre><code>## [1] 91.8121
+</code></pre>
+
+<p>Our previous value was 89.0786, our new RSS is a little bit higher. This is expected because we are sacrificing some of the fit for a more stable result.</p>
+
+<div class="column-left">
+<img src="2019-05-28-introduction-to-nueral-networks_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" />
+</div>
+
+<div class="column-right">
+<center>
+  <figure>
+    <img src="https://media1.tenor.com/images/154e8427624e163c030970a795b6f169/tenor.gif?itemid=5143620" />
+    <figcaption><a href="https://tenor.com/">Image Source</a></figcaption>
+  </figure>
+</center>
+<br><br>
+</div>
+
+<h1 id="demonstration-wrap-up">Demonstration Wrap-Up</h1>
+
+<pre><code class="language-r">summary(best_decay)
+</code></pre>
+
+<pre><code>## a 3-2-1 network with 11 weights
+## options were - linear output units 
+##  b-&gt;h1 i1-&gt;h1 i2-&gt;h1 i3-&gt;h1 
+##   1.16  -0.63   0.42  -0.44 
+##  b-&gt;h2 i1-&gt;h2 i2-&gt;h2 i3-&gt;h2 
+##  13.09   2.46   8.71  -3.30 
+##  b-&gt;o h1-&gt;o h2-&gt;o 
+##  1.55 -3.93  1.28
+</code></pre>
+
+<p>The weights of the second row are not as extreme now. There is not a way to assess significance of any of the variables. Neural Network&rsquo;s do have interactions built in and these can be observed by the method we used before by varying two variables in our model at a time.</p>
+
+<h1 id="final-model-fit">Final Model Fit</h1>
+
+<pre><code class="language-r">set.seed(2019)
+
+## fit 100 nn models
+results &lt;- 1:100 %&gt;%
+  map(~nnet(
+    formula = O3 ~ .,
+    data = scale_ozone,
+    size = 4,
+    linout = TRUE,
+    trace = FALSE))
+
+## get the index of the model with the lowest RSS
+best_model_index &lt;- results_decay %&gt;%
+  map_dbl(~.x$value) %&gt;%
+  which.min()
+
+## select best model
+best_model &lt;- results[[best_model_index]]
+best_model
+</code></pre>
+
+<pre><code>## a 9-4-1 network with 45 weights
+## inputs: vh wind humidity temp ibh dpg ibt vis doy 
+## output(s): O3 
+## options were - linear output units
+</code></pre>
+
+<pre><code class="language-r">summary(best_model)
+</code></pre>
+
+<pre><code>## a 9-4-1 network with 45 weights
+## options were - linear output units 
+##  b-&gt;h1 i1-&gt;h1 i2-&gt;h1 i3-&gt;h1 i4-&gt;h1 i5-&gt;h1 i6-&gt;h1 i7-&gt;h1 i8-&gt;h1 i9-&gt;h1 
+##  -1.47   0.29  -0.36   0.40   0.35  -0.29   0.49   0.29   0.15  -0.02 
+##  b-&gt;h2 i1-&gt;h2 i2-&gt;h2 i3-&gt;h2 i4-&gt;h2 i5-&gt;h2 i6-&gt;h2 i7-&gt;h2 i8-&gt;h2 i9-&gt;h2 
+##  40.19   6.03  15.36 -17.61 -13.86  17.07 -22.75   7.20  -6.12 -22.51 
+##  b-&gt;h3 i1-&gt;h3 i2-&gt;h3 i3-&gt;h3 i4-&gt;h3 i5-&gt;h3 i6-&gt;h3 i7-&gt;h3 i8-&gt;h3 i9-&gt;h3 
+## -11.16  -8.76  11.96   3.34   8.17  -1.90 -11.21  17.59 -25.30  -5.20 
+##  b-&gt;h4 i1-&gt;h4 i2-&gt;h4 i3-&gt;h4 i4-&gt;h4 i5-&gt;h4 i6-&gt;h4 i7-&gt;h4 i8-&gt;h4 i9-&gt;h4 
+##  38.72   6.96  13.35 -22.89 -34.75   9.49   5.97   7.99  -4.86   1.02 
+##   b-&gt;o  h1-&gt;o  h2-&gt;o  h3-&gt;o  h4-&gt;o 
+##  -1.47   3.60   1.03   0.53  -0.62
+</code></pre>
+
+<p>$R^2$ estimate:</p>
+
+<pre><code class="language-r">1 - best_model$value / sum((scale_ozone[,1] - mean(scale_ozone))^2)
+</code></pre>
+
+<pre><code>## [1] 0.8314248
+</code></pre>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<ul>
+<li>Neural network&rsquo;s cannot be used for inference</li>
+<li>Flexible, Easy to fit to large complex data</li>
+<li>Can be easily over fit</li>
+<li>Truly a &ldquo;black box&rdquo;, plots only give a rough idea of what is happening with our data</li>
+<li>Lacks the diagnostics, model selection, and theory</li>
+<li>Initially developed to address real life issues, not statistical issues</li>
+<li>&ldquo;Neural networks can outperform their statistical competitors for some problems provided they are carefully used. However, one should not be fooled by the evocative name, as neural networks are just another tool in the box.&rdquo;</li>
+</ul>
+
+<h1 id="thanks">Thanks!</h1>
+
+<!-- ### Source Code for Slides -->
+
+<!-- - https://github.com/KoderKow/intro-to-neural-networks -->
+
+<h4 id="references">References</h4>
+
+<ul>
+<li><a href="http://wwwold.ece.utep.edu/research/webfuzzy/docs/kk-thesis/kk-thesis-html/node12.html" rel="nofollow noreferrer" target="_blank">McCulloch and Pitts (1943)</a></li>
+<li><a href="https://www.datacamp.com/community/tutorials/neural-network-models-r" rel="nofollow noreferrer" target="_blank">DataCamp: Neural Network Models</a></li>
+<li><a href="https://stackoverflow.com/questions/35345191/what-is-a-layer-in-a-neural-network" rel="nofollow noreferrer" target="_blank">Stack Overflow</a></li>
+<li><a href="https://www.amazon.com/Extending-Linear-Model-Generalized-Nonparametric/dp/149872096X" rel="nofollow noreferrer" target="_blank">Faraway: Extending the Linear Model with R</a></li>
+<li><a href="https://github.com/yihui/xaringan" rel="nofollow noreferrer" target="_blank">R Package Used for Slides: Xaringan</a></li>
+</ul>
+
+<script>
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("myBtn").style.display = "block";
+  } else {
+    document.getElementById("myBtn").style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Kyle Harris </span>
+                </p>
+            
+           
+            <p class="copyright-item">
+                    <span>Words:</span>
+                   <span>1702</span>
+            </p>
+            
+            <p class="copyright-item">
+                
+                <span>Share:</span>
+                <span>
+
+      
+        <a href="//twitter.com/share?url=%2f2019%2f2019-05-28-introduction-to-nueral-networks.utf8%2f&amp;text=Introduction%20to%20Nueral%20Networks&amp;via=koderkow" target="_blank" title="Share on Twitter">
+          <i class="iconfont icon-twitter"></i>
+        </a>
+        
+      
+      
+        <a href="//www.facebook.com/sharer/sharer.php?u=%2f2019%2f2019-05-28-introduction-to-nueral-networks.utf8%2f" target="_blank" title="Share on Facebook">
+          <i class="iconfont icon-facebook"></i>
+        </a>
+        
+      
+      
+      
+      
+        <a href="//www.linkedin.com/shareArticle?url=%2f2019%2f2019-05-28-introduction-to-nueral-networks.utf8%2f&amp;title=Introduction%20to%20Nueral%20Networks" target="_blank" title="Share on LinkedIn">
+          <i class="iconfont icon-linkedin"></i>
+        </a>
+        
+      
+      
+        
+      
+        
+      
+
+          
+
+          
+
+          
+
+          
+</span>
+            </p>
+                       
+
+             
+            <p class="copyright-item">
+                Released under <a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">Back</a></span> · 
+                <span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="/2018/2018-07-03-indy-civic-food-security-hackathon/" class="prev" rel="prev" title="Indy Civic Food Security Hackathon"><i class="iconfont icon-dajiantou"></i>&nbsp;Indy Civic Food Security Hackathon</a>
+         
+        
+        <a href="/2019/2019-05-28-introduction-to-nueral-networks.knit/" class="next" rel="next" title="Introduction to Nueral Networks">Introduction to Nueral Networks&nbsp;<i class="iconfont icon-xiaojiantou"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+          <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'koderkow';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+
+
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2019 - 2019</span>
+        
+         
+            <span class="author" itemprop="copyrightHolder"><a href="/">Kyle Harris</a> | </span>
+         
+
+		  <span>Crafted with ❤️ by <a href="https://github.com/Fastbyte01/KeepIt" target="_blank" rel="external nofollow noopener noreffer">KeepIt</a> & <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a></span>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.12/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119864602-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+     </div>
+  </body>
+</html>
