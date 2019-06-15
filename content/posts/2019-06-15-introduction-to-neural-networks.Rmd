@@ -1,8 +1,8 @@
 ---
-title: Introduction to Nueral Networks
+title: Introduction to Neural Networks
 author: Kyle Harris
 date: '2019-06-15'
-slug: introduction-to-nueral-networks
+slug: introduction-to-neural-networks
 categories:
   - R
   - machine learning
@@ -83,7 +83,7 @@ Here we can see how a neural network resembles a neuron. Neural networks are col
 - **Inputs $x_1, x_2, \dots, x_n$**: independent variables
 - **Weights $w_1, w_2, \dots, w_n$:** learns the weights from the data
 - **Bias $b$:** the intercept
-- **Activation Function $f$:** defines the output of the nueron
+- **Activation Function $f$:** defines the output of the neuron
   - *Identity Function:* linear fit
   - *Sigmoid Function:* logistic fit, where $y$ is binary
   - *ReLu (rectified linear fit):* linear fit, outputs 0 for negative values

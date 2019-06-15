@@ -9,7 +9,7 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Introduction to Nueral Networks</title>
+      <title>Introduction to Neural Networks</title>
       <link>/2019/2019-06-15-introduction-to-neural-networks/</link>
       <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
       
@@ -93,7 +93,7 @@
 &lt;li&gt;&lt;strong&gt;Inputs &lt;span class=&#34;math inline&#34;&gt;\(x_1, x_2, \dots, x_n\)&lt;/span&gt;&lt;/strong&gt;: independent variables&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Weights &lt;span class=&#34;math inline&#34;&gt;\(w_1, w_2, \dots, w_n\)&lt;/span&gt;:&lt;/strong&gt; learns the weights from the data&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Bias &lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt;:&lt;/strong&gt; the intercept&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Activation Function &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt;:&lt;/strong&gt; defines the output of the nueron
+&lt;li&gt;&lt;strong&gt;Activation Function &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt;:&lt;/strong&gt; defines the output of the neuron
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;Identity Function:&lt;/em&gt; linear fit&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Sigmoid Function:&lt;/em&gt; logistic fit, where &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; is binary&lt;/li&gt;
