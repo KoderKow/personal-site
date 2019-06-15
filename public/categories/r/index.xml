@@ -6,10 +6,20 @@
     <description>Recent content in R on Kyle Harris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 10 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Introduction to Nueral Networks</title>
+      <link>/2019/2019-06-15-introduction-to-neural-networks/</link>
+      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/2019-06-15-introduction-to-neural-networks/</guid>
+      <description>.column-left{ float: left; width: 50%; text-align: left; } .column-right{ float: right; width: 50%; text-align: left; } html { scroll-behavior: smooth; }     
+Overview  What Are Neural Networks? Structure of a Neuron Visual Representation of Neural Networks Layers of a Neural Network Feedforward and Feedback Neural Networks Neural Network Application - The Faraway Way  Examine the Estimated Weights Drawbacks of a Neural Network Model Weight Interpretation Improving the Fit Demonstration Wrap-Up Final Model Fit  Conclusion   Goal This post was first built as a Xaringan presentation for the final in the Contemporary Regression course at IUPUI (Indiana University Purdue University Indianapolis) which is part of the amazing Health Data Science program.</description>
+    </item>
     
     <item>
       <title>Making the Transcribing Process a Bit Simpler</title>

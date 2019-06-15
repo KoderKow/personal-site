@@ -2,9 +2,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
-      <loc>/about/</loc>
+      <loc>/categories/</loc>
       
-      <lastmod>2019-05-10T00:00:00+00:00</lastmod>
+      <lastmod>2019-06-15T00:00:00+00:00</lastmod>
+      
+      
+      
+      <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/2019/2019-06-15-introduction-to-neural-networks/</loc>
+      
+      <lastmod>2019-06-15T00:00:00+00:00</lastmod>
       
       
       <changefreq>monthly</changefreq>
@@ -18,11 +30,61 @@
     <url>
       <loc>/</loc>
       
-      <lastmod>2019-05-10T00:00:00+00:00</lastmod>
+      <lastmod>2019-06-15T00:00:00+00:00</lastmod>
       
       
       
       <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/posts/</loc>
+      
+      <lastmod>2019-06-15T00:00:00+00:00</lastmod>
+      
+      
+      
+      <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/categories/r/</loc>
+      
+      <lastmod>2019-06-15T00:00:00+00:00</lastmod>
+      
+      
+      
+      <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/categories/machine-learning/</loc>
+      
+      <lastmod>2019-06-15T00:00:00+00:00</lastmod>
+      
+      
+      
+      <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/about/</loc>
+      
+      <lastmod>2019-05-10T00:00:00+00:00</lastmod>
+      
+      
+      <changefreq>monthly</changefreq>
+      
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -42,30 +104,6 @@
     </url>
   
     <url>
-      <loc>/posts/</loc>
-      
-      <lastmod>2018-07-03T00:00:00+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>/categories/</loc>
-      
-      <lastmod>2018-06-10T00:00:00+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
       <loc>/2018/2018-06-10-making-the-transcribing-process-a-bit-simpler/</loc>
       
       <lastmod>2018-06-10T00:00:00+00:00</lastmod>
@@ -75,18 +113,6 @@
       
       
       <priority>0.5</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>/categories/r/</loc>
-      
-      <lastmod>2018-06-10T00:00:00+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
       
       
     </url>
