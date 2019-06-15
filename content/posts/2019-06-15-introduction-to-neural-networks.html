@@ -150,9 +150,15 @@ Feedback
 </div>
 <div id="neural-network-application---the-faraway-way" class="section level1">
 <h1>Neural Network Application - The Faraway Way</h1>
-<pre class="r"><code>library(nnet)
+<pre class="r"><code># libaries
+library(nnet)
+library(tidyverse)
+library(ggthemes)
+library(glue)
+library(plotly)
+library(kowr)
 data(ozone, package = &quot;faraway&quot;)</code></pre>
-<p>We will start with three variables for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:</p>
+<p>We will start with three variables from the <a href="https://cran.r-project.org/web/packages/faraway/faraway.pdf">ozone data set from the faraway package</a> for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:</p>
 <pre class="r"><code>set.seed(2019)
 nnet_model &lt;- nnet(
   formula = O3 ~ temp + ibh + ibt,
@@ -259,7 +265,7 @@ best_nn &lt;- results[[best_model_index]]</code></pre>
 </div>
 <div id="weight-interpretation" class="section level1">
 <h1>Weight Interpretation</h1>
-<p><img src="/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Although the neural network weights may be difficult to interpret, we can get some sense of the effect of the predictors by observing the marginal effect of changes in one or more predictor as other predictors are held fixed. Here, we vary each predictor individually while keeping the other predictors fixed at their mean values. Because the data has been centered and scaled for the neural network fitting, we need to restore the original scales. As seen in the plots there are large discontinuities in the lines plots. This does not follow the linear trend we are expecting. Looking back at the weights of <code>summary(best_nn)</code> we can see that some weights have extremely large values despite the scaling of the data, <span class="math inline">\(i_2 \rightarrow h_2 = 63.10\)</span>. This means there is a lot of variability in this neuron. This is analogous to the collinearity problem in linear regression. The neural network is choosing these large values to optimize the fit.</p>
 </div>
 <div id="improving-the-fit" class="section level1">
@@ -287,7 +293,7 @@ best_decay &lt;- results[[best_decay_index]]</code></pre>
 <pre><code>## [1] 91.8121</code></pre>
 <p>Our previous value was 89.0786, our new RSS is a little bit higher. This is expected because we are sacrificing some of the fit for a more stable result.</p>
 <div class="column-left">
-<p><img src="/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div class="column-right">
 <center>

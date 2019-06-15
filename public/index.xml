@@ -154,9 +154,15 @@ Feedback
 &lt;/div&gt;
 &lt;div id=&#34;neural-network-application---the-faraway-way&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Neural Network Application - The Faraway Way&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(nnet)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# libaries
+library(nnet)
+library(tidyverse)
+library(ggthemes)
+library(glue)
+library(plotly)
+library(kowr)
 data(ozone, package = &amp;quot;faraway&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We will start with three variables for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:&lt;/p&gt;
+&lt;p&gt;We will start with three variables from the &lt;a href=&#34;https://cran.r-project.org/web/packages/faraway/faraway.pdf&#34;&gt;ozone data set from the faraway package&lt;/a&gt; for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
 nnet_model &amp;lt;- nnet(
   formula = O3 ~ temp + ibh + ibt,
@@ -263,7 +269,7 @@ best_nn &amp;lt;- results[[best_model_index]]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;weight-interpretation&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Weight Interpretation&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Although the neural network weights may be difficult to interpret, we can get some sense of the effect of the predictors by observing the marginal effect of changes in one or more predictor as other predictors are held fixed. Here, we vary each predictor individually while keeping the other predictors fixed at their mean values. Because the data has been centered and scaled for the neural network fitting, we need to restore the original scales. As seen in the plots there are large discontinuities in the lines plots. This does not follow the linear trend we are expecting. Looking back at the weights of &lt;code&gt;summary(best_nn)&lt;/code&gt; we can see that some weights have extremely large values despite the scaling of the data, &lt;span class=&#34;math inline&#34;&gt;\(i_2 \rightarrow h_2 = 63.10\)&lt;/span&gt;. This means there is a lot of variability in this neuron. This is analogous to the collinearity problem in linear regression. The neural network is choosing these large values to optimize the fit.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;improving-the-fit&#34; class=&#34;section level1&#34;&gt;
@@ -291,7 +297,7 @@ best_decay &amp;lt;- results[[best_decay_index]]&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] 91.8121&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Our previous value was 89.0786, our new RSS is a little bit higher. This is expected because we are sacrificing some of the fit for a more stable result.&lt;/p&gt;
 &lt;div class=&#34;column-left&#34;&gt;
-&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;column-right&#34;&gt;
 &lt;center&gt;

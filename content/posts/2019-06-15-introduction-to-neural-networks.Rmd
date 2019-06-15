@@ -13,19 +13,6 @@ featured_image: ~
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-```{r, echo=FALSE, message=FALSE}
-# libaries
-library(nnet)
-library(tidyverse)
-library(ggthemes)
-library(glue)
-library(plotly)
-library(kowr)
-
-# options
-# options(htmltools.dir.version = FALSE)
-```
-
 # Follow Me On
 
 <a href="https://twitter.com/KoderKow"> <i class='fab fa-twitter fa-3x'></i></a> <a href="https://www.instagram.com/koderkow/"> <i class='fab fa-instagram fa-3x'></i></a> <a href="https://github.com/KoderKow/"><i class='fab fa-github fa-3x'></i></a> <a href="https://koderkow.rbind.io"><i class='fas fa-globe fa-3x'></i></a> 
@@ -148,12 +135,18 @@ Here we can see how a neural network resembles a neuron. Neural networks are col
 
 # Neural Network Application - The Faraway Way
 
-```{r}
+```{r, message=FALSE}
+# libaries
 library(nnet)
+library(tidyverse)
+library(ggthemes)
+library(glue)
+library(plotly)
+library(kowr)
 data(ozone, package = "faraway")
 ```
 
-We will start with three variables for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:
+We will start with three variables from the [ozone data set from the faraway package](https://cran.r-project.org/web/packages/faraway/faraway.pdf) for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:
 
 ```{r, results="hidden", message=FALSE, error=FALSE}
 set.seed(2019)
