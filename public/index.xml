@@ -5,409 +5,8 @@
     <description>Recent content in Kyle Harris on Kyle Harris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 10 May 2019 00:00:00 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Introduction to Nueral Networks</title>
-      <link>/2019/2019-06-15-introduction-to-neural-networks/</link>
-      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/2019-06-15-introduction-to-neural-networks/</guid>
-      <description>
-
-
-&lt;style&gt;
-.column-left{
-  float: left;
-  width: 50%;
-  text-align: left;
-}
-.column-right{
-  float: right;
-  width: 50%;
-  text-align: left;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-&lt;/style&gt;
-&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.8.1/css/all.css&#34; integrity=&#34;sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf&#34; crossorigin=&#34;anonymous&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://twitter.com/KoderKow&#34;&gt; &lt;i class=&#39;fab fa-twitter fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href=&#34;https://www.instagram.com/koderkow/&#34;&gt; &lt;i class=&#39;fab fa-instagram fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href=&#34;https://github.com/KoderKow/&#34;&gt;&lt;i class=&#39;fab fa-github fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href=&#34;https://koderkow.rbind.io&#34;&gt;&lt;i class=&#39;fas fa-globe fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;div id=&#34;overview&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Overview&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#what-are-neural-networks&#34;&gt;What Are Neural Networks?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#structure-of-a-neuron&#34;&gt;Structure of a Neuron&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#visual-representation-of-neural-networks&#34;&gt;Visual Representation of Neural Networks&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#layers-of-a-neural-network&#34;&gt;Layers of a Neural Network&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#feedforward-and-feedback-neural-networks&#34;&gt;Feedforward and Feedback Neural Networks&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#neural-network-application---the-faraway-way&#34;&gt;Neural Network Application - The Faraway Way&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#examine-the-estimated-weights&#34;&gt;Examine the Estimated Weights&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#drawbacks-of-a-neural-network-model&#34;&gt;Drawbacks of a Neural Network Model&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#weight-interpretation&#34;&gt;Weight Interpretation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#improving-the-fit&#34;&gt;Improving the Fit&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#demonstration-wrap-up&#34;&gt;Demonstration Wrap-Up&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#final-model-fit&#34;&gt;Final Model Fit&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;goal&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Goal&lt;/h1&gt;
-&lt;p&gt;This post was first built as a Xaringan presentation for the final in the Contemporary Regression course at IUPUI (Indiana University Purdue University Indianapolis) which is part of the amazing Health Data Science program. I enjoyed making the presentation (link below) so much that I wanted to transfer the information I gathered into a blog post. I hope this serves as a launching point for those who have not had an opportunity to work with basic neural networks.&lt;/p&gt;
-&lt;p&gt;Slides available here: &lt;strong&gt;&lt;a href=&#34;http://bit.ly/intro-to-neural-networks&#34; class=&#34;uri&#34;&gt;http://bit.ly/intro-to-neural-networks&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;what-are-neural-networks&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;What Are Neural Networks?&lt;/h1&gt;
-&lt;p&gt;A Neural network, or Artificial Neural Network, is a set of algorithms, modeled loosely after the human brain to help recognize patterns. The brain has about &lt;span class=&#34;math inline&#34;&gt;\(1.5 \times 10^{10}\)&lt;/span&gt; neurons each with 10 to 104 connections called synapses. The speed of messages between neurons is about 100 m/sec which is much slower than CPU speed. The human brain’s fastest reaction time is around 100 ms. A neuron computation time is 1–10 ms. Computation (to no surprise) is 10 times faster! That is just for one simple task!&lt;/p&gt;
-&lt;p&gt;The original idea behind neural networks was to use a computer-based model of the human brain. We can recognize people in fractions of a second, but computers find this task difficult. So why not make the software more like the human brain? The brain model of connected neurons, first suggested by &lt;a href=&#34;http://wwwold.ece.utep.edu/research/webfuzzy/docs/kk-thesis/kk-thesis-html/node12.html&#34;&gt;McCulloch and Pitts (1943)&lt;/a&gt;, is too simplistic given more recent research.&lt;/p&gt;
-&lt;p&gt;As with artificial intelligence and the sentient takeover, the promise of neural networks is not matched by the reality of their performance. At least for now…&lt;/p&gt;
-&lt;center&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://img.buzzfeed.com/buzzfeed-static/static/2015-04/1/17/enhanced/webdr07/anigif_enhanced-29933-1427925503-3.gif&#34; width=40% /&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://www.buzzfeed.com/norbertobriceno/01101010101001001&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-&lt;p&gt;Neural networks have various purposes such as biological models, hardware implementation for adaptive control and many more! We are interested in the data analysis application of neural network; classification, clustering methods, regression methods.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;structure-of-a-neuron&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Structure of a Neuron&lt;/h1&gt;
-&lt;center&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-whyareneuron.jpg&#34; width=80% /&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://medicalxpress.com/news/2018-07-neuron-axons-spindly-theyre-optimizing.html&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Dendrites&lt;/em&gt; receive signals&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Cell body&lt;/em&gt; sums up the inputs of the signals to generate output&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Axon terminals&lt;/em&gt; is the final output&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;visual-representation-of-neural-networks&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Visual Representation of Neural Networks&lt;/h1&gt;
-&lt;center&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34; width=40% /&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-&lt;p&gt;Here we can see how a neural network resembles a neuron. Neural networks are collections of thousands of these simple processing units that together perform useful computations.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Inputs &lt;span class=&#34;math inline&#34;&gt;\(x_1, x_2, \dots, x_n\)&lt;/span&gt;&lt;/strong&gt;: independent variables&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Weights &lt;span class=&#34;math inline&#34;&gt;\(w_1, w_2, \dots, w_n\)&lt;/span&gt;:&lt;/strong&gt; learns the weights from the data&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Bias &lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt;:&lt;/strong&gt; the intercept&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Activation Function &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt;:&lt;/strong&gt; defines the output of the nueron
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Identity Function:&lt;/em&gt; linear fit&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Sigmoid Function:&lt;/em&gt; logistic fit, where &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; is binary&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;ReLu (rectified linear fit):&lt;/em&gt; linear fit, outputs 0 for negative values&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;layers-of-a-neural-network&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Layers of a Neural Network&lt;/h1&gt;
-&lt;center&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://i.stack.imgur.com/Kc50L.jpg&#34; width = 40%/&gt;
-&lt;/center&gt;
-&lt;p&gt;&lt;strong&gt;Input Layer:&lt;/strong&gt; the raw data, think of each “node” as a variable in our data
-&lt;strong&gt;Hidden Layer:&lt;/strong&gt; this is where the “black magic” happens&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Each layer is focused on learning about the data&lt;/li&gt;
-&lt;li&gt;We can think about each layer is learning about an aspect of the data&lt;/li&gt;
-&lt;li&gt;Larger and more complex data may require multiple hidden layers&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Output Layer:&lt;/strong&gt; the final output. This is generally a single output of the input(s)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;feedforward-and-feedback-neural-networks&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Feedforward and Feedback Neural Networks&lt;/h1&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34; width=40% /&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;div class=&#34;column-left&#34;&gt;
-&lt;h3&gt;
-Feedforward
-&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Signal goes from input to output&lt;/li&gt;
-&lt;li&gt;No loops
-&lt;br&gt;&lt;br&gt;
-&lt;center&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://thumbs.gfycat.com/EnviousNiftyCorydorascatfish-size_restricted.gif&#34; width=&#34;450px&#34; height=&#34;250px&#34;/&gt;
-&lt;/center&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;column-right&#34;&gt;
-&lt;h3&gt;
-Feedback
-&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;The neural network is recursive&lt;/li&gt;
-&lt;li&gt;Data loops; goes in both directions
-&lt;br&gt;&lt;br&gt;
-&lt;center&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://thumbs.gfycat.com/MiniatureDependentCob-size_restricted.gif&#34; width=&#34;450px&#34; height=&#34;250px&#34;/&gt;
-&lt;/center&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=aircAruvnKk&#34;&gt;Image Source&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;neural-network-application---the-faraway-way&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Neural Network Application - The Faraway Way&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(nnet)
-data(ozone, package = &amp;quot;faraway&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We will start with three variables for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
-nnet_model &amp;lt;- nnet(
-  formula = O3 ~ temp + ibh + ibt,
-  data = ozone,
-  size = 2,
-  linout = TRUE,
-  trace = FALSE
-  )&lt;/code&gt;&lt;/pre&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;nnet()&lt;/code&gt; fits a single-hidden-layer neural network&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;formula = O3 ~ temp + ibh + ibt&lt;/code&gt;: formula interface&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;data = ozone&lt;/code&gt;: data where the formula variables reside&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;size = 2&lt;/code&gt;: number of neurons in the hidden layer (this can be optimized)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;linout = TRUE&lt;/code&gt;: tells the model that it will have lienar output units&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;trace = FALSE&lt;/code&gt;: hides the printed out optimization information&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;neural-network-application&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Neural Network Application&lt;/h1&gt;
-&lt;p&gt;If you repeat this, your result may differ slightly because of the random starting point of the algorithm, but you will likely get a similar result.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;## RSS Value: 21099.4&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The RSS of 21099.4 is almost equal to &lt;span class=&#34;math inline&#34;&gt;\(\sum_i(y_i - \hat{y})^2\)&lt;/span&gt;, so the fit is not any better than the null model.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum((ozone$O3 - mean(ozone$O3))^2)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 21115.41&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The problem lies with the initial selection of weights. It is hard to do this well when the variables have very different scales.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scale_ozone &amp;lt;- scale(ozone)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Due to the random starting point, the algorithm uses it may not actually converge. We will fit the model 100 times and pick the one that has the lowest RSS. In theory, this will choose a random starting point that leads to the true minimum.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
-
-## fit 100 nn models
-results &amp;lt;- 1:100 %&amp;gt;%
-  map(~nnet(
-    formula = O3 ~ temp + ibh + ibt,
-    data = scale_ozone,
-    size = 2,
-    linout = TRUE,
-    trace = FALSE))
-
-## get the index of the model with the lowest RSS
-best_model_index &amp;lt;- results %&amp;gt;%
-  map_dbl(~.x$value) %&amp;gt;%
-  which.min()
-
-## select best model
-best_nn &amp;lt;- results[[best_model_index]]&lt;/code&gt;&lt;/pre&gt;
-&lt;center&gt;
-&lt;/center&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_nn&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## a 3-2-1 network with 11 weights
-## inputs: temp ibh ibt 
-## output(s): O3 
-## options were - linear output units&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Best RSS Value: 89.0786&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Our &lt;code&gt;best_nn&lt;/code&gt; model has 11 parameters or weights (The parameters are shown below). For each of the parameters, there is an optimization that occurs. The surface optimization problem has multiple peaks and valleys. The model can converge on one of these minimums. This is why we run our model 100 times to test out multiple random starting points for our model, to hopefully find the global minimum!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;examine-the-estimated-weights&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Examine the Estimated Weights&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(best_nn)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## a 3-2-1 network with 11 weights
-## options were - linear output units 
-##  b-&amp;gt;h1 i1-&amp;gt;h1 i2-&amp;gt;h1 i3-&amp;gt;h1 
-##  -1.14   0.95  -0.83  -0.28 
-##  b-&amp;gt;h2 i1-&amp;gt;h2 i2-&amp;gt;h2 i3-&amp;gt;h2 
-##  35.90 -18.32  63.10  34.91 
-##   b-&amp;gt;o  h1-&amp;gt;o  h2-&amp;gt;o 
-##  -1.83   4.51   0.69&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;column-left&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt;: bias&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(i_x\)&lt;/span&gt;: input where &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; is the index of the variable&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(h_y\)&lt;/span&gt;: hidden neuron where &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; is the index of the hidden neuron&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(o\)&lt;/span&gt;: output&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(i_1 \rightarrow h_1\)&lt;/span&gt;: refers to the link between input 1 and the first hidden neuron&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(b \rightarrow o\)&lt;/span&gt;: is a one skip-layer connection, from the bias to the output
-&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;column-right&#34;&gt;
-&lt;center&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://memegenerator.net/img/instances/68631115/neural-networks-so-hot-right-now.jpg&#34; width = 40%/&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://memegenerator.net/&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;drawbacks-of-a-neural-network-model&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Drawbacks of a Neural Network Model&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;Parameters are uninterpretable&lt;/li&gt;
-&lt;li&gt;Not based on a probability model that expresses the structure and variation
-&lt;ul&gt;
-&lt;li&gt;No standard errors&lt;/li&gt;
-&lt;li&gt;Some inference is possible with bootstrapping&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;We can get an &lt;span class=&#34;math inline&#34;&gt;\(R^2\)&lt;/span&gt; estimate:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;1 - best_nn$value / sum((scale_ozone[, 1] - mean(scale_ozone[, 1]))^2)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.7292443&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;This is similar to the additive model fit for these predictors that Faraway fits in previous chapters of his &lt;a href=&#34;https://www.amazon.com/Extending-Linear-Model-Generalized-Nonparametric/dp/149872096X&#34;&gt;book&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;weight-interpretation&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Weight Interpretation&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Although the neural network weights may be difficult to interpret, we can get some sense of the effect of the predictors by observing the marginal effect of changes in one or more predictor as other predictors are held fixed. Here, we vary each predictor individually while keeping the other predictors fixed at their mean values. Because the data has been centered and scaled for the neural network fitting, we need to restore the original scales. As seen in the plots there are large discontinuities in the lines plots. This does not follow the linear trend we are expecting. Looking back at the weights of &lt;code&gt;summary(best_nn)&lt;/code&gt; we can see that some weights have extremely large values despite the scaling of the data, &lt;span class=&#34;math inline&#34;&gt;\(i_2 \rightarrow h_2 = 63.10\)&lt;/span&gt;. This means there is a lot of variability in this neuron. This is analogous to the collinearity problem in linear regression. The neural network is choosing these large values to optimize the fit.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;improving-the-fit&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Improving the Fit&lt;/h1&gt;
-&lt;p&gt;We can use a penalty function, as with smoothing splines, to obtain a more stable fit. Instead of minimizing MSE, we minimize: &lt;span class=&#34;math inline&#34;&gt;\(MSE + \lambda \sum\limits_{i} w_i^2\)&lt;/span&gt;. We can introduce a &lt;em&gt;weight decay&lt;/em&gt; to our neural network, this is a similar approach we take with ridge regression. Lets set &lt;span class=&#34;math inline&#34;&gt;\(\lambda = 0.001\)&lt;/span&gt; and create 100 models again.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
-## fit 100 nn models
-results_decay &amp;lt;- 1:100 %&amp;gt;%
-  map(~nnet(
-    formula = O3 ~ temp + ibh + ibt,
-    data = scale_ozone,
-    size = 2,
-    linout = TRUE,
-    trace = FALSE,
-    `decay = 0.001`))
-
-## get the index of the model with the lowest RSS
-best_decay_index &amp;lt;- results_decay %&amp;gt;%
-  map_dbl(~.x$value) %&amp;gt;%
-  which.min()
-
-## select best model
-best_decay &amp;lt;- results[[best_decay_index]]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_decay$value&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 91.8121&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Our previous value was 89.0786, our new RSS is a little bit higher. This is expected because we are sacrificing some of the fit for a more stable result.&lt;/p&gt;
-&lt;div class=&#34;column-left&#34;&gt;
-&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;column-right&#34;&gt;
-&lt;center&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://media1.tenor.com/images/154e8427624e163c030970a795b6f169/tenor.gif?itemid=5143620&#34; /&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://tenor.com/&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-&lt;br&gt;&lt;br&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;demonstration-wrap-up&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Demonstration Wrap-Up&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(best_decay)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## a 3-2-1 network with 11 weights
-## options were - linear output units 
-##  b-&amp;gt;h1 i1-&amp;gt;h1 i2-&amp;gt;h1 i3-&amp;gt;h1 
-##   1.16  -0.63   0.42  -0.44 
-##  b-&amp;gt;h2 i1-&amp;gt;h2 i2-&amp;gt;h2 i3-&amp;gt;h2 
-##  13.09   2.46   8.71  -3.30 
-##  b-&amp;gt;o h1-&amp;gt;o h2-&amp;gt;o 
-##  1.55 -3.93  1.28&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The weights of the second row are not as extreme now. There is not a way to assess the significance of any of the variables. Neural networks do have interactions built in and these can be observed by the method we used before by varying two variables in our model at a time.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;final-model-fit&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Final Model Fit&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
-
-## fit 100 nn models
-results &amp;lt;- 1:100 %&amp;gt;%
-  map(~nnet(
-    formula = O3 ~ .,
-    data = scale_ozone,
-    size = 4,
-    linout = TRUE,
-    trace = FALSE))
-
-## get the index of the model with the lowest RSS
-best_model_index &amp;lt;- results_decay %&amp;gt;%
-  map_dbl(~.x$value) %&amp;gt;%
-  which.min()
-
-## select best model
-best_model &amp;lt;- results[[best_model_index]]
-best_model&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## a 9-4-1 network with 45 weights
-## inputs: vh wind humidity temp ibh dpg ibt vis doy 
-## output(s): O3 
-## options were - linear output units&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(best_model)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## a 9-4-1 network with 45 weights
-## options were - linear output units 
-##  b-&amp;gt;h1 i1-&amp;gt;h1 i2-&amp;gt;h1 i3-&amp;gt;h1 i4-&amp;gt;h1 i5-&amp;gt;h1 i6-&amp;gt;h1 i7-&amp;gt;h1 i8-&amp;gt;h1 i9-&amp;gt;h1 
-##  -1.47   0.29  -0.36   0.40   0.35  -0.29   0.49   0.29   0.15  -0.02 
-##  b-&amp;gt;h2 i1-&amp;gt;h2 i2-&amp;gt;h2 i3-&amp;gt;h2 i4-&amp;gt;h2 i5-&amp;gt;h2 i6-&amp;gt;h2 i7-&amp;gt;h2 i8-&amp;gt;h2 i9-&amp;gt;h2 
-##  40.19   6.03  15.36 -17.61 -13.86  17.07 -22.75   7.20  -6.12 -22.51 
-##  b-&amp;gt;h3 i1-&amp;gt;h3 i2-&amp;gt;h3 i3-&amp;gt;h3 i4-&amp;gt;h3 i5-&amp;gt;h3 i6-&amp;gt;h3 i7-&amp;gt;h3 i8-&amp;gt;h3 i9-&amp;gt;h3 
-## -11.16  -8.76  11.96   3.34   8.17  -1.90 -11.21  17.59 -25.30  -5.20 
-##  b-&amp;gt;h4 i1-&amp;gt;h4 i2-&amp;gt;h4 i3-&amp;gt;h4 i4-&amp;gt;h4 i5-&amp;gt;h4 i6-&amp;gt;h4 i7-&amp;gt;h4 i8-&amp;gt;h4 i9-&amp;gt;h4 
-##  38.72   6.96  13.35 -22.89 -34.75   9.49   5.97   7.99  -4.86   1.02 
-##   b-&amp;gt;o  h1-&amp;gt;o  h2-&amp;gt;o  h3-&amp;gt;o  h4-&amp;gt;o 
-##  -1.47   3.60   1.03   0.53  -0.62&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(R^2\)&lt;/span&gt; estimate:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;1 - best_model$value / sum((scale_ozone[,1] - mean(scale_ozone))^2)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.8314248&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;conclusion&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Conclusion&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;Neural networks cannot be used for inference&lt;/li&gt;
-&lt;li&gt;Flexible, Easy to fit large complex data&lt;/li&gt;
-&lt;li&gt;Can be easily overfit&lt;/li&gt;
-&lt;li&gt;Truly a “black box”, plots only give a rough idea of what is happening with our data&lt;/li&gt;
-&lt;li&gt;Lacks the diagnostics, model selection, and theory&lt;/li&gt;
-&lt;li&gt;Initially developed to address real-life issues, not statistical issues&lt;/li&gt;
-&lt;li&gt;“Neural networks can outperform their statistical competitors for some problems provided they are carefully used. However, one should not be fooled by the evocative name, as neural networks are just another tool in the box.” (Faraway, 2016)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;thanks&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Thanks!&lt;/h1&gt;
-&lt;div id=&#34;slides&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Slides&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Slides&lt;/strong&gt;: &lt;em&gt;&lt;a href=&#34;http://bit.ly/intro-to-neural-networks&#34; class=&#34;uri&#34;&gt;http://bit.ly/intro-to-neural-networks&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Source Code&lt;/strong&gt;: &lt;em&gt;&lt;a href=&#34;https://github.com/KoderKow/intro-to-neural-networks&#34; class=&#34;uri&#34;&gt;https://github.com/KoderKow/intro-to-neural-networks&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;All Posts Source Code&lt;/strong&gt;: &lt;em&gt;&lt;a href=&#34;https://github.com/KoderKow/personal-site/tree/master/content/posts&#34; class=&#34;uri&#34;&gt;https://github.com/KoderKow/personal-site/tree/master/content/posts&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;references&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;References&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://wwwold.ece.utep.edu/research/webfuzzy/docs/kk-thesis/kk-thesis-html/node12.html&#34;&gt;McCulloch and Pitts (1943)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.datacamp.com/community/tutorials/neural-network-models-r&#34;&gt;DataCamp: Neural Network Models&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://stackoverflow.com/questions/35345191/what-is-a-layer-in-a-neural-network&#34;&gt;Stack Overflow&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Extending-Linear-Model-Generalized-Nonparametric/dp/149872096X&#34;&gt;Faraway: Extending the Linear Model with R&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/yihui/xaringan&#34;&gt;R Package Used for Slides: Xaringan&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-</description>
-    </item>
     
     <item>
       <title>About</title>
@@ -2206,6 +1805,410 @@ finalTime &amp;lt;- Sys.time()
 &lt;!-- ```{r echo=FALSE} --&gt;
 &lt;!-- blogdown::shortcode(&#39;googleAdsense&#39;) --&gt;
 &lt;!-- ``` --&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Nueral Networks</title>
+      <link>/1/2019-06-15-introduction-to-neural-networks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/2019-06-15-introduction-to-neural-networks/</guid>
+      <description>
+
+
+&lt;style&gt;
+.column-left{
+  float: left;
+  width: 50%;
+  text-align: left;
+}
+.column-right{
+  float: right;
+  width: 50%;
+  text-align: left;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+&lt;/style&gt;
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.8.1/css/all.css&#34; integrity=&#34;sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf&#34; crossorigin=&#34;anonymous&#34;&gt;&lt;/p&gt;
+&lt;div id=&#34;follow-me-on&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Follow Me On&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/KoderKow&#34;&gt; &lt;i class=&#39;fab fa-twitter fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href=&#34;https://www.instagram.com/koderkow/&#34;&gt; &lt;i class=&#39;fab fa-instagram fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href=&#34;https://github.com/KoderKow/&#34;&gt;&lt;i class=&#39;fab fa-github fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href=&#34;https://koderkow.rbind.io&#34;&gt;&lt;i class=&#39;fas fa-globe fa-3x&#39;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;overview&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Overview&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#what-are-neural-networks&#34;&gt;What Are Neural Networks?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#structure-of-a-neuron&#34;&gt;Structure of a Neuron&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#visual-representation-of-neural-networks&#34;&gt;Visual Representation of Neural Networks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#layers-of-a-neural-network&#34;&gt;Layers of a Neural Network&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#feedforward-and-feedback-neural-networks&#34;&gt;Feedforward and Feedback Neural Networks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#neural-network-application---the-faraway-way&#34;&gt;Neural Network Application - The Faraway Way&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#examine-the-estimated-weights&#34;&gt;Examine the Estimated Weights&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#drawbacks-of-a-neural-network-model&#34;&gt;Drawbacks of a Neural Network Model&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#weight-interpretation&#34;&gt;Weight Interpretation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#improving-the-fit&#34;&gt;Improving the Fit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#demonstration-wrap-up&#34;&gt;Demonstration Wrap-Up&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#final-model-fit&#34;&gt;Final Model Fit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;goal&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Goal&lt;/h1&gt;
+&lt;p&gt;This post was first built as a Xaringan presentation for the final in the Contemporary Regression course at IUPUI (Indiana University Purdue University Indianapolis) which is part of the amazing Health Data Science program. I enjoyed making the presentation (link below) so much that I wanted to transfer the information I gathered into a blog post. I hope this serves as a launching point for those who have not had an opportunity to work with basic neural networks.&lt;/p&gt;
+&lt;p&gt;Slides available here: &lt;strong&gt;&lt;a href=&#34;http://bit.ly/intro-to-neural-networks&#34; class=&#34;uri&#34;&gt;http://bit.ly/intro-to-neural-networks&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-are-neural-networks&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;What Are Neural Networks?&lt;/h1&gt;
+&lt;p&gt;A Neural network, or Artificial Neural Network, is a set of algorithms, modeled loosely after the human brain to help recognize patterns. The brain has about &lt;span class=&#34;math inline&#34;&gt;\(1.5 \times 10^{10}\)&lt;/span&gt; neurons each with 10 to 104 connections called synapses. The speed of messages between neurons is about 100 m/sec which is much slower than CPU speed. The human brain’s fastest reaction time is around 100 ms. A neuron computation time is 1–10 ms. Computation (to no surprise) is 10 times faster! That is just for one simple task!&lt;/p&gt;
+&lt;p&gt;The original idea behind neural networks was to use a computer-based model of the human brain. We can recognize people in fractions of a second, but computers find this task difficult. So why not make the software more like the human brain? The brain model of connected neurons, first suggested by &lt;a href=&#34;http://wwwold.ece.utep.edu/research/webfuzzy/docs/kk-thesis/kk-thesis-html/node12.html&#34;&gt;McCulloch and Pitts (1943)&lt;/a&gt;, is too simplistic given more recent research.&lt;/p&gt;
+&lt;p&gt;As with artificial intelligence and the sentient takeover, the promise of neural networks is not matched by the reality of their performance. At least for now…&lt;/p&gt;
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://img.buzzfeed.com/buzzfeed-static/static/2015-04/1/17/enhanced/webdr07/anigif_enhanced-29933-1427925503-3.gif&#34; width=40% /&gt;
+&lt;figcaption&gt;
+&lt;a href=&#34;https://www.buzzfeed.com/norbertobriceno/01101010101001001&#34;&gt;Image Source&lt;/a&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;p&gt;Neural networks have various purposes such as biological models, hardware implementation for adaptive control and many more! We are interested in the data analysis application of neural network; classification, clustering methods, regression methods.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;structure-of-a-neuron&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Structure of a Neuron&lt;/h1&gt;
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-whyareneuron.jpg&#34; width=80% /&gt;
+&lt;figcaption&gt;
+&lt;a href=&#34;https://medicalxpress.com/news/2018-07-neuron-axons-spindly-theyre-optimizing.html&#34;&gt;Image Source&lt;/a&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Dendrites&lt;/em&gt; receive signals&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Cell body&lt;/em&gt; sums up the inputs of the signals to generate output&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Axon terminals&lt;/em&gt; is the final output&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visual-representation-of-neural-networks&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Visual Representation of Neural Networks&lt;/h1&gt;
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34; width=40% /&gt;
+&lt;figcaption&gt;
+&lt;a href=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34;&gt;Image Source&lt;/a&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;p&gt;Here we can see how a neural network resembles a neuron. Neural networks are collections of thousands of these simple processing units that together perform useful computations.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Inputs &lt;span class=&#34;math inline&#34;&gt;\(x_1, x_2, \dots, x_n\)&lt;/span&gt;&lt;/strong&gt;: independent variables&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Weights &lt;span class=&#34;math inline&#34;&gt;\(w_1, w_2, \dots, w_n\)&lt;/span&gt;:&lt;/strong&gt; learns the weights from the data&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Bias &lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt;:&lt;/strong&gt; the intercept&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Activation Function &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt;:&lt;/strong&gt; defines the output of the nueron
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Identity Function:&lt;/em&gt; linear fit&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Sigmoid Function:&lt;/em&gt; logistic fit, where &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; is binary&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;ReLu (rectified linear fit):&lt;/em&gt; linear fit, outputs 0 for negative values&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;layers-of-a-neural-network&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Layers of a Neural Network&lt;/h1&gt;
+&lt;center&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://i.stack.imgur.com/Kc50L.jpg&#34; width = 40%/&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;strong&gt;Input Layer:&lt;/strong&gt; the raw data, think of each “node” as a variable in our data
+&lt;strong&gt;Hidden Layer:&lt;/strong&gt; this is where the “black magic” happens&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Each layer is focused on learning about the data&lt;/li&gt;
+&lt;li&gt;We can think about each layer is learning about an aspect of the data&lt;/li&gt;
+&lt;li&gt;Larger and more complex data may require multiple hidden layers&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Output Layer:&lt;/strong&gt; the final output. This is generally a single output of the input(s)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;feedforward-and-feedback-neural-networks&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Feedforward and Feedback Neural Networks&lt;/h1&gt;
+&lt;figure&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34; width=40% /&gt;
+&lt;figcaption&gt;
+&lt;a href=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34;&gt;Image Source&lt;/a&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;div class=&#34;column-left&#34;&gt;
+&lt;h3&gt;
+Feedforward
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Signal goes from input to output&lt;/li&gt;
+&lt;li&gt;No loops
+&lt;br&gt;&lt;br&gt;
+&lt;center&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://thumbs.gfycat.com/EnviousNiftyCorydorascatfish-size_restricted.gif&#34; width=&#34;450px&#34; height=&#34;250px&#34;/&gt;
+&lt;/center&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;column-right&#34;&gt;
+&lt;h3&gt;
+Feedback
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;The neural network is recursive&lt;/li&gt;
+&lt;li&gt;Data loops; goes in both directions
+&lt;br&gt;&lt;br&gt;
+&lt;center&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://thumbs.gfycat.com/MiniatureDependentCob-size_restricted.gif&#34; width=&#34;450px&#34; height=&#34;250px&#34;/&gt;
+&lt;/center&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=aircAruvnKk&#34;&gt;Image Source&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;neural-network-application---the-faraway-way&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Neural Network Application - The Faraway Way&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(nnet)
+data(ozone, package = &amp;quot;faraway&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We will start with three variables for demonstrative purposes. We fit a feed-forward neural network with one hidden layer containing two units with a linear output unit:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
+nnet_model &amp;lt;- nnet(
+  formula = O3 ~ temp + ibh + ibt,
+  data = ozone,
+  size = 2,
+  linout = TRUE,
+  trace = FALSE
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nnet()&lt;/code&gt; fits a single-hidden-layer neural network&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;formula = O3 ~ temp + ibh + ibt&lt;/code&gt;: formula interface&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;data = ozone&lt;/code&gt;: data where the formula variables reside&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size = 2&lt;/code&gt;: number of neurons in the hidden layer (this can be optimized)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;linout = TRUE&lt;/code&gt;: tells the model that it will have lienar output units&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;trace = FALSE&lt;/code&gt;: hides the printed out optimization information&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;neural-network-application&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Neural Network Application&lt;/h1&gt;
+&lt;p&gt;If you repeat this, your result may differ slightly because of the random starting point of the algorithm, but you will likely get a similar result.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## RSS Value: 21099.4&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The RSS of 21099.4 is almost equal to &lt;span class=&#34;math inline&#34;&gt;\(\sum_i(y_i - \hat{y})^2\)&lt;/span&gt;, so the fit is not any better than the null model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum((ozone$O3 - mean(ozone$O3))^2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 21115.41&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The problem lies with the initial selection of weights. It is hard to do this well when the variables have very different scales.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scale_ozone &amp;lt;- scale(ozone)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Due to the random starting point, the algorithm uses it may not actually converge. We will fit the model 100 times and pick the one that has the lowest RSS. In theory, this will choose a random starting point that leads to the true minimum.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
+
+## fit 100 nn models
+results &amp;lt;- 1:100 %&amp;gt;%
+  map(~nnet(
+    formula = O3 ~ temp + ibh + ibt,
+    data = scale_ozone,
+    size = 2,
+    linout = TRUE,
+    trace = FALSE))
+
+## get the index of the model with the lowest RSS
+best_model_index &amp;lt;- results %&amp;gt;%
+  map_dbl(~.x$value) %&amp;gt;%
+  which.min()
+
+## select best model
+best_nn &amp;lt;- results[[best_model_index]]&lt;/code&gt;&lt;/pre&gt;
+&lt;center&gt;
+&lt;/center&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_nn&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## a 3-2-1 network with 11 weights
+## inputs: temp ibh ibt 
+## output(s): O3 
+## options were - linear output units&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Best RSS Value: 89.0786&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our &lt;code&gt;best_nn&lt;/code&gt; model has 11 parameters or weights (The parameters are shown below). For each of the parameters, there is an optimization that occurs. The surface optimization problem has multiple peaks and valleys. The model can converge on one of these minimums. This is why we run our model 100 times to test out multiple random starting points for our model, to hopefully find the global minimum!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;examine-the-estimated-weights&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Examine the Estimated Weights&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(best_nn)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## a 3-2-1 network with 11 weights
+## options were - linear output units 
+##  b-&amp;gt;h1 i1-&amp;gt;h1 i2-&amp;gt;h1 i3-&amp;gt;h1 
+##  -1.14   0.95  -0.83  -0.28 
+##  b-&amp;gt;h2 i1-&amp;gt;h2 i2-&amp;gt;h2 i3-&amp;gt;h2 
+##  35.90 -18.32  63.10  34.91 
+##   b-&amp;gt;o  h1-&amp;gt;o  h2-&amp;gt;o 
+##  -1.83   4.51   0.69&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;column-left&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt;: bias&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(i_x\)&lt;/span&gt;: input where &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; is the index of the variable&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(h_y\)&lt;/span&gt;: hidden neuron where &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; is the index of the hidden neuron&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(o\)&lt;/span&gt;: output&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(i_1 \rightarrow h_1\)&lt;/span&gt;: refers to the link between input 1 and the first hidden neuron&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(b \rightarrow o\)&lt;/span&gt;: is a one skip-layer connection, from the bias to the output
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;column-right&#34;&gt;
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://memegenerator.net/img/instances/68631115/neural-networks-so-hot-right-now.jpg&#34; width = 40%/&gt;
+&lt;figcaption&gt;
+&lt;a href=&#34;https://memegenerator.net/&#34;&gt;Image Source&lt;/a&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;drawbacks-of-a-neural-network-model&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Drawbacks of a Neural Network Model&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Parameters are uninterpretable&lt;/li&gt;
+&lt;li&gt;Not based on a probability model that expresses the structure and variation
+&lt;ul&gt;
+&lt;li&gt;No standard errors&lt;/li&gt;
+&lt;li&gt;Some inference is possible with bootstrapping&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We can get an &lt;span class=&#34;math inline&#34;&gt;\(R^2\)&lt;/span&gt; estimate:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;1 - best_nn$value / sum((scale_ozone[, 1] - mean(scale_ozone[, 1]))^2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.7292443&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is similar to the additive model fit for these predictors that Faraway fits in previous chapters of his &lt;a href=&#34;https://www.amazon.com/Extending-Linear-Model-Generalized-Nonparametric/dp/149872096X&#34;&gt;book&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;weight-interpretation&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Weight Interpretation&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Although the neural network weights may be difficult to interpret, we can get some sense of the effect of the predictors by observing the marginal effect of changes in one or more predictor as other predictors are held fixed. Here, we vary each predictor individually while keeping the other predictors fixed at their mean values. Because the data has been centered and scaled for the neural network fitting, we need to restore the original scales. As seen in the plots there are large discontinuities in the lines plots. This does not follow the linear trend we are expecting. Looking back at the weights of &lt;code&gt;summary(best_nn)&lt;/code&gt; we can see that some weights have extremely large values despite the scaling of the data, &lt;span class=&#34;math inline&#34;&gt;\(i_2 \rightarrow h_2 = 63.10\)&lt;/span&gt;. This means there is a lot of variability in this neuron. This is analogous to the collinearity problem in linear regression. The neural network is choosing these large values to optimize the fit.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;improving-the-fit&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Improving the Fit&lt;/h1&gt;
+&lt;p&gt;We can use a penalty function, as with smoothing splines, to obtain a more stable fit. Instead of minimizing MSE, we minimize: &lt;span class=&#34;math inline&#34;&gt;\(MSE + \lambda \sum\limits_{i} w_i^2\)&lt;/span&gt;. We can introduce a &lt;em&gt;weight decay&lt;/em&gt; to our neural network, this is a similar approach we take with ridge regression. Lets set &lt;span class=&#34;math inline&#34;&gt;\(\lambda = 0.001\)&lt;/span&gt; and create 100 models again.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
+## fit 100 nn models
+results_decay &amp;lt;- 1:100 %&amp;gt;%
+  map(~nnet(
+    formula = O3 ~ temp + ibh + ibt,
+    data = scale_ozone,
+    size = 2,
+    linout = TRUE,
+    trace = FALSE,
+    `decay = 0.001`))
+
+## get the index of the model with the lowest RSS
+best_decay_index &amp;lt;- results_decay %&amp;gt;%
+  map_dbl(~.x$value) %&amp;gt;%
+  which.min()
+
+## select best model
+best_decay &amp;lt;- results[[best_decay_index]]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_decay$value&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 91.8121&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our previous value was 89.0786, our new RSS is a little bit higher. This is expected because we are sacrificing some of the fit for a more stable result.&lt;/p&gt;
+&lt;div class=&#34;column-left&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-06-15-introduction-to-neural-networks_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;column-right&#34;&gt;
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img class=&#34;lazyload&#34; src=&#34;https://media1.tenor.com/images/154e8427624e163c030970a795b6f169/tenor.gif?itemid=5143620&#34; /&gt;
+&lt;figcaption&gt;
+&lt;a href=&#34;https://tenor.com/&#34;&gt;Image Source&lt;/a&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;demonstration-wrap-up&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Demonstration Wrap-Up&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(best_decay)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## a 3-2-1 network with 11 weights
+## options were - linear output units 
+##  b-&amp;gt;h1 i1-&amp;gt;h1 i2-&amp;gt;h1 i3-&amp;gt;h1 
+##   1.16  -0.63   0.42  -0.44 
+##  b-&amp;gt;h2 i1-&amp;gt;h2 i2-&amp;gt;h2 i3-&amp;gt;h2 
+##  13.09   2.46   8.71  -3.30 
+##  b-&amp;gt;o h1-&amp;gt;o h2-&amp;gt;o 
+##  1.55 -3.93  1.28&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The weights of the second row are not as extreme now. There is not a way to assess the significance of any of the variables. Neural networks do have interactions built in and these can be observed by the method we used before by varying two variables in our model at a time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-model-fit&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Final Model Fit&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2019)
+
+## fit 100 nn models
+results &amp;lt;- 1:100 %&amp;gt;%
+  map(~nnet(
+    formula = O3 ~ .,
+    data = scale_ozone,
+    size = 4,
+    linout = TRUE,
+    trace = FALSE))
+
+## get the index of the model with the lowest RSS
+best_model_index &amp;lt;- results_decay %&amp;gt;%
+  map_dbl(~.x$value) %&amp;gt;%
+  which.min()
+
+## select best model
+best_model &amp;lt;- results[[best_model_index]]
+best_model&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## a 9-4-1 network with 45 weights
+## inputs: vh wind humidity temp ibh dpg ibt vis doy 
+## output(s): O3 
+## options were - linear output units&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(best_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## a 9-4-1 network with 45 weights
+## options were - linear output units 
+##  b-&amp;gt;h1 i1-&amp;gt;h1 i2-&amp;gt;h1 i3-&amp;gt;h1 i4-&amp;gt;h1 i5-&amp;gt;h1 i6-&amp;gt;h1 i7-&amp;gt;h1 i8-&amp;gt;h1 i9-&amp;gt;h1 
+##  -1.47   0.29  -0.36   0.40   0.35  -0.29   0.49   0.29   0.15  -0.02 
+##  b-&amp;gt;h2 i1-&amp;gt;h2 i2-&amp;gt;h2 i3-&amp;gt;h2 i4-&amp;gt;h2 i5-&amp;gt;h2 i6-&amp;gt;h2 i7-&amp;gt;h2 i8-&amp;gt;h2 i9-&amp;gt;h2 
+##  40.19   6.03  15.36 -17.61 -13.86  17.07 -22.75   7.20  -6.12 -22.51 
+##  b-&amp;gt;h3 i1-&amp;gt;h3 i2-&amp;gt;h3 i3-&amp;gt;h3 i4-&amp;gt;h3 i5-&amp;gt;h3 i6-&amp;gt;h3 i7-&amp;gt;h3 i8-&amp;gt;h3 i9-&amp;gt;h3 
+## -11.16  -8.76  11.96   3.34   8.17  -1.90 -11.21  17.59 -25.30  -5.20 
+##  b-&amp;gt;h4 i1-&amp;gt;h4 i2-&amp;gt;h4 i3-&amp;gt;h4 i4-&amp;gt;h4 i5-&amp;gt;h4 i6-&amp;gt;h4 i7-&amp;gt;h4 i8-&amp;gt;h4 i9-&amp;gt;h4 
+##  38.72   6.96  13.35 -22.89 -34.75   9.49   5.97   7.99  -4.86   1.02 
+##   b-&amp;gt;o  h1-&amp;gt;o  h2-&amp;gt;o  h3-&amp;gt;o  h4-&amp;gt;o 
+##  -1.47   3.60   1.03   0.53  -0.62&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(R^2\)&lt;/span&gt; estimate:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;1 - best_model$value / sum((scale_ozone[,1] - mean(scale_ozone))^2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.8314248&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Neural networks cannot be used for inference&lt;/li&gt;
+&lt;li&gt;Flexible, Easy to fit large complex data&lt;/li&gt;
+&lt;li&gt;Can be easily overfit&lt;/li&gt;
+&lt;li&gt;Truly a “black box”, plots only give a rough idea of what is happening with our data&lt;/li&gt;
+&lt;li&gt;Lacks the diagnostics, model selection, and theory&lt;/li&gt;
+&lt;li&gt;Initially developed to address real-life issues, not statistical issues&lt;/li&gt;
+&lt;li&gt;“Neural networks can outperform their statistical competitors for some problems provided they are carefully used. However, one should not be fooled by the evocative name, as neural networks are just another tool in the box.” (Faraway, 2016)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;thanks&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Thanks!&lt;/h1&gt;
+&lt;div id=&#34;slides&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Slides&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Slides&lt;/strong&gt;: &lt;em&gt;&lt;a href=&#34;http://bit.ly/intro-to-neural-networks&#34; class=&#34;uri&#34;&gt;http://bit.ly/intro-to-neural-networks&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Source Code&lt;/strong&gt;: &lt;em&gt;&lt;a href=&#34;https://github.com/KoderKow/intro-to-neural-networks&#34; class=&#34;uri&#34;&gt;https://github.com/KoderKow/intro-to-neural-networks&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;All Posts Source Code&lt;/strong&gt;: &lt;em&gt;&lt;a href=&#34;https://github.com/KoderKow/personal-site/tree/master/content/posts&#34; class=&#34;uri&#34;&gt;https://github.com/KoderKow/personal-site/tree/master/content/posts&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;References&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://wwwold.ece.utep.edu/research/webfuzzy/docs/kk-thesis/kk-thesis-html/node12.html&#34;&gt;McCulloch and Pitts (1943)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.datacamp.com/community/tutorials/neural-network-models-r&#34;&gt;DataCamp: Neural Network Models&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://stackoverflow.com/questions/35345191/what-is-a-layer-in-a-neural-network&#34;&gt;Stack Overflow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Extending-Linear-Model-Generalized-Nonparametric/dp/149872096X&#34;&gt;Faraway: Extending the Linear Model with R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/yihui/xaringan&#34;&gt;R Package Used for Slides: Xaringan&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>

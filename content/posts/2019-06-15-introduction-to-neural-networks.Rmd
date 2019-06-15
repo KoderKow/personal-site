@@ -1,7 +1,7 @@
 ---
 title: Introduction to Nueral Networks
 author: Kyle Harris
-date: '2019-06-15'
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
 slug: introduction-to-nueral-networks
 categories:
   - R
@@ -42,6 +42,8 @@ library(kowr)
 # options
 # options(htmltools.dir.version = FALSE)
 ```
+
+#### Follow Me On
 
 <a href="https://twitter.com/KoderKow"> <i class='fab fa-twitter fa-3x'></i></a> <a href="https://www.instagram.com/koderkow/"> <i class='fab fa-instagram fa-3x'></i></a> <a href="https://github.com/KoderKow/"><i class='fab fa-github fa-3x'></i></a> <a href="https://koderkow.rbind.io"><i class='fas fa-globe fa-3x'></i></a> 
 
