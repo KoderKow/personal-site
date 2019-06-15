@@ -6,10 +6,20 @@
     <description>Recent content in R on Kyle Harris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 10 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Introduction to Nueral Networks</title>
+      <link>/2019/2019-06-15-introduction-to-neural-networks/</link>
+      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/2019-06-15-introduction-to-neural-networks/</guid>
+      <description>Follow Me On    
+ Overview  What Are Neural Networks? Structure of a Neuron Visual Representation of Neural Networks Layers of a Neural Network Feedforward and Feedback Neural Networks Neural Network Application - The Faraway Way  Examine the Estimated Weights Drawbacks of a Neural Network Model Weight Interpretation Improving the Fit Demonstration Wrap-Up Final Model Fit  Conclusion   Goal This post was first built as a Xaringan presentation for the final in the Contemporary Regression course at IUPUI (Indiana University Purdue University Indianapolis) which is part of the amazing Health Data Science program.</description>
+    </item>
     
     <item>
       <title>Making the Transcribing Process a Bit Simpler</title>
@@ -17,7 +27,8 @@
       <pubDate>Sun, 10 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/2018-06-10-making-the-transcribing-process-a-bit-simpler/</guid>
-      <description>For the past year I have had the pleasure of working with the data visualization team at IUPUI. I approached Professor Reda looking to explore the realm of research. He gave me the opportunity to sit in their team meetings for the spring semester. As fall came around I joined the team.
+      <description>Follow Me On    
+ Intro For the past year I have had the pleasure of working with the data visualization team at IUPUI. I approached Professor Reda looking to explore the realm of research. He gave me the opportunity to sit in their team meetings for the spring semester. As fall came around I joined the team.
 For those who have worked in research, you may have crossed paths with user testing and the art of transcription.</description>
     </item>
     
@@ -27,7 +38,8 @@ For those who have worked in research, you may have crossed paths with user test
       <pubDate>Sun, 27 May 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/2018-05-27-accidental-drug-related-deaths-2012-2017-in-connecticut/</guid>
-      <description>The opioid epidemic is a nationwide issue for the United States. Among the states Connecticut takes second place in terms of deaths from opioids in the years 2014-2015. As the years go on death rates are doubling from the abuse of opioids. Heroin overdoses continue to rise and now fentanyl is joining its ranks. Fentanyl has been getting mixed with heroin to increase its potency and in return it increases the chance of overdosing (Rondinone, 2017).</description>
+      <description>Follow Me On    
+ Intro The opioid epidemic is a nationwide issue for the United States. Among the states Connecticut takes second place in terms of deaths from opioids in the years 2014-2015. As the years go on death rates are doubling from the abuse of opioids. Heroin overdoses continue to rise and now fentanyl is joining its ranks. Fentanyl has been getting mixed with heroin to increase its potency and in return it increases the chance of overdosing (Rondinone, 2017).</description>
     </item>
     
     <item>
@@ -36,18 +48,9 @@ For those who have worked in research, you may have crossed paths with user test
       <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/2018-05-24-web-scraping-world-of-warcraft-weapons/</guid>
-      <description>The main goal of this project was to learn how to use the R libraries rvest and RSelenium. The web scraping would be taking place on the website wowhead.com. There is about 10,000 rows of data to collect.
+      <description>Follow Me On    
+ Intro The main goal of this project was to learn how to use the R libraries rvest and RSelenium. The web scraping would be taking place on the website wowhead.com. There is about 10,000 rows of data to collect.
 Learning Points  Navigate the DOM to capture desired element values Used R’s RSelenium and rvest library to capture data Construct a R script to automate the complete web scraping process Made a data frame with captured data to save to a csv file for data analysis   Web Scraping Process The web scraper goes to the wowhead.</description>
-    </item>
-    
-    <item>
-      <title>Introduction to Nueral Networks</title>
-      <link>/1/2019-06-15-introduction-to-neural-networks/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/2019-06-15-introduction-to-neural-networks/</guid>
-      <description>.column-left{ float: left; width: 50%; text-align: left; } .column-right{ float: right; width: 50%; text-align: left; } html { scroll-behavior: smooth; }  Follow Me On    
- Overview  What Are Neural Networks? Structure of a Neuron Visual Representation of Neural Networks Layers of a Neural Network Feedforward and Feedback Neural Networks Neural Network Application - The Faraway Way  Examine the Estimated Weights Drawbacks of a Neural Network Model Weight Interpretation Improving the Fit Demonstration Wrap-Up Final Model Fit  Conclusion   Goal This post was first built as a Xaringan presentation for the final in the Contemporary Regression course at IUPUI (Indiana University Purdue University Indianapolis) which is part of the amazing Health Data Science program.</description>
     </item>
     
   </channel>

@@ -17,7 +17,8 @@
       <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/2018-05-24-web-scraping-world-of-warcraft-weapons/</guid>
-      <description>The main goal of this project was to learn how to use the R libraries rvest and RSelenium. The web scraping would be taking place on the website wowhead.com. There is about 10,000 rows of data to collect.
+      <description>Follow Me On    
+ Intro The main goal of this project was to learn how to use the R libraries rvest and RSelenium. The web scraping would be taking place on the website wowhead.com. There is about 10,000 rows of data to collect.
 Learning Points  Navigate the DOM to capture desired element values Used R’s RSelenium and rvest library to capture data Construct a R script to automate the complete web scraping process Made a data frame with captured data to save to a csv file for data analysis   Web Scraping Process The web scraper goes to the wowhead.</description>
     </item>
     

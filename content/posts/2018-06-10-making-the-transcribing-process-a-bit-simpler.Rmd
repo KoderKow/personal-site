@@ -6,6 +6,12 @@ categories: ["R"]
 tags: ["transcription", "tidyverse"]
 ---
 
+# Follow Me On
+
+<a href="https://twitter.com/KoderKow"> <i class='fab fa-twitter fa-3x'></i></a> <a href="https://www.instagram.com/koderkow/"> <i class='fab fa-instagram fa-3x'></i></a> <a href="https://github.com/KoderKow/"><i class='fab fa-github fa-3x'></i></a> <a href="https://koderkow.rbind.io"><i class='fas fa-globe fa-3x'></i></a>
+
+# Intro
+
 For the past year I have had the pleasure of working with the data visualization team at IUPUI. I approached Professor Reda looking to explore the realm of research. He gave me the opportunity to sit in their team meetings for the spring semester. As fall came around I joined the team.
 
 For those who have worked in research, you may have crossed paths with user testing and the art of transcription. This was my first encounter with transcription and as the few jokes I heard about it, it wasn't/isn't that great of a time. With each user test being close to a hour, the time to transribe can be cumbersome. After some failed attemptes of hacky audio to text methods I ran into something that worked fairly well, YouTube!

@@ -7,6 +7,12 @@ categories: ["R"]
 tags: ["Webscraping"]
 ---
 
+# Follow Me On
+
+<a href="https://twitter.com/KoderKow"> <i class='fab fa-twitter fa-3x'></i></a> <a href="https://www.instagram.com/koderkow/"> <i class='fab fa-instagram fa-3x'></i></a> <a href="https://github.com/KoderKow/"><i class='fab fa-github fa-3x'></i></a> <a href="https://koderkow.rbind.io"><i class='fas fa-globe fa-3x'></i></a>
+
+# Intro
+
 The main goal of this project was to learn how to use the R libraries rvest and RSelenium. The web scraping would be taking place on the website wowhead.com. There is about 10,000 rows of data to collect.
 
 ## Learning Points

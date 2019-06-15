@@ -10,6 +10,12 @@ header:
   image: ''
 ---
 
+# Follow Me On
+
+<a href="https://twitter.com/KoderKow"> <i class='fab fa-twitter fa-3x'></i></a> <a href="https://www.instagram.com/koderkow/"> <i class='fab fa-instagram fa-3x'></i></a> <a href="https://github.com/KoderKow/"><i class='fab fa-github fa-3x'></i></a> <a href="https://koderkow.rbind.io"><i class='fas fa-globe fa-3x'></i></a>
+
+# Indy Civic Food Security Hackathon
+
 This will be a short post (Hopefully a header image soon. Ha!). This is more of a reference to show what my friends and I from Health Data Science were able to build in 24 hours at the Indy Civic Food Security Hackathon! Link to their site is below.
 
 Our App was made with Rshiny to help show nearby food options for those in need. It will show U-Picks (open gardens), SNAP certified grocery stores, and farmers markets. We also put bus stops in to help with transportation needs.

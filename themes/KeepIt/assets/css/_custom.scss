@@ -2,3 +2,19 @@
 // Custom style
 // ==============================
 // You can override the variables in _variables.scss to customize the style
+
+.column-left{
+  float: left;
+  width: 50%;
+  text-align: left;
+}
+
+.column-right{
+  float: right;
+  width: 50%;
+  text-align: left;
+}
+
+html {
+  scroll-behavior: smooth;
+}
