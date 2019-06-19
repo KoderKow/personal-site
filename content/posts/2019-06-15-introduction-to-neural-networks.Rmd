@@ -105,11 +105,6 @@ Here we can see how a neural network resembles a neuron. Neural networks are col
 
 # Feedforward and Feedback Neural Networks
 
-<figure>
-    <img class="lazyload" src="https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg" width=40% />
-    <figcaption><a href="https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg">Image Source</a></figcaption>
-    </figure>
-
 <div class="column-left">
 <h3>Feedforward</h3>
 - Signal goes from input to output
@@ -241,25 +236,12 @@ Our `best_nn` model has 11 parameters or weights (The parameters are shown below
 summary(best_nn)
 ```
 
-<div class="column-left">
 - $b$: bias
 - $i_x$: input where $x$ is the index of the variable
 - $h_y$: hidden neuron where $y$ is the index of the hidden neuron
 - $o$: output
 - $i_1 \rightarrow h_1$: refers to the link between input 1 and the first hidden neuron
 - $b \rightarrow o$: is a one skip-layer connection, from the bias to the output
-<br><br><br><br><br>
-</div>
-
-<div class="column-right">
-<center>
-<figure>
-<img class="lazyload" src="https://memegenerator.net/img/instances/68631115/neural-networks-so-hot-right-now.jpg" width = 40%/>
-<figcaption><a href="https://memegenerator.net/">Image Source</a></figcaption>
-</figure>
-</center>
-<br><br><br>
-</div>
 
 # Drawbacks of a Neural Network Model
 

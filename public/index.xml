@@ -117,12 +117,6 @@
 &lt;/div&gt;
 &lt;div id=&#34;feedforward-and-feedback-neural-networks&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Feedforward and Feedback Neural Networks&lt;/h1&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34; width=40% /&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://cdn-images-1.medium.com/max/1600/1*UA30b0mJUPYoPvN8yJr2iQ.jpeg&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
 &lt;div class=&#34;column-left&#34;&gt;
 &lt;h3&gt;
 Feedforward
@@ -229,28 +223,14 @@ best_nn &amp;lt;- results[[best_model_index]]&lt;/code&gt;&lt;/pre&gt;
 ##  35.90 -18.32  63.10  34.91 
 ##   b-&amp;gt;o  h1-&amp;gt;o  h2-&amp;gt;o 
 ##  -1.83   4.51   0.69&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;column-left&#34;&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt;: bias&lt;/li&gt;
 &lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(i_x\)&lt;/span&gt;: input where &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; is the index of the variable&lt;/li&gt;
 &lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(h_y\)&lt;/span&gt;: hidden neuron where &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; is the index of the hidden neuron&lt;/li&gt;
 &lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(o\)&lt;/span&gt;: output&lt;/li&gt;
 &lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(i_1 \rightarrow h_1\)&lt;/span&gt;: refers to the link between input 1 and the first hidden neuron&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(b \rightarrow o\)&lt;/span&gt;: is a one skip-layer connection, from the bias to the output
-&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(b \rightarrow o\)&lt;/span&gt;: is a one skip-layer connection, from the bias to the output&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;column-right&#34;&gt;
-&lt;center&gt;
-&lt;figure&gt;
-&lt;img class=&#34;lazyload&#34; src=&#34;https://memegenerator.net/img/instances/68631115/neural-networks-so-hot-right-now.jpg&#34; width = 40%/&gt;
-&lt;figcaption&gt;
-&lt;a href=&#34;https://memegenerator.net/&#34;&gt;Image Source&lt;/a&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/center&gt;
-&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;drawbacks-of-a-neural-network-model&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Drawbacks of a Neural Network Model&lt;/h1&gt;
