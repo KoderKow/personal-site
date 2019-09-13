@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Kyle Harris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fitting Tree Models</title>
+      <link>/2019/2019-09-13-fitting-tree-models/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/2019-09-13-fitting-tree-models/</guid>
+      <description>EDA Data Cleaning Plot Em’!  Modeling Split the Data Classification Tree Bagging &amp;amp; Random Forests Boosted Trees    library(knitr) library(kableExtra) library(xgboost) library(tidyverse) library(rlang) library(skimr) library(ggthemes) library(kowr) library(countrycode) library(rpart) library(rpart.plot) library(caret) library(ModelMetrics) library(randomForest) library(ranger) library(tictoc) The adult data is obtained from the UCI Machine Learning Repository. On the site they have the data split into multiple pieces:
+ data: the training data test: the test data names: column names  We can read the data directly from their website.</description>
+    </item>
     
     <item>
       <title>Introduction to Neural Networks</title>

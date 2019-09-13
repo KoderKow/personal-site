@@ -1,0 +1,935 @@
+---
+title: Fitting Tree Models
+author: Kyle Harris
+date: '2019-09-13'
+slug: fitting-tree-models
+categories:
+  - R
+  - machine learning
+tags:
+  - Trees
+description: ~
+featured_image: ~
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+
+---
+
+```{r libraries, message=FALSE}
+library(knitr)
+library(kableExtra)
+library(xgboost)
+library(tidyverse)
+library(rlang)
+library(skimr)
+library(ggthemes)
+library(kowr)
+library(countrycode)
+library(rpart)
+library(rpart.plot)
+library(caret)
+library(ModelMetrics)
+library(randomForest)
+library(ranger)
+library(tictoc)
+```
+
+```{r, include=FALSE}
+# data_url <- "/Users/kow/Downloads/adult.data"
+# names_url <- "/Users/kow/Downloads/adult.names"
+# test_url <- "/Users/kow/Downloads/adult.test"
+
+update_geom <- function(geom) {
+  x <- map(geom, ~ {
+    update_geom_defaults(
+      geom = .x,
+      new = list(
+        color = "#1A1A1A",
+        fill = "#4287c7",
+        alpha = 0.8)
+    )
+  })
+}
+
+theme_kow <- function(ggplot_ojbect) {
+  update_geom(c("col", "bar", "boxplot", "point"))
+  theme_gdocs() +
+    theme(
+      axis.text.x  = element_text(color = "#1A1A1A"),
+      axis.title.x = element_text(color = "#1A1A1A"),
+      axis.text.y  = element_text(color = "#1A1A1A"),
+      axis.title.y = element_text(color = "#1A1A1A")
+    ) 
+  
+}
+theme_set(theme_kow())
+```
+
+The adult data is obtained from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php). On the site they have the data split into multiple pieces:
+
+- data: the training data
+- test: the test data
+- names: column names
+
+We can read the data directly from their website. For readability the URLs will be held within variables.
+
+```{r urls}
+data_url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+names_url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.names"
+test_url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test"
+```
+
+<hc>read_csv()</hc> will allow us to read in the data from the site, however, we know the data has no column names. Thus, we shall read in the column names first. The data from <hc>names_url</hc> is not in a format for easy R interpritation. After some exploration on the website it looks like a .txt file, so we can use readlines to look at the data and find what we are looking for.
+
+```{r, class.output = "scroll"}
+names_file <- read_lines(names_url)
+names_file
+```
+
+Lucky for us the column names are at the end right after an empty string. <hc>names_file</hc> is a character vector so we can use <hc>which()</hc> to seek the pattern we want.  Each name/description combination is seperated by a ":", we can turn the end of this file in a small data dictionary with two columns; <hc>column_name</hc> and <hc>description</hc>. We can use <hc>read_delim()</hc> to read in the file. We can use the parameters to name the wanted columns, how many lines to skip, and specify what seperates the columns.
+
+```{r, message=FALSE}
+skip_to_here <- which(names_file == "") %>%
+  max()
+
+skip_to_here
+```
+
+```{r}
+data_dictionary <- read_delim(
+  file = names_url,
+  col_names = c("column_name", "description"),
+  skip = skip_to_here,
+  delim = ":"
+)
+
+data_dictionary
+```
+
+From information seen on the website about our data, we know there should be 15 rows. Exploring the data in the browser we know the category *income* is the last column. With that information we will create an additional row to the data dictionary so we have all the columns we need.
+
+```{r}
+data_dictionary[nrow(data_dictionary) + 1, ] <- c("income", ">50K, <=50K")
+
+data_dictionary
+```
+
+I am a fan of snake case, so we will replace the "-" with "_". Then we will use the data dictionary's *column_name* feature to label the test/train data we will be reading in. For data exploration and cleaning I will be combining the test and training sets. To ensure an easy split of data when it comes to modeling I will add a *group* feature so we can later split the full data set with ease.
+
+```{r}
+data_dictionary <- data_dictionary %>% 
+  mutate(column_name = str_replace_all(column_name, "-", "_"))
+
+train <- read_csv(
+  file = data_url,
+  col_names = data_dictionary$column_name
+  ) %>% 
+  mutate(group = "train")
+```
+
+When looking at the data online we see the first line of the test data has a line stating "1x3 Cross validator". This will cause an error so we will skip the first line and then combine the two datasets.
+
+```{r}
+test <- read_csv(
+  file = "/Users/kow/Downloads/adult.test",
+  skip = 1,
+  col_names = data_dictionary$column_name
+) %>% 
+  mutate(group = "test")
+
+all_data <- bind_rows(train, test)
+```
+
+# EDA
+
+<hc>skim()</hc> from the **skimr** package will give us the view <hc>summary()</hc> or **dplyr**'s <hc>glimpse()</hc> does, but with additional information.
+
+```{r}
+skim(all_data)
+```
+
+## Data Cleaning
+
+I will now go through each variable and collapse character features where available. Hopefully this will increase our accuracy due to possible under-representation of groups in this data. The flow will be counting the data and grouping the factors to the best of my knowledge. Grouping will be with assumptions I make in my noggin'.
+
+### Remove Variables
+
+I am unsure what *fnlwgt* is exactly and *education_num* is a numeric version of *education*.
+
+```{r}
+all_data <- all_data %>% 
+  select(-fnlwgt, -education_num)
+```
+
+
+### Education
+
+"An ordered factor with levels Preschool < 1st-4th < 5th-6th < 7th-8th < 9th < 10th < 11th < 12th < HS-grad < Prof-school < Assoc-acdm < Assoc-voc < Some-college < Bachelors < Masters < Doctorate."
+
+```{r}
+all_data %>% 
+  count(education, sort = TRUE)
+```
+
+```{r}
+all_data <- all_data %>% 
+  mutate(
+    education = fct_collapse(
+      education,
+      "No Diploma" = c("Preschool", "1st-4th", "5th-6th", "7th-8th", paste0(9:12, "th")),
+      "High School" = "HS-grad",
+      "Professional School" = "Prof-school",
+      "Associates" = c("Assoc-acdm", "Assoc-voc"), 
+      "Some College" = "Some-college",
+      "Bachelors" = "Bachelors",
+      "Graduate" = c("Doctorate", "Masters")
+    )
+  )
+
+all_data %>% 
+  count(education, sort = TRUE)
+```
+
+---
+
+### Marital Status
+
+```{r}
+all_data %>% 
+  count(marital_status, sort = TRUE)
+```
+
+```{r}
+all_data <- all_data %>% 
+  mutate(
+    marital_status = fct_collapse(
+      marital_status,
+      "Not Married" = c("Divorced", "Separated", "Widowed"),
+      "Never Married" = "Never-married",
+      "Married" = c("Married-civ-spouse", "Married-spouse-absent", "Married-AF-spouse")
+    )
+  )
+
+all_data %>% 
+  count(marital_status, sort = TRUE)
+```
+
+---
+
+### Income
+
+```{r}
+all_data %>% 
+  count(income, sort = TRUE)
+```
+
+```{r}
+all_data <- all_data %>% 
+  mutate(income = str_remove_all(income, fixed(".")))
+
+all_data %>% 
+  count(income, sort = TRUE)
+```
+
+---
+
+### Native Country
+
+```{r}
+all_data %>% 
+  count(native_country, sort = TRUE)
+```
+
+```{r}
+country_table <- all_data %>% 
+  count(native_country, sort = TRUE) %>% 
+  mutate(
+    code = countrycode::countrycode(native_country,
+                                    origin = "country.name",
+                                    destination = "continent")
+  )
+country_table
+```
+
+```{r}
+country_table %>% 
+  mutate(
+    code2 = case_when(
+      native_country == "?" ~ "Unknown",
+      native_country == "South" ~ "Unknown",
+      native_country == "England" ~ "Europe",
+      native_country == "Columbia" ~ "Americas",
+      native_country == "Hong" ~ "Asia",
+      native_country == "Yugoslavia" ~ "Europe",
+      native_country == "Scotland" ~ "Europe",
+      TRUE ~ code
+    )
+  )
+```
+
+```{r}
+all_data <- all_data %>% 
+  mutate(
+    code = countrycode(
+      native_country,
+      origin = "country.name",
+      destination = "continent"
+      ),
+    native_continent = case_when(
+      native_country == "?" ~ "Unknown",
+      native_country == "South" ~ "Unknown",
+      native_country == "England" ~ "Europe",
+      native_country == "Columbia" ~ "Americas",
+      native_country == "Hong" ~ "Asia",
+      native_country == "Yugoslavia" ~ "Europe",
+      native_country == "Scotland" ~ "Europe",
+      TRUE ~ code
+    )
+  ) %>% 
+  select(-native_country, -code)
+
+all_data %>% 
+  count(native_continent, sort = TRUE)
+```
+
+---
+
+### Occupation
+
+```{r}
+all_data %>% 
+  count(occupation, sort = TRUE)
+```
+
+```{r}
+all_data <- all_data %>% 
+  mutate(occupation = ifelse(occupation == "?", "Unknown", occupation))
+```
+
+---
+
+### Race
+
+```{r}
+all_data %>% 
+  count(race, sort = TRUE)
+```
+
+---
+
+### Relationship
+
+```{r}
+all_data %>% 
+  count(relationship, sort = TRUE)
+```
+
+---
+
+### Sex
+
+```{r}
+all_data %>% 
+  count(sex, sort = TRUE)
+```
+
+---
+
+### Workclass
+
+```{r}
+all_data %>% 
+  count(workclass, sort = TRUE)
+```
+
+```{r}
+all_data %>% 
+  count(workclass, sort = TRUE) %>% 
+  mutate(
+    workclass2 = fct_collapse(
+      workclass,
+      "Private" = "Private",
+      "Government" = c("Local-gov", "State-gov", "Federal-gov"),
+      "Self-Employed" = c("Self-emp-not-inc", "Self-emp-inc"),
+      "Unknown" = "?",
+      "No Income" = c("Without-pay", "Never-worked")
+    )
+  )
+```
+
+```{r}
+all_data <- all_data %>% 
+  mutate(
+    workclass = fct_collapse(
+      workclass,
+      "Private" = "Private",
+      "Government" = c("Local-gov", "State-gov", "Federal-gov"),
+      "Self-Employed" = c("Self-emp-not-inc", "Self-emp-inc"),
+      "Unknown" = "?",
+      "No Income" = c("Without-pay", "Never-worked")
+    )
+  )
+```
+
+---
+
+## Plot Em'!
+
+I made a *mapping* function to use with *purrr*'s <hc>map()</hc> that will automate the graphing of all variables against our $y$ variable, in this case $y = income$. I will not go over this in detail, if there is any questions or you would like to discuss this or any future code contact me on social media (found on the homepage).
+
+```{r}
+plot_em <- as_mapper(~ {
+  main_var <- parse_expr(.y)
+  if (is.numeric(.x)) {
+    p <- ggplot(all_data, aes(x = income, y = !!main_var)) +
+      geom_boxplot() +
+      labs(x = .y)
+    
+    p %>% snake_to()
+    
+  } else {
+    bar_data <- all_data %>% 
+      count(income, !!main_var, name = "count") %>% 
+      group_by(income) %>% 
+      mutate(proportion = count / sum(count)) %>% 
+      ungroup() %>% 
+      arrange(desc(proportion)) %>% 
+      mutate(
+        !!main_var := factor(!!main_var, levels = unique(!!main_var)),
+        income = factor(income, levels = unique(income))
+        )
+    
+    p <- ggplot(
+      data = bar_data,
+      mapping = aes(x = income, y = proportion, fill = !!main_var)
+      ) +
+      geom_col() +
+      labs(x = .y)
+    
+    p %>% snake_to()
+  }
+})
+
+all_plots <- map2(all_data, names(all_data), plot_em)
+```
+
+<hc>all_plots</hc> holds all plots in a *list*. We will go through one by one so we can have a deeper understanding of our data. We could use a graphing function such as <hc>pairs()</hc> or <hc>ggpairs()</hc>, however, I really wanted to look at all variables one by one closely and I got to practice some dplyr programming ;)
+
+```{r}
+all_plots[[1]]
+```
+
+On average there are more people that have an income of *>50k* who are older.
+
+```{r}
+all_plots[[2]]
+```
+
+Higher Proportion per Outcome ($y = income$):
+
+- Private: *<=50k*
+- Government: *>50k*
+- Self-Employed: *>50k*
+- Unknown: *<=50k*
+
+```{r}
+all_plots[[3]]
+```
+
+Higher Proportion per Outcome ($y = income$):
+
+- High School: *<=50k*
+- Bachelors: *>50k*
+- Some College: *<=50k*
+- No Diploma: *<=50k*
+- Graduate: *>50k*
+- Associates: *About Even*
+- Professional School: *>50k*
+
+```{r}
+all_plots[[4]]
+```
+
+Higher Proportion per Outcome ($y = income$):
+
+- Married: *>50k*
+- Never Married: *<=50k*
+- Not Married: *<=50k*
+
+```{r}
+all_plots[[5]]
+```
+
+There are a lot of different occupations so I will point out the obvious points.
+
+Higher Proportion per Outcome ($y = income$):
+
+- Exec-managerial: *>50k*
+- Prof-specialty: *>50k*
+- Adm-clerical: *<=50k*
+- Sales: *>50k*
+- Machine-op-inspct: *<=50k*
+- Unknown: *<=50k*
+
+```{r}
+all_plots[[6]]
+```
+
+Higher Proportion per Outcome ($y = income$):
+
+- Husband: *>50k*
+- Not-in-family: *<=50k*
+- Own-child: *<=50k*
+- Unmarried: *<=50k*
+- Wife: *>50k*
+- Other-relative: *<=50k*
+
+```{r}
+all_plots[[7]]
+```
+
+Higher Proportion per Outcome ($y = income$):
+
+- White: *>50k*
+- Black: *<=50k*
+- Asian-Pac-Islander: *>50k*
+- Amer-Indian-Eskimo: *<=50k*
+- Other: *<=50k*
+
+```{r}
+all_plots[[8]]
+```
+
+Higher Proportion per Outcome ($y = income$):
+
+- Male: *>50k*
+- Female: *<=50k*
+
+```{r}
+all_plots[[9]]
+```
+
+No comment.
+
+```{r}
+all_plots[[10]]
+```
+
+Also no comment.
+
+```{r}
+all_plots[[11]]
+```
+
+We can see the average between line is around 40 for both *<=50k* and *>50k*. It appears on average more people in the *>50k* group work more hours.
+
+```{r}
+all_plots[[14]]
+```
+
+Mostly equal, Americas has a high N so it is hard to see a signal.
+
+# Modeling
+
+## Split the Data
+
+```{r}
+train <- all_data %>% 
+  filter(group == "train") %>% 
+  select(-group)
+
+test <- all_data %>% 
+  filter(group == "test") %>% 
+  select(-group)
+```
+
+## Classification Tree
+
+A classification tree uses a decision tree to take features (columns) of our data and comes up with a final value, in our case this the final value is a label. Decision trees can also handle numerical outputs. Generally this method is reffered to as CART, **C**lassifican **A**nd **R**egression **T**rees.
+
+A decision tree has a hierarchrical structure:
+
+- Top: Root Node. This is where all of the data from our features begin their journey
+- Bottom: Leaf Nodes. This is the finish line of the tree. Once the data reaches this point we obtain the final value. Either a numeric $y$ value or a label for $y$.
+- Middle: Internal Nodes. These are the nodes between the root and leaf nodes.
+
+Advantages of Decision Trees:
+
+- Easy to interprit
+  - If you can read a flow chart you can read a decision tree
+- Training and prediction flows are easy to explain
+- Easier to explain than a linear model
+- Following the path of the tree allows for full explanation of the data
+- Easy to interprit and visualize
+- Handles categorical and numerical data with ease
+  - No dummy data for categorical data
+  - No need to normalize or transform numeric data
+- Missing data? No problem!
+  - One method to handle missing data is when going down the branch and the value is NA for that feature it will randomly choose left or right and continue onward
+  - Another method involves going down both branches at the split with missing data and when the leaf nodes are reached you average the leafs values for the final prediction
+- Robust to outliers
+- Requires little data prep
+- Can model non-linearity in the data
+- Trains quickly on large data sets
+
+Disadvantages of Decision Trees:
+
+- Large trees can be hard to interpret
+- Trees can have high variance
+  - Causes model performance to be poor
+- Trees overfit easily
+
+### Model Selection
+
+We will use grid search for hyperperameter searching. Hyper perameters are the different knobs and settings we can tune to get the best results from our data. Grid search is an exhaustive and iterative search through a manually defined set of model hyperperameters.
+
+The two parameters we will be iterating over are <hc>minsplit</hc> and <hc>maxdepth</hc>.
+
+- <hc>minsplit</hc>: Minumum number of data points requeired to attempt a split
+- <hc>maxdepth</hc>: Maximum depth of our tree
+
+The goal of the grid search is to train model per row of the grid and then evaluate which model is best. The best model, in this instance, is accuracy of correct predictions. Below we will use some *tidy* methods for training the models. This brilliant flow is thanks to the post located [here](https://drsimonj.svbtle.com/grid-search-in-the-tidyverse)!
+
+```{r}
+grid_search <- list(
+  minsplit = seq(10, 45, 15),
+  maxdepth = c(1, 5, 10, 25)
+) %>% 
+  cross_df()
+
+grid_search
+```
+
+Now that we have our grid we can train a model per row. We expect there to be 12 models at the end. We can define our own function to simply pass the grid to the <hc>control</hc> parameter of <hc>rpart()</hc> using <hc>...</hc>. We will use mutate to add a model per row to the <hc>grid_search</hc> data frame,
+
+```{r}
+dt_mod <- function(...) {
+  rpart(
+    formula = income ~ .,
+    data = train,
+    control = rpart.control(...)
+    )
+}
+
+grid_search <- grid_search %>% 
+  mutate(fit = pmap(grid_search, dt_mod))
+
+grid_search
+```
+
+The <hc>fit</hc> column now holds all 12 of our models. If we print the  model column we can see the normal output of an *rpart* model for all 12 models.
+
+```{r, class.output = "scroll"}
+grid_search$fit
+```
+
+### Model Evaluation and Tuning
+
+Following the flow from the post linked above we can easily make make predictions on the test data and check the accuracy. We will seperate the independant variables and the dependent variable from the test data to compute the accuracy per model. We will add the accuracy per model to the <hc>grid_search</hc> data using <hc>mutate</hc> and arrange to show the best and most simple model. Simplicity is always preferred!
+
+```{r}
+compute_accuracy <- function(fit, test_features, test_labels) {
+  predicted <- predict(
+    fit,
+    test_features,
+    type = "class"
+    )
+  
+  mean(predicted == test_labels)
+}
+
+test_features <- test %>%
+  select(-income)
+test_labels   <- test %>% 
+  pull(income)
+
+grid_search <- grid_search %>%
+  mutate(
+    test_accuracy = map_dbl(
+      fit,
+      compute_accuracy,
+      test_features,
+      test_labels)
+    ) %>%
+  arrange(desc(test_accuracy), minsplit, maxdepth)
+  
+grid_search
+```
+
+We can see the best and most simplistic model has a <hc>minsplit</hc> of 10 and a <hc>maxdepth</hc> of 5. A lot of these models appear to split and look at the data in the same way due to all of them having the same accuracy. 84% is a pretty great result for such a simple model! But is it as good as it seems? We will revisit this number at the end of this section. Now we can use the **rpart.plot** library to produce a nice visualize of the model.
+
+```{r}
+best_rpart <- grid_search %>% 
+  pull(fit) %>% 
+  .[[1]]
+
+rpart.plot(
+  x = best_rpart,
+  yesno = 2,
+  type = 0,
+  extra = 0
+  )
+```
+
+Using this flow we can take a person and their information and make a prediction on how much income they make. This is the power of a tree, we can interpreit the model and how it works every step of the way with ease!
+
+There are a few more things we can do to our model. **Pruning** can possibly reduce the size of the tree (simple is ideal!) without losing and predictive power on classifications. We can do this by looking at the <hc>cp</hc>, aka *complexity parameter*.
+
+CP is a penalty term that helps control tree size. The smaller the CP the more complex a tree will be. The <hc>rpart()</hc> function computes the 10-fold cross validation error of the model over various values for CP and stores the results in a table inside the model. We can plot the cross validation error across different values of CP using <hc>plotcp()</hc>.
+
+```{r}
+plotcp(best_rpart)
+```
+
+Here we can quickly get an estimate for the omptimal value of CP. To retreieve the optimal CP value we can look at the CP table stored in the model and look where the *xerror* is minimized.
+
+```{r}
+best_rpart$cptable
+```
+
+```{r}
+opt_index <- which.min(best_rpart$cptable[, "xerror"])
+cp_opt <- best_rpart$cptable[opt_index, "CP"]
+cp_opt
+```
+
+With this value we can use <hc>prune()</hc> to possibly trim our model. <hc>prune()</hc> will return the optimized model.
+
+```{r}
+best_rpart_opt <- prune(
+  tree = best_rpart,
+  cp = cp_opt
+)
+```
+
+Did this change anything?
+
+```{r}
+rpart.plot(
+  x = best_rpart_opt,
+  yesno = 2,
+  type = 0,
+  extra = 0
+  )
+```
+
+It appears in this instance, pruning did not change the visual of our model. Now onto the last part of of the evaluation is to look at a confusion matrix. A confusion matrix will show us a more detailed breakdown of correct and incorrect classifications for each class. We will use the **caret** package to produce the matrix.
+
+```{r}
+class_prediction <- predict(
+  object = best_rpart_opt,
+  newdata = test,
+  type = "class"
+)
+
+caret::confusionMatrix(
+  data = class_prediction,
+  reference = as.factor(test$income)
+)
+```
+
+There is a lot of output to this function. We will focus on the 2x2 table, accuracy, sensitivity, and specificity.
+
+- **Accuracy**: Correct Prediction %
+- **Sensitivity**: True Positive Rate
+  - As noted on the last line of the output, the "positive" factor is *<=50k*. So the decision tree get 95% of the predictions correct when they are positive. Sounds great, right?
+- **Specificity**: True Negative Rate
+  - The decision tree only has a 50% accuracy when it comes to incomes *>50k*. What gives? Lets look at the count in each group. It appears the tree model labels a strong majority of predictions as *<=50k*. Since most of the data belongs to this group and three likes to predict this label, it will have a high accuracy overall. This is why it is important to look at sensitivity and specificity. Our tree is not as great once we look at accuracy per label!
+  
+### Other Accuracy Metrics [WIP]
+
+If accuracy is deceiving at times, what can we use? Great question person reading this. We can use AUC... 
+  
+## Bagging & Random Forests
+
+The drawbacks of decision trees is the high variability. A small change in the data, introduction to new data, or changing the test / training groups can change the model drastically. How can we approach these issues drawbacks? Enter bagging. :)
+
+Bagged trees averages many trees to reduce the variance. Combing multiple models like this, in this instance it is multiple decision trees, is called an **ensemble model**. Another issue bagging helps with is overfitting. 
+
+Bagging is an ensemble method and the term *bagging* is shorthand for **B**ootstrap **AGG**regat**ING**. Bagging uses [bootstrap sampling](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)) and aggregates the individual models by averaging. Bootstrap sampling means sampling rows at random from the training dataset with replacement. Bagging also starts with all available features of the data.
+
+<center>
+  <figure>
+    <img src="https://i.imgur.com/JYBMwak.png" />
+    <figcaption><a href="https://www.datacamp.com/courses/machine-learning-with-tree-based-models-in-r">Image Source</a></figcaption>
+  </figure>
+</center>
+
+With replacement means there is a chance the bootstrap sample will have the same observation more than once. This can also lead some rows be absent. This allows us to have "new" data. By doing this we can fit many different, yet similar, models.
+
+### Bagging Steps:
+
+**Step 1**: Draw $B$ samples with replacement from the original training set, where B is a number less than or equal to the $N$ ($N = total training rows $). A common choice for $B$ is $\frac{N}{2}$.
+
+**Step 2**: Train a decision tree on the newly created bootstrapped sample. 
+
+**Step 3**: Repeat steps 1 and 2 multiple times. 10, 50, 100, 1000, etc. Typically, the more trees the better.
+
+### Predicting with Bagging
+
+If we have 1,000 bootstrapped trees that makes up our ensemble model, each bootstrap tree may have different terminal nodes compared to the other. To generate a prediction with this model, the model will make a prediction with all 1,000 trees and then average the predictions together to end up with the final prediciton. Due to bagging averaging the predictions, this will lower the variability and lead to a better performing model. I found a picture that repsents a decision trees prediction versus a bagging ensemble method. Hint: the decision tree is on the left ;)
+
+https://cdn.imgbin.com/17/0/7/imgbin-the-wisdom-of-crowds-wisdom-of-the-crowd-crowdsourcing-others-0Ehm17am7cWP7TMhUGkA7wXjv.jpg
+![](https://cdn.imgbin.com/17/0/7/imgbin-the-wisdom-of-crowds-wisdom-of-the-crowd-crowdsourcing-others-0Ehm17am7cWP7TMhUGkA7wXjv.jpg)
+
+### What about Random Forests?
+
+The only difference between bagging and random forest is that random forests will use a random subset of the datas features to build the models while bagging uses all features. This can lead to random forest removing a random feature and possibly finding an pattern that was not noticable while using all features. This parameter in functions to fit the models is called <hc>mtry</hc>. When <hc>mtry</hc> is equal to the count of independant variables then it is bagging. Anything less than that is random forest. We will fit an example model using the randomForest package for demonstration and when we need to use grid search for parameter selection we will use the **ranger** package (ranger is written in C# and is much faster when scaling up). The model will be fit using the default parameters, aside from mtry for bagging, and to go over the output of the model.
+
+To demonstrate the time difference between fitting models between randomForest and ranger I will use the package **tictoc** to measure the amount of time it takes to run the code and compare them when we transfer to ranger. Note: `randomForest()` requires character columns to be of the factor data type. We will transfrom this into a different data set so we dont change our original data.
+
+```{r}
+bagging <- ncol(train) - 1 # Do not include the Y variable
+train_rf <- train %>% 
+  mutate_if(is.character, as.factor)
+
+tic()
+rf_example <- randomForest(
+  formula = income ~ .,
+  data = train_rf,
+  mtry = bagging,
+  ntree = 1000
+)
+toc()
+
+tic()
+ranger_example <- ranger(
+  formula = income ~ .,
+  data = train_rf,
+  mtry = bagging,
+  num.trees = 1000,
+  verbose = FALSE
+)
+toc()
+```
+
+For 1,000 trees it saves us almost 1 minute! To explore random forests and bagging, the `randomForest()` function has nice built in functions for visualizing the model. When we want to find an optimized model we will grid search with **ranger**.
+
+#### randomForest Output
+```{r}
+rf_example
+```
+
+When we *print* the model we can see the original call to create the data, the type of random forest, tree count, number of variables per split, OOB estimate, and a confusion matrix. The OOB estimate takes the prediction for each tree. For example, we trained 1,000 trees. The OOB
+
+We can see the error rate as the tree count increases using the <hc>plot()</hc> function.
+
+```{r}
+plot(rf_example)
+```
+
+We can see that around 175 trees the error stops decreasing. This meaning we used too many trees, which translate to too much time spent waiting in terms of computation time. This means we can train a model with a much smaller amount of trees. This will be covered when we do a grid search, but it is nice to visual a model and see how many trees optimizes the error.
+
+### Random Forest Grid Search
+
+Just like the decision tree we will grid search for the best random forest model. The two parameters we will be tuning are *mtry*, total variables to use, and *num.tree*, the tree count. The choice for *mtry* is a standard way of checking when I was in college. Due to what we saw in the first random forest model, we shouldnt need anywhere near 1000 trees, but it doesn't hurt to check. Remember, more trees = more computationally expensive for us. By us I mean my computer :) So I will only check a few tree values. Idealy these models will be trained when there is idle time and/or on a computer that can handle training a lot of large models.
+
+```{r}
+# bagging = total number of independent variables
+rf_grid_search <- list(
+  mtry = unique(
+    ceiling(
+      c(
+        bagging,
+        sqrt(bagging),
+        bagging / 2)
+      )
+    ),
+  num.trees = c(100, 300, 500)
+) %>% 
+  cross_df() %>% 
+  arrange(mtry, num.trees)
+
+rf_grid_search
+```
+
+### RF Model Fitting
+
+Again we will create a model function. This time we will use **ranger** to fit our RF models. The pmap handles passing in the parameter using ...! The other method we could go with is a for loop, however, this is shorter and elegant.
+
+```{r}
+rf_mod <- function(...) {
+  ranger(income ~ ., data = train, ...)
+}
+
+rf_grid_search <- rf_grid_search %>% 
+  mutate(fit = pmap(rf_grid_search, rf_mod))
+
+rf_grid_search
+```
+
+We now have 9 ranger models. We will look at accuracy. To reiterate, in a real life setting it may be more applicable to use AUC. Below, notice how <hc>predicted</hc> needs to be set up. Before when we used predict it returned a vector. **ranger**'s predict function returns a list object with **predictions** being one of the list elements. We can use the <hc>pluck()</hc> function from **purrr** to grab the named element from the list.
+
+```{r}
+compute_accuracy <- function(fit, test_features, test_labels) {
+  predicted <- predict(fit, test_features) %>% 
+    pluck(predictions)
+  
+  mean(predicted == test_labels)
+}
+
+test_features <- test %>% select(-income)
+test_labels   <- test$income
+
+rf_grid_search <- rf_grid_search %>%
+  mutate(
+    test_accuracy = map_dbl(
+      fit,
+      compute_accuracy,
+      test_features,
+      test_labels
+      )
+    ) %>%
+  arrange(
+    desc(test_accuracy),
+    mtry, 
+    num.trees
+    )
+  
+rf_grid_search
+```
+
+### Best Model Evaluation
+
+In terms of overall accuracy the best model has a *mtry* value of 4 and uses a tree count of 300. Much like what we did with the rpart model we can make a confusion matrix to check our best models performance.
+
+```{r}
+best_rf_mod <- rf_grid_search %>% 
+  pull(fit) %>% 
+  .[[1]]
+
+best_rf_mod
+```
+
+```{r}
+features <- test %>%
+  select(-income)
+labels   <- test %>% 
+  pull(income)
+
+class_prediction <- predict(
+  best_rf_mod,
+  test_features
+) %>% 
+  pluck(predictions)
+
+caret::confusionMatrix(
+  data = class_prediction,
+  reference = as.factor(labels)
+)
+```
+
+Our previous simple model had:
+- **Accuracy**: 84.45%
+- **Sensitivity**: 94.93%
+- **Specificity**: 50.57%
+
+Our best random forest model does better in every category besides sensitivity, where it dropp by ~ 1%. The RF model was able to catch a lot more (13% more!) people who made more than $50,000! Fantastic! This is the power of the ensemble method of random forest, it will build multiple trees with different data and use different features to find different patterns that are used in the final outcome! I find that so awesome.
+
+Now there is still one more tree method to go! This next method isn't too different from the RF methods. Onto boosted trees!
+
+## Boosted Trees
+
+Work in progress..

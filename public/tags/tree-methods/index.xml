@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tree Methods on Kyle Harris</title>
+    <link>/tags/tree-methods/</link>
+    <description>Recent content in Tree Methods on Kyle Harris</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 15 Jul 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/tree-methods/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Adult Data</title>
+      <link>/2019/2019-07-15-adult-data/</link>
+      <pubDate>Mon, 15 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/2019-07-15-adult-data/</guid>
+      <description>EDA Data Cleaning Remove Variables Education Marital Status Income Native Country Occupation Race Relationship Sex Workclass  Plot Em’!  Modeling Split the Data Classification Tree Model Selection Model Evaluation and Tuning Other Accuracy Metrics [WIP]  Bagging &amp;amp; Random Forests Bagging Steps: Predicting with Bagging What about Random Forests? Random Forest Grid Search RF Model Fitting Best Model Evaluation  Boosted Trees    library(knitr) library(kableExtra) library(xgboost) library(tidyverse) library(rlang) library(skimr) library(ggthemes) library(kowr) library(countrycode) library(rpart) library(rpart.</description>
+    </item>
+    
+  </channel>
+</rss>

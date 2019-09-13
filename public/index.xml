@@ -5,8 +5,1453 @@
     <description>Recent content in Kyle Harris on Kyle Harris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Fitting Tree Models</title>
+      <link>/2019/2019-09-13-fitting-tree-models/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/2019-09-13-fitting-tree-models/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#eda&#34;&gt;EDA&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#data-cleaning&#34;&gt;Data Cleaning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#plot-em&#34;&gt;Plot Em’!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#modeling&#34;&gt;Modeling&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#split-the-data&#34;&gt;Split the Data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#classification-tree&#34;&gt;Classification Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bagging-random-forests&#34;&gt;Bagging &amp;amp; Random Forests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#boosted-trees&#34;&gt;Boosted Trees&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(knitr)
+library(kableExtra)
+library(xgboost)
+library(tidyverse)
+library(rlang)
+library(skimr)
+library(ggthemes)
+library(kowr)
+library(countrycode)
+library(rpart)
+library(rpart.plot)
+library(caret)
+library(ModelMetrics)
+library(randomForest)
+library(ranger)
+library(tictoc)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The adult data is obtained from the &lt;a href=&#34;https://archive.ics.uci.edu/ml/index.php&#34;&gt;UCI Machine Learning Repository&lt;/a&gt;. On the site they have the data split into multiple pieces:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;data: the training data&lt;/li&gt;
+&lt;li&gt;test: the test data&lt;/li&gt;
+&lt;li&gt;names: column names&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can read the data directly from their website. For readability the URLs will be held within variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_url &amp;lt;- &amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data&amp;quot;
+names_url &amp;lt;- &amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.names&amp;quot;
+test_url &amp;lt;- &amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;hc&gt;read_csv()&lt;/hc&gt; will allow us to read in the data from the site, however, we know the data has no column names. Thus, we shall read in the column names first. The data from &lt;hc&gt;names_url&lt;/hc&gt; is not in a format for easy R interpritation. After some exploration on the website it looks like a .txt file, so we can use readlines to look at the data and find what we are looking for.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names_file &amp;lt;- read_lines(names_url)
+names_file&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;scroll&#34;&gt;&lt;code&gt;##   [1] &amp;quot;| This data was extracted from the census bureau database found at&amp;quot;                                                                                                                                                                                                                                                                                                                                                                             
+##   [2] &amp;quot;| http://www.census.gov/ftp/pub/DES/www/welcome.html&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                           
+##   [3] &amp;quot;| Donor: Ronny Kohavi and Barry Becker,&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                        
+##   [4] &amp;quot;|        Data Mining and Visualization&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                         
+##   [5] &amp;quot;|        Silicon Graphics.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                     
+##   [6] &amp;quot;|        e-mail: ronnyk@sgi.com for questions.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                 
+##   [7] &amp;quot;| Split into train-test using MLC++ GenCVFiles (2/3, 1/3 random).&amp;quot;                                                                                                                                                                                                                                                                                                                                                                              
+##   [8] &amp;quot;| 48842 instances, mix of continuous and discrete    (train=32561, test=16281)&amp;quot;                                                                                                                                                                                                                                                                                                                                                                 
+##   [9] &amp;quot;| 45222 if instances with unknown values are removed (train=30162, test=15060)&amp;quot;                                                                                                                                                                                                                                                                                                                                                                 
+##  [10] &amp;quot;| Duplicate or conflicting instances : 6&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                       
+##  [11] &amp;quot;| Class probabilities for adult.all file&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                       
+##  [12] &amp;quot;| Probability for the label &amp;#39;&amp;gt;50K&amp;#39;  : 23.93% / 24.78% (without unknowns)&amp;quot;                                                                                                                                                                                                                                                                                                                                                                       
+##  [13] &amp;quot;| Probability for the label &amp;#39;&amp;lt;=50K&amp;#39; : 76.07% / 75.22% (without unknowns)&amp;quot;                                                                                                                                                                                                                                                                                                                                                                       
+##  [14] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [15] &amp;quot;| Extraction was done by Barry Becker from the 1994 Census database.  A set of&amp;quot;                                                                                                                                                                                                                                                                                                                                                                 
+##  [16] &amp;quot;|   reasonably clean records was extracted using the following conditions:&amp;quot;                                                                                                                                                                                                                                                                                                                                                                     
+##  [17] &amp;quot;|   ((AAGE&amp;gt;16) &amp;amp;&amp;amp; (AGI&amp;gt;100) &amp;amp;&amp;amp; (AFNLWGT&amp;gt;1)&amp;amp;&amp;amp; (HRSWK&amp;gt;0))&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                        
+##  [18] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [19] &amp;quot;| Prediction task is to determine whether a person makes over 50K&amp;quot;                                                                                                                                                                                                                                                                                                                                                                              
+##  [20] &amp;quot;| a year.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                      
+##  [21] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [22] &amp;quot;| First cited in:&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [23] &amp;quot;| @inproceedings{kohavi-nbtree,&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                
+##  [24] &amp;quot;|    author={Ron Kohavi},&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                      
+##  [25] &amp;quot;|    title={Scaling Up the Accuracy of Naive-Bayes Classifiers: a&amp;quot;                                                                                                                                                                                                                                                                                                                                                                              
+##  [26] &amp;quot;|           Decision-Tree Hybrid},&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [27] &amp;quot;|    booktitle={Proceedings of the Second International Conference on&amp;quot;                                                                                                                                                                                                                                                                                                                                                                          
+##  [28] &amp;quot;|               Knowledge Discovery and Data Mining},&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                          
+##  [29] &amp;quot;|    year = 1996,&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [30] &amp;quot;|    pages={to appear}}&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                        
+##  [31] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [32] &amp;quot;| Error Accuracy reported as follows, after removal of unknowns from&amp;quot;                                                                                                                                                                                                                                                                                                                                                                           
+##  [33] &amp;quot;|    train/test sets):&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                         
+##  [34] &amp;quot;|    C4.5       : 84.46+-0.30&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [35] &amp;quot;|    Naive-Bayes: 83.88+-0.30&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [36] &amp;quot;|    NBTree     : 85.90+-0.28&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [37] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [38] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [39] &amp;quot;| Following algorithms were later run with the following error rates,&amp;quot;                                                                                                                                                                                                                                                                                                                                                                          
+##  [40] &amp;quot;|    all after removal of unknowns and using the original train/test split.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                    
+##  [41] &amp;quot;|    All these numbers are straight runs using MLC++ with default values.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                      
+##  [42] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [43] &amp;quot;|    Algorithm               Error&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [44] &amp;quot;| -- ----------------        -----&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [45] &amp;quot;| 1  C4.5                    15.54&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [46] &amp;quot;| 2  C4.5-auto               14.46&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [47] &amp;quot;| 3  C4.5 rules              14.94&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [48] &amp;quot;| 4  Voted ID3 (0.6)         15.64&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [49] &amp;quot;| 5  Voted ID3 (0.8)         16.47&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [50] &amp;quot;| 6  T2                      16.84&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [51] &amp;quot;| 7  1R                      19.54&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [52] &amp;quot;| 8  NBTree                  14.10&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [53] &amp;quot;| 9  CN2                     16.00&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [54] &amp;quot;| 10 HOODG                   14.82&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [55] &amp;quot;| 11 FSS Naive Bayes         14.05&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [56] &amp;quot;| 12 IDTM (Decision table)   14.46&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [57] &amp;quot;| 13 Naive-Bayes             16.12&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [58] &amp;quot;| 14 Nearest-neighbor (1)    21.42&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [59] &amp;quot;| 15 Nearest-neighbor (3)    20.35&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [60] &amp;quot;| 16 OC1                     15.04&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [61] &amp;quot;| 17 Pebls                   Crashed.  Unknown why (bounds WERE increased)&amp;quot;                                                                                                                                                                                                                                                                                                                                                                     
+##  [62] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [63] &amp;quot;| Conversion of original data as follows:&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                      
+##  [64] &amp;quot;| 1. Discretized agrossincome into two ranges with threshold 50,000.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                           
+##  [65] &amp;quot;| 2. Convert U.S. to US to avoid periods.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                      
+##  [66] &amp;quot;| 3. Convert Unknown to \&amp;quot;?\&amp;quot;&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [67] &amp;quot;| 4. Run MLC++ GenCVFiles to generate data,test.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                               
+##  [68] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [69] &amp;quot;| Description of fnlwgt (final weight)&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                         
+##  [70] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [71] &amp;quot;| The weights on the CPS files are controlled to independent estimates of the&amp;quot;                                                                                                                                                                                                                                                                                                                                                                  
+##  [72] &amp;quot;| civilian noninstitutional population of the US.  These are prepared monthly&amp;quot;                                                                                                                                                                                                                                                                                                                                                                  
+##  [73] &amp;quot;| for us by Population Division here at the Census Bureau.  We use 3 sets of&amp;quot;                                                                                                                                                                                                                                                                                                                                                                   
+##  [74] &amp;quot;| controls.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                    
+##  [75] &amp;quot;|  These are:&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [76] &amp;quot;|          1.  A single cell estimate of the population 16+ for each state.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                    
+##  [77] &amp;quot;|          2.  Controls for Hispanic Origin by age and sex.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                    
+##  [78] &amp;quot;|          3.  Controls by Race, age and sex.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [79] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [80] &amp;quot;| We use all three sets of controls in our weighting program and \&amp;quot;rake\&amp;quot; through&amp;quot;                                                                                                                                                                                                                                                                                                                                                              
+##  [81] &amp;quot;| them 6 times so that by the end we come back to all the controls we used.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                    
+##  [82] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [83] &amp;quot;| The term estimate refers to population totals derived from CPS by creating&amp;quot;                                                                                                                                                                                                                                                                                                                                                                   
+##  [84] &amp;quot;| \&amp;quot;weighted tallies\&amp;quot; of any specified socio-economic characteristics of the&amp;quot;                                                                                                                                                                                                                                                                                                                                                                  
+##  [85] &amp;quot;| population.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [86] &amp;quot;|&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                              
+##  [87] &amp;quot;| People with similar demographic characteristics should have&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                  
+##  [88] &amp;quot;| similar weights.  There is one important caveat to remember&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                  
+##  [89] &amp;quot;| about this statement.  That is that since the CPS sample is&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                  
+##  [90] &amp;quot;| actually a collection of 51 state samples, each with its own&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                 
+##  [91] &amp;quot;| probability of selection, the statement only applies within&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                  
+##  [92] &amp;quot;| state.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                       
+##  [93] &amp;quot;&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                               
+##  [94] &amp;quot;&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                               
+##  [95] &amp;quot;&amp;gt;50K, &amp;lt;=50K.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                   
+##  [96] &amp;quot;&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                                               
+##  [97] &amp;quot;age: continuous.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                               
+##  [98] &amp;quot;workclass: Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked.&amp;quot;                                                                                                                                                                                                                                                                                                                              
+##  [99] &amp;quot;fnlwgt: continuous.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                            
+## [100] &amp;quot;education: Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool.&amp;quot;                                                                                                                                                                                                                                                                              
+## [101] &amp;quot;education-num: continuous.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                     
+## [102] &amp;quot;marital-status: Married-civ-spouse, Divorced, Never-married, Separated, Widowed, Married-spouse-absent, Married-AF-spouse.&amp;quot;                                                                                                                                                                                                                                                                                                                     
+## [103] &amp;quot;occupation: Tech-support, Craft-repair, Other-service, Sales, Exec-managerial, Prof-specialty, Handlers-cleaners, Machine-op-inspct, Adm-clerical, Farming-fishing, Transport-moving, Priv-house-serv, Protective-serv, Armed-Forces.&amp;quot;                                                                                                                                                                                                          
+## [104] &amp;quot;relationship: Wife, Own-child, Husband, Not-in-family, Other-relative, Unmarried.&amp;quot;                                                                                                                                                                                                                                                                                                                                                              
+## [105] &amp;quot;race: White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, Black.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                             
+## [106] &amp;quot;sex: Female, Male.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                             
+## [107] &amp;quot;capital-gain: continuous.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                      
+## [108] &amp;quot;capital-loss: continuous.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                      
+## [109] &amp;quot;hours-per-week: continuous.&amp;quot;                                                                                                                                                                                                                                                                                                                                                                                                                    
+## [110] &amp;quot;native-country: United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&amp;amp;Tobago, Peru, Hong, Holand-Netherlands.&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Lucky for us the column names are at the end right after an empty string. &lt;hc&gt;names_file&lt;/hc&gt; is a character vector so we can use &lt;hc&gt;which()&lt;/hc&gt; to seek the pattern we want. Each name/description combination is seperated by a “:”, we can turn the end of this file in a small data dictionary with two columns; &lt;hc&gt;column_name&lt;/hc&gt; and &lt;hc&gt;description&lt;/hc&gt;. We can use &lt;hc&gt;read_delim()&lt;/hc&gt; to read in the file. We can use the parameters to name the wanted columns, how many lines to skip, and specify what seperates the columns.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skip_to_here &amp;lt;- which(names_file == &amp;quot;&amp;quot;) %&amp;gt;%
+  max()
+
+skip_to_here&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 96&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_dictionary &amp;lt;- read_delim(
+  file = names_url,
+  col_names = c(&amp;quot;column_name&amp;quot;, &amp;quot;description&amp;quot;),
+  skip = skip_to_here,
+  delim = &amp;quot;:&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Parsed with column specification:
+## cols(
+##   column_name = col_character(),
+##   description = col_character()
+## )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_dictionary&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 14 x 2
+##    column_name    description                                              
+##    &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;                                                    
+##  1 age            &amp;quot; continuous.&amp;quot;                                           
+##  2 workclass      &amp;quot; Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, …
+##  3 fnlwgt         &amp;quot; continuous.&amp;quot;                                           
+##  4 education      &amp;quot; Bachelors, Some-college, 11th, HS-grad, Prof-school, A…
+##  5 education-num  &amp;quot; continuous.&amp;quot;                                           
+##  6 marital-status &amp;quot; Married-civ-spouse, Divorced, Never-married, Separated…
+##  7 occupation     &amp;quot; Tech-support, Craft-repair, Other-service, Sales, Exec…
+##  8 relationship   &amp;quot; Wife, Own-child, Husband, Not-in-family, Other-relativ…
+##  9 race           &amp;quot; White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, …
+## 10 sex            &amp;quot; Female, Male.&amp;quot;                                         
+## 11 capital-gain   &amp;quot; continuous.&amp;quot;                                           
+## 12 capital-loss   &amp;quot; continuous.&amp;quot;                                           
+## 13 hours-per-week &amp;quot; continuous.&amp;quot;                                           
+## 14 native-country &amp;quot; United-States, Cambodia, England, Puerto-Rico, Canada,…&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;From information seen on the website about our data, we know there should be 15 rows. Exploring the data in the browser we know the category &lt;em&gt;income&lt;/em&gt; is the last column. With that information we will create an additional row to the data dictionary so we have all the columns we need.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_dictionary[nrow(data_dictionary) + 1, ] &amp;lt;- c(&amp;quot;income&amp;quot;, &amp;quot;&amp;gt;50K, &amp;lt;=50K&amp;quot;)
+
+data_dictionary&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 15 x 2
+##    column_name    description                                              
+##  * &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;                                                    
+##  1 age            &amp;quot; continuous.&amp;quot;                                           
+##  2 workclass      &amp;quot; Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, …
+##  3 fnlwgt         &amp;quot; continuous.&amp;quot;                                           
+##  4 education      &amp;quot; Bachelors, Some-college, 11th, HS-grad, Prof-school, A…
+##  5 education-num  &amp;quot; continuous.&amp;quot;                                           
+##  6 marital-status &amp;quot; Married-civ-spouse, Divorced, Never-married, Separated…
+##  7 occupation     &amp;quot; Tech-support, Craft-repair, Other-service, Sales, Exec…
+##  8 relationship   &amp;quot; Wife, Own-child, Husband, Not-in-family, Other-relativ…
+##  9 race           &amp;quot; White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, …
+## 10 sex            &amp;quot; Female, Male.&amp;quot;                                         
+## 11 capital-gain   &amp;quot; continuous.&amp;quot;                                           
+## 12 capital-loss   &amp;quot; continuous.&amp;quot;                                           
+## 13 hours-per-week &amp;quot; continuous.&amp;quot;                                           
+## 14 native-country &amp;quot; United-States, Cambodia, England, Puerto-Rico, Canada,…
+## 15 income         &amp;gt;50K, &amp;lt;=50K&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I am a fan of snake case, so we will replace the “-” with &amp;quot;_&amp;quot;. Then we will use the data dictionary’s &lt;em&gt;column_name&lt;/em&gt; feature to label the test/train data we will be reading in. For data exploration and cleaning I will be combining the test and training sets. To ensure an easy split of data when it comes to modeling I will add a &lt;em&gt;group&lt;/em&gt; feature so we can later split the full data set with ease.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_dictionary &amp;lt;- data_dictionary %&amp;gt;% 
+  mutate(column_name = str_replace_all(column_name, &amp;quot;-&amp;quot;, &amp;quot;_&amp;quot;))
+
+train &amp;lt;- read_csv(
+  file = data_url,
+  col_names = data_dictionary$column_name
+  ) %&amp;gt;% 
+  mutate(group = &amp;quot;train&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Parsed with column specification:
+## cols(
+##   age = col_double(),
+##   workclass = col_character(),
+##   fnlwgt = col_double(),
+##   education = col_character(),
+##   education_num = col_double(),
+##   marital_status = col_character(),
+##   occupation = col_character(),
+##   relationship = col_character(),
+##   race = col_character(),
+##   sex = col_character(),
+##   capital_gain = col_double(),
+##   capital_loss = col_double(),
+##   hours_per_week = col_double(),
+##   native_country = col_character(),
+##   income = col_character()
+## )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When looking at the data online we see the first line of the test data has a line stating “1x3 Cross validator”. This will cause an error so we will skip the first line and then combine the two datasets.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;test &amp;lt;- read_csv(
+  file = &amp;quot;/Users/kow/Downloads/adult.test&amp;quot;,
+  skip = 1,
+  col_names = data_dictionary$column_name
+) %&amp;gt;% 
+  mutate(group = &amp;quot;test&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Parsed with column specification:
+## cols(
+##   age = col_double(),
+##   workclass = col_character(),
+##   fnlwgt = col_double(),
+##   education = col_character(),
+##   education_num = col_double(),
+##   marital_status = col_character(),
+##   occupation = col_character(),
+##   relationship = col_character(),
+##   race = col_character(),
+##   sex = col_character(),
+##   capital_gain = col_double(),
+##   capital_loss = col_double(),
+##   hours_per_week = col_double(),
+##   native_country = col_character(),
+##   income = col_character()
+## )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- bind_rows(train, test)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;eda&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;EDA&lt;/h1&gt;
+&lt;p&gt;&lt;hc&gt;skim()&lt;/hc&gt; from the &lt;strong&gt;skimr&lt;/strong&gt; package will give us the view &lt;hc&gt;summary()&lt;/hc&gt; or &lt;strong&gt;dplyr&lt;/strong&gt;’s &lt;hc&gt;glimpse()&lt;/hc&gt; does, but with additional information.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skim(all_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 48842 
+##  n variables: 16 
+## 
+## ── Variable type:character ────────────────────────
+##        variable missing complete     n min max empty n_unique
+##       education       0    48842 48842   3  12     0       16
+##           group       0    48842 48842   4   5     0        2
+##          income       0    48842 48842   4   6     0        4
+##  marital_status       0    48842 48842   7  21     0        7
+##  native_country       0    48842 48842   1  26     0       42
+##      occupation       0    48842 48842   1  17     0       15
+##            race       0    48842 48842   5  18     0        5
+##    relationship       0    48842 48842   4  14     0        6
+##             sex       0    48842 48842   4   6     0        2
+##       workclass       0    48842 48842   1  16     0        9
+## 
+## ── Variable type:numeric ──────────────────────────
+##        variable missing complete     n      mean        sd    p0      p25
+##             age       0    48842 48842     38.64     13.71    17     28  
+##    capital_gain       0    48842 48842   1079.07   7452.02     0      0  
+##    capital_loss       0    48842 48842     87.5     403        0      0  
+##   education_num       0    48842 48842     10.08      2.57     1      9  
+##          fnlwgt       0    48842 48842 189664.13 105604.03 12285 117550.5
+##  hours_per_week       0    48842 48842     40.42     12.39     1     40  
+##       p50    p75    p100     hist
+##      37       48      90 ▇▇▇▆▃▂▁▁
+##       0        0   99999 ▇▁▁▁▁▁▁▁
+##       0        0    4356 ▇▁▁▁▁▁▁▁
+##      10       12      16 ▁▁▁▁▇▁▃▁
+##  178144.5 237642 1490400 ▇▅▁▁▁▁▁▁
+##      40       45      99 ▁▁▁▇▁▁▁▁&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;data-cleaning&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data Cleaning&lt;/h2&gt;
+&lt;p&gt;I will now go through each variable and collapse character features where available. Hopefully this will increase our accuracy due to possible under-representation of groups in this data. The flow will be counting the data and grouping the factors to the best of my knowledge. Grouping will be with assumptions I make in my noggin’.&lt;/p&gt;
+&lt;div id=&#34;remove-variables&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Remove Variables&lt;/h3&gt;
+&lt;p&gt;I am unsure what &lt;em&gt;fnlwgt&lt;/em&gt; is exactly and &lt;em&gt;education_num&lt;/em&gt; is a numeric version of &lt;em&gt;education&lt;/em&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- all_data %&amp;gt;% 
+  select(-fnlwgt, -education_num)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;education&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Education&lt;/h3&gt;
+&lt;p&gt;“An ordered factor with levels Preschool &amp;lt; 1st-4th &amp;lt; 5th-6th &amp;lt; 7th-8th &amp;lt; 9th &amp;lt; 10th &amp;lt; 11th &amp;lt; 12th &amp;lt; HS-grad &amp;lt; Prof-school &amp;lt; Assoc-acdm &amp;lt; Assoc-voc &amp;lt; Some-college &amp;lt; Bachelors &amp;lt; Masters &amp;lt; Doctorate.”&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(education, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 16 x 2
+##    education        n
+##    &amp;lt;chr&amp;gt;        &amp;lt;int&amp;gt;
+##  1 HS-grad      15784
+##  2 Some-college 10878
+##  3 Bachelors     8025
+##  4 Masters       2657
+##  5 Assoc-voc     2061
+##  6 11th          1812
+##  7 Assoc-acdm    1601
+##  8 10th          1389
+##  9 7th-8th        955
+## 10 Prof-school    834
+## 11 9th            756
+## 12 12th           657
+## 13 Doctorate      594
+## 14 5th-6th        509
+## 15 1st-4th        247
+## 16 Preschool       83&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- all_data %&amp;gt;% 
+  mutate(
+    education = fct_collapse(
+      education,
+      &amp;quot;No Diploma&amp;quot; = c(&amp;quot;Preschool&amp;quot;, &amp;quot;1st-4th&amp;quot;, &amp;quot;5th-6th&amp;quot;, &amp;quot;7th-8th&amp;quot;, paste0(9:12, &amp;quot;th&amp;quot;)),
+      &amp;quot;High School&amp;quot; = &amp;quot;HS-grad&amp;quot;,
+      &amp;quot;Professional School&amp;quot; = &amp;quot;Prof-school&amp;quot;,
+      &amp;quot;Associates&amp;quot; = c(&amp;quot;Assoc-acdm&amp;quot;, &amp;quot;Assoc-voc&amp;quot;), 
+      &amp;quot;Some College&amp;quot; = &amp;quot;Some-college&amp;quot;,
+      &amp;quot;Bachelors&amp;quot; = &amp;quot;Bachelors&amp;quot;,
+      &amp;quot;Graduate&amp;quot; = c(&amp;quot;Doctorate&amp;quot;, &amp;quot;Masters&amp;quot;)
+    )
+  )
+
+all_data %&amp;gt;% 
+  count(education, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 7 x 2
+##   education               n
+##   &amp;lt;fct&amp;gt;               &amp;lt;int&amp;gt;
+## 1 High School         15784
+## 2 Some College        10878
+## 3 Bachelors            8025
+## 4 No Diploma           6408
+## 5 Associates           3662
+## 6 Graduate             3251
+## 7 Professional School   834&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;marital-status&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Marital Status&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(marital_status, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 7 x 2
+##   marital_status            n
+##   &amp;lt;chr&amp;gt;                 &amp;lt;int&amp;gt;
+## 1 Married-civ-spouse    22379
+## 2 Never-married         16117
+## 3 Divorced               6633
+## 4 Separated              1530
+## 5 Widowed                1518
+## 6 Married-spouse-absent   628
+## 7 Married-AF-spouse        37&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- all_data %&amp;gt;% 
+  mutate(
+    marital_status = fct_collapse(
+      marital_status,
+      &amp;quot;Not Married&amp;quot; = c(&amp;quot;Divorced&amp;quot;, &amp;quot;Separated&amp;quot;, &amp;quot;Widowed&amp;quot;),
+      &amp;quot;Never Married&amp;quot; = &amp;quot;Never-married&amp;quot;,
+      &amp;quot;Married&amp;quot; = c(&amp;quot;Married-civ-spouse&amp;quot;, &amp;quot;Married-spouse-absent&amp;quot;, &amp;quot;Married-AF-spouse&amp;quot;)
+    )
+  )
+
+all_data %&amp;gt;% 
+  count(marital_status, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 2
+##   marital_status     n
+##   &amp;lt;fct&amp;gt;          &amp;lt;int&amp;gt;
+## 1 Married        23044
+## 2 Never Married  16117
+## 3 Not Married     9681&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;income&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Income&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(income, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 4 x 2
+##   income     n
+##   &amp;lt;chr&amp;gt;  &amp;lt;int&amp;gt;
+## 1 &amp;lt;=50K  24720
+## 2 &amp;lt;=50K. 12435
+## 3 &amp;gt;50K    7841
+## 4 &amp;gt;50K.   3846&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- all_data %&amp;gt;% 
+  mutate(income = str_remove_all(income, fixed(&amp;quot;.&amp;quot;)))
+
+all_data %&amp;gt;% 
+  count(income, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 2 x 2
+##   income     n
+##   &amp;lt;chr&amp;gt;  &amp;lt;int&amp;gt;
+## 1 &amp;lt;=50K  37155
+## 2 &amp;gt;50K   11687&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;native-country&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Native Country&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(native_country, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 42 x 2
+##    native_country     n
+##    &amp;lt;chr&amp;gt;          &amp;lt;int&amp;gt;
+##  1 United-States  43832
+##  2 Mexico           951
+##  3 ?                857
+##  4 Philippines      295
+##  5 Germany          206
+##  6 Puerto-Rico      184
+##  7 Canada           182
+##  8 El-Salvador      155
+##  9 India            151
+## 10 Cuba             138
+## # … with 32 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_table &amp;lt;- all_data %&amp;gt;% 
+  count(native_country, sort = TRUE) %&amp;gt;% 
+  mutate(
+    code = countrycode::countrycode(native_country,
+                                    origin = &amp;quot;country.name&amp;quot;,
+                                    destination = &amp;quot;continent&amp;quot;)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning in countrycode::countrycode(native_country, origin = &amp;quot;country.name&amp;quot;, : Some values were not matched unambiguously: ?, Columbia, England, Hong, Scotland, South, Yugoslavia&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_table&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 42 x 3
+##    native_country     n code    
+##    &amp;lt;chr&amp;gt;          &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;   
+##  1 United-States  43832 Americas
+##  2 Mexico           951 Americas
+##  3 ?                857 &amp;lt;NA&amp;gt;    
+##  4 Philippines      295 Asia    
+##  5 Germany          206 Europe  
+##  6 Puerto-Rico      184 Americas
+##  7 Canada           182 Americas
+##  8 El-Salvador      155 Americas
+##  9 India            151 Asia    
+## 10 Cuba             138 Americas
+## # … with 32 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_table %&amp;gt;% 
+  mutate(
+    code2 = case_when(
+      native_country == &amp;quot;?&amp;quot; ~ &amp;quot;Unknown&amp;quot;,
+      native_country == &amp;quot;South&amp;quot; ~ &amp;quot;Unknown&amp;quot;,
+      native_country == &amp;quot;England&amp;quot; ~ &amp;quot;Europe&amp;quot;,
+      native_country == &amp;quot;Columbia&amp;quot; ~ &amp;quot;Americas&amp;quot;,
+      native_country == &amp;quot;Hong&amp;quot; ~ &amp;quot;Asia&amp;quot;,
+      native_country == &amp;quot;Yugoslavia&amp;quot; ~ &amp;quot;Europe&amp;quot;,
+      native_country == &amp;quot;Scotland&amp;quot; ~ &amp;quot;Europe&amp;quot;,
+      TRUE ~ code
+    )
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 42 x 4
+##    native_country     n code     code2   
+##    &amp;lt;chr&amp;gt;          &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt;   
+##  1 United-States  43832 Americas Americas
+##  2 Mexico           951 Americas Americas
+##  3 ?                857 &amp;lt;NA&amp;gt;     Unknown 
+##  4 Philippines      295 Asia     Asia    
+##  5 Germany          206 Europe   Europe  
+##  6 Puerto-Rico      184 Americas Americas
+##  7 Canada           182 Americas Americas
+##  8 El-Salvador      155 Americas Americas
+##  9 India            151 Asia     Asia    
+## 10 Cuba             138 Americas Americas
+## # … with 32 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- all_data %&amp;gt;% 
+  mutate(
+    code = countrycode(
+      native_country,
+      origin = &amp;quot;country.name&amp;quot;,
+      destination = &amp;quot;continent&amp;quot;
+      ),
+    native_continent = case_when(
+      native_country == &amp;quot;?&amp;quot; ~ &amp;quot;Unknown&amp;quot;,
+      native_country == &amp;quot;South&amp;quot; ~ &amp;quot;Unknown&amp;quot;,
+      native_country == &amp;quot;England&amp;quot; ~ &amp;quot;Europe&amp;quot;,
+      native_country == &amp;quot;Columbia&amp;quot; ~ &amp;quot;Americas&amp;quot;,
+      native_country == &amp;quot;Hong&amp;quot; ~ &amp;quot;Asia&amp;quot;,
+      native_country == &amp;quot;Yugoslavia&amp;quot; ~ &amp;quot;Europe&amp;quot;,
+      native_country == &amp;quot;Scotland&amp;quot; ~ &amp;quot;Europe&amp;quot;,
+      TRUE ~ code
+    )
+  ) %&amp;gt;% 
+  select(-native_country, -code)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning in countrycode(native_country, origin = &amp;quot;country.name&amp;quot;, destination = &amp;quot;continent&amp;quot;): Some values were not matched unambiguously: ?, Columbia, England, Hong, Scotland, South, Yugoslavia&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(native_continent, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 5 x 2
+##   native_continent     n
+##   &amp;lt;chr&amp;gt;            &amp;lt;int&amp;gt;
+## 1 Americas         46086
+## 2 Asia               981
+## 3 Unknown            972
+## 4 Europe             780
+## 5 Oceania             23&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;occupation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Occupation&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(occupation, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 15 x 2
+##    occupation            n
+##    &amp;lt;chr&amp;gt;             &amp;lt;int&amp;gt;
+##  1 Prof-specialty     6172
+##  2 Craft-repair       6112
+##  3 Exec-managerial    6086
+##  4 Adm-clerical       5611
+##  5 Sales              5504
+##  6 Other-service      4923
+##  7 Machine-op-inspct  3022
+##  8 ?                  2809
+##  9 Transport-moving   2355
+## 10 Handlers-cleaners  2072
+## 11 Farming-fishing    1490
+## 12 Tech-support       1446
+## 13 Protective-serv     983
+## 14 Priv-house-serv     242
+## 15 Armed-Forces         15&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- all_data %&amp;gt;% 
+  mutate(occupation = ifelse(occupation == &amp;quot;?&amp;quot;, &amp;quot;Unknown&amp;quot;, occupation))&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;race&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Race&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(race, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 5 x 2
+##   race                   n
+##   &amp;lt;chr&amp;gt;              &amp;lt;int&amp;gt;
+## 1 White              41762
+## 2 Black               4685
+## 3 Asian-Pac-Islander  1519
+## 4 Amer-Indian-Eskimo   470
+## 5 Other                406&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;relationship&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Relationship&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(relationship, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##   relationship       n
+##   &amp;lt;chr&amp;gt;          &amp;lt;int&amp;gt;
+## 1 Husband        19716
+## 2 Not-in-family  12583
+## 3 Own-child       7581
+## 4 Unmarried       5125
+## 5 Wife            2331
+## 6 Other-relative  1506&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sex&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Sex&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(sex, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 2 x 2
+##   sex        n
+##   &amp;lt;chr&amp;gt;  &amp;lt;int&amp;gt;
+## 1 Male   32650
+## 2 Female 16192&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;workclass&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Workclass&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(workclass, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 9 x 2
+##   workclass            n
+##   &amp;lt;chr&amp;gt;            &amp;lt;int&amp;gt;
+## 1 Private          33906
+## 2 Self-emp-not-inc  3862
+## 3 Local-gov         3136
+## 4 ?                 2799
+## 5 State-gov         1981
+## 6 Self-emp-inc      1695
+## 7 Federal-gov       1432
+## 8 Without-pay         21
+## 9 Never-worked        10&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data %&amp;gt;% 
+  count(workclass, sort = TRUE) %&amp;gt;% 
+  mutate(
+    workclass2 = fct_collapse(
+      workclass,
+      &amp;quot;Private&amp;quot; = &amp;quot;Private&amp;quot;,
+      &amp;quot;Government&amp;quot; = c(&amp;quot;Local-gov&amp;quot;, &amp;quot;State-gov&amp;quot;, &amp;quot;Federal-gov&amp;quot;),
+      &amp;quot;Self-Employed&amp;quot; = c(&amp;quot;Self-emp-not-inc&amp;quot;, &amp;quot;Self-emp-inc&amp;quot;),
+      &amp;quot;Unknown&amp;quot; = &amp;quot;?&amp;quot;,
+      &amp;quot;No Income&amp;quot; = c(&amp;quot;Without-pay&amp;quot;, &amp;quot;Never-worked&amp;quot;)
+    )
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 9 x 3
+##   workclass            n workclass2   
+##   &amp;lt;chr&amp;gt;            &amp;lt;int&amp;gt; &amp;lt;fct&amp;gt;        
+## 1 Private          33906 Private      
+## 2 Self-emp-not-inc  3862 Self-Employed
+## 3 Local-gov         3136 Government   
+## 4 ?                 2799 Unknown      
+## 5 State-gov         1981 Government   
+## 6 Self-emp-inc      1695 Self-Employed
+## 7 Federal-gov       1432 Government   
+## 8 Without-pay         21 No Income    
+## 9 Never-worked        10 No Income&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- all_data %&amp;gt;% 
+  mutate(
+    workclass = fct_collapse(
+      workclass,
+      &amp;quot;Private&amp;quot; = &amp;quot;Private&amp;quot;,
+      &amp;quot;Government&amp;quot; = c(&amp;quot;Local-gov&amp;quot;, &amp;quot;State-gov&amp;quot;, &amp;quot;Federal-gov&amp;quot;),
+      &amp;quot;Self-Employed&amp;quot; = c(&amp;quot;Self-emp-not-inc&amp;quot;, &amp;quot;Self-emp-inc&amp;quot;),
+      &amp;quot;Unknown&amp;quot; = &amp;quot;?&amp;quot;,
+      &amp;quot;No Income&amp;quot; = c(&amp;quot;Without-pay&amp;quot;, &amp;quot;Never-worked&amp;quot;)
+    )
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;plot-em&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Plot Em’!&lt;/h2&gt;
+&lt;p&gt;I made a &lt;em&gt;mapping&lt;/em&gt; function to use with &lt;em&gt;purrr&lt;/em&gt;’s &lt;hc&gt;map()&lt;/hc&gt; that will automate the graphing of all variables against our &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; variable, in this case &lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;. I will not go over this in detail, if there is any questions or you would like to discuss this or any future code contact me on social media (found on the homepage).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_em &amp;lt;- as_mapper(~ {
+  main_var &amp;lt;- parse_expr(.y)
+  if (is.numeric(.x)) {
+    p &amp;lt;- ggplot(all_data, aes(x = income, y = !!main_var)) +
+      geom_boxplot() +
+      labs(x = .y)
+    
+    p %&amp;gt;% snake_to()
+    
+  } else {
+    bar_data &amp;lt;- all_data %&amp;gt;% 
+      count(income, !!main_var, name = &amp;quot;count&amp;quot;) %&amp;gt;% 
+      group_by(income) %&amp;gt;% 
+      mutate(proportion = count / sum(count)) %&amp;gt;% 
+      ungroup() %&amp;gt;% 
+      arrange(desc(proportion)) %&amp;gt;% 
+      mutate(
+        !!main_var := factor(!!main_var, levels = unique(!!main_var)),
+        income = factor(income, levels = unique(income))
+        )
+    
+    p &amp;lt;- ggplot(
+      data = bar_data,
+      mapping = aes(x = income, y = proportion, fill = !!main_var)
+      ) +
+      geom_col() +
+      labs(x = .y)
+    
+    p %&amp;gt;% snake_to()
+  }
+})
+
+all_plots &amp;lt;- map2(all_data, names(all_data), plot_em)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;hc&gt;all_plots&lt;/hc&gt; holds all plots in a &lt;em&gt;list&lt;/em&gt;. We will go through one by one so we can have a deeper understanding of our data. We could use a graphing function such as &lt;hc&gt;pairs()&lt;/hc&gt; or &lt;hc&gt;ggpairs()&lt;/hc&gt;, however, I really wanted to look at all variables one by one closely and I got to practice some dplyr programming ;)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[1]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-29-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;On average there are more people that have an income of &lt;em&gt;&amp;gt;50k&lt;/em&gt; who are older.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[2]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Higher Proportion per Outcome (&lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Private: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Government: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Self-Employed: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Unknown: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[3]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-31-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Higher Proportion per Outcome (&lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;High School: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Bachelors: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Some College: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;No Diploma: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Graduate: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Associates: &lt;em&gt;About Even&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Professional School: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[4]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Higher Proportion per Outcome (&lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Married: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Never Married: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Not Married: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[5]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-33-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;There are a lot of different occupations so I will point out the obvious points.&lt;/p&gt;
+&lt;p&gt;Higher Proportion per Outcome (&lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Exec-managerial: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Prof-specialty: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Adm-clerical: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Sales: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Machine-op-inspct: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Unknown: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[6]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-34-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Higher Proportion per Outcome (&lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Husband: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Not-in-family: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Own-child: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Unmarried: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Wife: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Other-relative: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[7]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-35-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Higher Proportion per Outcome (&lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;White: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Black: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Asian-Pac-Islander: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Amer-Indian-Eskimo: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Other: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[8]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-36-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Higher Proportion per Outcome (&lt;span class=&#34;math inline&#34;&gt;\(y = income\)&lt;/span&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Male: &lt;em&gt;&amp;gt;50k&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Female: &lt;em&gt;&amp;lt;=50k&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[9]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-37-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;No comment.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[10]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-38-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Also no comment.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[11]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-39-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can see the average between line is around 40 for both &lt;em&gt;&amp;lt;=50k&lt;/em&gt; and &lt;em&gt;&amp;gt;50k&lt;/em&gt;. It appears on average more people in the &lt;em&gt;&amp;gt;50k&lt;/em&gt; group work more hours.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_plots[[14]]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-40-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Mostly equal, Americas has a high N so it is hard to see a signal.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;modeling&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Modeling&lt;/h1&gt;
+&lt;div id=&#34;split-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Split the Data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train &amp;lt;- all_data %&amp;gt;% 
+  filter(group == &amp;quot;train&amp;quot;) %&amp;gt;% 
+  select(-group)
+
+test &amp;lt;- all_data %&amp;gt;% 
+  filter(group == &amp;quot;test&amp;quot;) %&amp;gt;% 
+  select(-group)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;classification-tree&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Classification Tree&lt;/h2&gt;
+&lt;p&gt;A classification tree uses a decision tree to take features (columns) of our data and comes up with a final value, in our case this the final value is a label. Decision trees can also handle numerical outputs. Generally this method is reffered to as CART, &lt;strong&gt;C&lt;/strong&gt;lassifican &lt;strong&gt;A&lt;/strong&gt;nd &lt;strong&gt;R&lt;/strong&gt;egression &lt;strong&gt;T&lt;/strong&gt;rees.&lt;/p&gt;
+&lt;p&gt;A decision tree has a hierarchrical structure:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Top: Root Node. This is where all of the data from our features begin their journey&lt;/li&gt;
+&lt;li&gt;Bottom: Leaf Nodes. This is the finish line of the tree. Once the data reaches this point we obtain the final value. Either a numeric &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; value or a label for &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;Middle: Internal Nodes. These are the nodes between the root and leaf nodes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Advantages of Decision Trees:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Easy to interprit
+&lt;ul&gt;
+&lt;li&gt;If you can read a flow chart you can read a decision tree&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Training and prediction flows are easy to explain&lt;/li&gt;
+&lt;li&gt;Easier to explain than a linear model&lt;/li&gt;
+&lt;li&gt;Following the path of the tree allows for full explanation of the data&lt;/li&gt;
+&lt;li&gt;Easy to interprit and visualize&lt;/li&gt;
+&lt;li&gt;Handles categorical and numerical data with ease
+&lt;ul&gt;
+&lt;li&gt;No dummy data for categorical data&lt;/li&gt;
+&lt;li&gt;No need to normalize or transform numeric data&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Missing data? No problem!
+&lt;ul&gt;
+&lt;li&gt;One method to handle missing data is when going down the branch and the value is NA for that feature it will randomly choose left or right and continue onward&lt;/li&gt;
+&lt;li&gt;Another method involves going down both branches at the split with missing data and when the leaf nodes are reached you average the leafs values for the final prediction&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Robust to outliers&lt;/li&gt;
+&lt;li&gt;Requires little data prep&lt;/li&gt;
+&lt;li&gt;Can model non-linearity in the data&lt;/li&gt;
+&lt;li&gt;Trains quickly on large data sets&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Disadvantages of Decision Trees:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Large trees can be hard to interpret&lt;/li&gt;
+&lt;li&gt;Trees can have high variance
+&lt;ul&gt;
+&lt;li&gt;Causes model performance to be poor&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Trees overfit easily&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;model-selection&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Model Selection&lt;/h3&gt;
+&lt;p&gt;We will use grid search for hyperperameter searching. Hyper perameters are the different knobs and settings we can tune to get the best results from our data. Grid search is an exhaustive and iterative search through a manually defined set of model hyperperameters.&lt;/p&gt;
+&lt;p&gt;The two parameters we will be iterating over are &lt;hc&gt;minsplit&lt;/hc&gt; and &lt;hc&gt;maxdepth&lt;/hc&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;hc&gt;minsplit&lt;/hc&gt;: Minumum number of data points requeired to attempt a split&lt;/li&gt;
+&lt;li&gt;&lt;hc&gt;maxdepth&lt;/hc&gt;: Maximum depth of our tree&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The goal of the grid search is to train model per row of the grid and then evaluate which model is best. The best model, in this instance, is accuracy of correct predictions. Below we will use some &lt;em&gt;tidy&lt;/em&gt; methods for training the models. This brilliant flow is thanks to the post located &lt;a href=&#34;https://drsimonj.svbtle.com/grid-search-in-the-tidyverse&#34;&gt;here&lt;/a&gt;!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grid_search &amp;lt;- list(
+  minsplit = seq(10, 45, 15),
+  maxdepth = c(1, 5, 10, 25)
+) %&amp;gt;% 
+  cross_df()
+
+grid_search&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 12 x 2
+##    minsplit maxdepth
+##       &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
+##  1       10        1
+##  2       25        1
+##  3       40        1
+##  4       10        5
+##  5       25        5
+##  6       40        5
+##  7       10       10
+##  8       25       10
+##  9       40       10
+## 10       10       25
+## 11       25       25
+## 12       40       25&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now that we have our grid we can train a model per row. We expect there to be 12 models at the end. We can define our own function to simply pass the grid to the &lt;hc&gt;control&lt;/hc&gt; parameter of &lt;hc&gt;rpart()&lt;/hc&gt; using &lt;hc&gt;…&lt;/hc&gt;. We will use mutate to add a model per row to the &lt;hc&gt;grid_search&lt;/hc&gt; data frame,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dt_mod &amp;lt;- function(...) {
+  rpart(
+    formula = income ~ .,
+    data = train,
+    control = rpart.control(...)
+    )
+}
+
+grid_search &amp;lt;- grid_search %&amp;gt;% 
+  mutate(fit = pmap(grid_search, dt_mod))
+
+grid_search&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 12 x 3
+##    minsplit maxdepth fit    
+##       &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt; 
+##  1       10        1 &amp;lt;rpart&amp;gt;
+##  2       25        1 &amp;lt;rpart&amp;gt;
+##  3       40        1 &amp;lt;rpart&amp;gt;
+##  4       10        5 &amp;lt;rpart&amp;gt;
+##  5       25        5 &amp;lt;rpart&amp;gt;
+##  6       40        5 &amp;lt;rpart&amp;gt;
+##  7       10       10 &amp;lt;rpart&amp;gt;
+##  8       25       10 &amp;lt;rpart&amp;gt;
+##  9       40       10 &amp;lt;rpart&amp;gt;
+## 10       10       25 &amp;lt;rpart&amp;gt;
+## 11       25       25 &amp;lt;rpart&amp;gt;
+## 12       40       25 &amp;lt;rpart&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;hc&gt;fit&lt;/hc&gt; column now holds all 12 of our models. If we print the model column we can see the normal output of an &lt;em&gt;rpart&lt;/em&gt; model for all 12 models.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grid_search$fit&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;scroll&#34;&gt;&lt;code&gt;## [[1]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+## 1) root 32561 7841 &amp;lt;=50K (0.7591904 0.2408096) *
+## 
+## [[2]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+## 1) root 32561 7841 &amp;lt;=50K (0.7591904 0.2408096) *
+## 
+## [[3]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+## 1) root 32561 7841 &amp;lt;=50K (0.7591904 0.2408096) *
+## 
+## [[4]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[5]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[6]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[7]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[8]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[9]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[10]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[11]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *
+## 
+## [[12]]
+## n= 32561 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##  1) root 32561 7841 &amp;lt;=50K (0.75919044 0.24080956)  
+##    2) relationship=Not-in-family,Other-relative,Own-child,Unmarried 17800 1178 &amp;lt;=50K (0.93382022 0.06617978)  
+##      4) capital_gain&amp;lt; 7073.5 17482  872 &amp;lt;=50K (0.95012012 0.04987988) *
+##      5) capital_gain&amp;gt;=7073.5 318   12 &amp;gt;50K (0.03773585 0.96226415) *
+##    3) relationship=Husband,Wife 14761 6663 &amp;lt;=50K (0.54860782 0.45139218)  
+##      6) education=No Diploma,Associates,High School,Some College 10329 3456 &amp;lt;=50K (0.66540807 0.33459193)  
+##       12) capital_gain&amp;lt; 5095.5 9807 2944 &amp;lt;=50K (0.69980626 0.30019374) *
+##       13) capital_gain&amp;gt;=5095.5 522   10 &amp;gt;50K (0.01915709 0.98084291) *
+##      7) education=Bachelors,Graduate,Professional School 4432 1225 &amp;gt;50K (0.27639892 0.72360108) *&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;model-evaluation-and-tuning&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Model Evaluation and Tuning&lt;/h3&gt;
+&lt;p&gt;Following the flow from the post linked above we can easily make make predictions on the test data and check the accuracy. We will seperate the independant variables and the dependent variable from the test data to compute the accuracy per model. We will add the accuracy per model to the &lt;hc&gt;grid_search&lt;/hc&gt; data using &lt;hc&gt;mutate&lt;/hc&gt; and arrange to show the best and most simple model. Simplicity is always preferred!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;compute_accuracy &amp;lt;- function(fit, test_features, test_labels) {
+  predicted &amp;lt;- predict(
+    fit,
+    test_features,
+    type = &amp;quot;class&amp;quot;
+    )
+  
+  mean(predicted == test_labels)
+}
+
+test_features &amp;lt;- test %&amp;gt;%
+  select(-income)
+test_labels   &amp;lt;- test %&amp;gt;% 
+  pull(income)
+
+grid_search &amp;lt;- grid_search %&amp;gt;%
+  mutate(
+    test_accuracy = map_dbl(
+      fit,
+      compute_accuracy,
+      test_features,
+      test_labels)
+    ) %&amp;gt;%
+  arrange(desc(test_accuracy), minsplit, maxdepth)
+  
+grid_search&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 12 x 4
+##    minsplit maxdepth fit     test_accuracy
+##       &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt;          &amp;lt;dbl&amp;gt;
+##  1       10        5 &amp;lt;rpart&amp;gt;         0.845
+##  2       10       10 &amp;lt;rpart&amp;gt;         0.845
+##  3       10       25 &amp;lt;rpart&amp;gt;         0.845
+##  4       25        5 &amp;lt;rpart&amp;gt;         0.845
+##  5       25       10 &amp;lt;rpart&amp;gt;         0.845
+##  6       25       25 &amp;lt;rpart&amp;gt;         0.845
+##  7       40        5 &amp;lt;rpart&amp;gt;         0.845
+##  8       40       10 &amp;lt;rpart&amp;gt;         0.845
+##  9       40       25 &amp;lt;rpart&amp;gt;         0.845
+## 10       10        1 &amp;lt;rpart&amp;gt;         0.764
+## 11       25        1 &amp;lt;rpart&amp;gt;         0.764
+## 12       40        1 &amp;lt;rpart&amp;gt;         0.764&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see the best and most simplistic model has a &lt;hc&gt;minsplit&lt;/hc&gt; of 10 and a &lt;hc&gt;maxdepth&lt;/hc&gt; of 5. A lot of these models appear to split and look at the data in the same way due to all of them having the same accuracy. 84% is a pretty great result for such a simple model! But is it as good as it seems? We will revisit this number at the end of this section. Now we can use the &lt;strong&gt;rpart.plot&lt;/strong&gt; library to produce a nice visualize of the model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_rpart &amp;lt;- grid_search %&amp;gt;% 
+  pull(fit) %&amp;gt;% 
+  .[[1]]
+
+rpart.plot(
+  x = best_rpart,
+  yesno = 2,
+  type = 0,
+  extra = 0
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-46-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Using this flow we can take a person and their information and make a prediction on how much income they make. This is the power of a tree, we can interpreit the model and how it works every step of the way with ease!&lt;/p&gt;
+&lt;p&gt;There are a few more things we can do to our model. &lt;strong&gt;Pruning&lt;/strong&gt; can possibly reduce the size of the tree (simple is ideal!) without losing and predictive power on classifications. We can do this by looking at the &lt;hc&gt;cp&lt;/hc&gt;, aka &lt;em&gt;complexity parameter&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;CP is a penalty term that helps control tree size. The smaller the CP the more complex a tree will be. The &lt;hc&gt;rpart()&lt;/hc&gt; function computes the 10-fold cross validation error of the model over various values for CP and stores the results in a table inside the model. We can plot the cross validation error across different values of CP using &lt;hc&gt;plotcp()&lt;/hc&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plotcp(best_rpart)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-47-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Here we can quickly get an estimate for the omptimal value of CP. To retreieve the optimal CP value we can look at the CP table stored in the model and look where the &lt;em&gt;xerror&lt;/em&gt; is minimized.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_rpart$cptable&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##           CP nsplit rel error    xerror        xstd
+## 1 0.12638694      0 1.0000000 1.0000000 0.009839876
+## 2 0.06402245      2 0.7472261 0.7472261 0.008840225
+## 3 0.03749522      3 0.6832037 0.6832037 0.008532119
+## 4 0.01000000      4 0.6457085 0.6457085 0.008339388&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;opt_index &amp;lt;- which.min(best_rpart$cptable[, &amp;quot;xerror&amp;quot;])
+cp_opt &amp;lt;- best_rpart$cptable[opt_index, &amp;quot;CP&amp;quot;]
+cp_opt&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.01&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With this value we can use &lt;hc&gt;prune()&lt;/hc&gt; to possibly trim our model. &lt;hc&gt;prune()&lt;/hc&gt; will return the optimized model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_rpart_opt &amp;lt;- prune(
+  tree = best_rpart,
+  cp = cp_opt
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Did this change anything?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rpart.plot(
+  x = best_rpart_opt,
+  yesno = 2,
+  type = 0,
+  extra = 0
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-51-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;It appears in this instance, pruning did not change the visual of our model. Now onto the last part of of the evaluation is to look at a confusion matrix. A confusion matrix will show us a more detailed breakdown of correct and incorrect classifications for each class. We will use the &lt;strong&gt;caret&lt;/strong&gt; package to produce the matrix.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;class_prediction &amp;lt;- predict(
+  object = best_rpart_opt,
+  newdata = test,
+  type = &amp;quot;class&amp;quot;
+)
+
+caret::confusionMatrix(
+  data = class_prediction,
+  reference = as.factor(test$income)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction &amp;lt;=50K  &amp;gt;50K
+##      &amp;lt;=50K 11805  1901
+##      &amp;gt;50K    630  1945
+##                                           
+##                Accuracy : 0.8445          
+##                  95% CI : (0.8389, 0.8501)
+##     No Information Rate : 0.7638          
+##     P-Value [Acc &amp;gt; NIR] : &amp;lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.5137          
+##                                           
+##  Mcnemar&amp;#39;s Test P-Value : &amp;lt; 2.2e-16       
+##                                           
+##             Sensitivity : 0.9493          
+##             Specificity : 0.5057          
+##          Pos Pred Value : 0.8613          
+##          Neg Pred Value : 0.7553          
+##              Prevalence : 0.7638          
+##          Detection Rate : 0.7251          
+##    Detection Prevalence : 0.8418          
+##       Balanced Accuracy : 0.7275          
+##                                           
+##        &amp;#39;Positive&amp;#39; Class : &amp;lt;=50K           
+## &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There is a lot of output to this function. We will focus on the 2x2 table, accuracy, sensitivity, and specificity.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Accuracy&lt;/strong&gt;: Correct Prediction %&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sensitivity&lt;/strong&gt;: True Positive Rate
+&lt;ul&gt;
+&lt;li&gt;As noted on the last line of the output, the “positive” factor is &lt;em&gt;&amp;lt;=50k&lt;/em&gt;. So the decision tree get 95% of the predictions correct when they are positive. Sounds great, right?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Specificity&lt;/strong&gt;: True Negative Rate
+&lt;ul&gt;
+&lt;li&gt;The decision tree only has a 50% accuracy when it comes to incomes &lt;em&gt;&amp;gt;50k&lt;/em&gt;. What gives? Lets look at the count in each group. It appears the tree model labels a strong majority of predictions as &lt;em&gt;&amp;lt;=50k&lt;/em&gt;. Since most of the data belongs to this group and three likes to predict this label, it will have a high accuracy overall. This is why it is important to look at sensitivity and specificity. Our tree is not as great once we look at accuracy per label!&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;other-accuracy-metrics-wip&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Other Accuracy Metrics [WIP]&lt;/h3&gt;
+&lt;p&gt;If accuracy is deceiving at times, what can we use? Great question person reading this. We can use AUC…&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;bagging-random-forests&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Bagging &amp;amp; Random Forests&lt;/h2&gt;
+&lt;p&gt;The drawbacks of decision trees is the high variability. A small change in the data, introduction to new data, or changing the test / training groups can change the model drastically. How can we approach these issues drawbacks? Enter bagging. :)&lt;/p&gt;
+&lt;p&gt;Bagged trees averages many trees to reduce the variance. Combing multiple models like this, in this instance it is multiple decision trees, is called an &lt;strong&gt;ensemble model&lt;/strong&gt;. Another issue bagging helps with is overfitting.&lt;/p&gt;
+&lt;p&gt;Bagging is an ensemble method and the term &lt;em&gt;bagging&lt;/em&gt; is shorthand for &lt;strong&gt;B&lt;/strong&gt;ootstrap &lt;strong&gt;AGG&lt;/strong&gt;regat&lt;strong&gt;ING&lt;/strong&gt;. Bagging uses &lt;a href=&#34;https://en.wikipedia.org/wiki/Bootstrapping_(statistics)&#34;&gt;bootstrap sampling&lt;/a&gt; and aggregates the individual models by averaging. Bootstrap sampling means sampling rows at random from the training dataset with replacement. Bagging also starts with all available features of the data.&lt;/p&gt;
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img src=&#34;https://i.imgur.com/JYBMwak.png&#34; /&gt;
+&lt;figcaption&gt;
+&lt;a href=&#34;https://www.datacamp.com/courses/machine-learning-with-tree-based-models-in-r&#34;&gt;Image Source&lt;/a&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+&lt;p&gt;With replacement means there is a chance the bootstrap sample will have the same observation more than once. This can also lead some rows be absent. This allows us to have “new” data. By doing this we can fit many different, yet similar, models.&lt;/p&gt;
+&lt;div id=&#34;bagging-steps&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Bagging Steps:&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Step 1&lt;/strong&gt;: Draw &lt;span class=&#34;math inline&#34;&gt;\(B\)&lt;/span&gt; samples with replacement from the original training set, where B is a number less than or equal to the &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; ($N = total training rows $). A common choice for &lt;span class=&#34;math inline&#34;&gt;\(B\)&lt;/span&gt; is &lt;span class=&#34;math inline&#34;&gt;\(\frac{N}{2}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 2&lt;/strong&gt;: Train a decision tree on the newly created bootstrapped sample.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 3&lt;/strong&gt;: Repeat steps 1 and 2 multiple times. 10, 50, 100, 1000, etc. Typically, the more trees the better.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;predicting-with-bagging&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Predicting with Bagging&lt;/h3&gt;
+&lt;p&gt;If we have 1,000 bootstrapped trees that makes up our ensemble model, each bootstrap tree may have different terminal nodes compared to the other. To generate a prediction with this model, the model will make a prediction with all 1,000 trees and then average the predictions together to end up with the final prediciton. Due to bagging averaging the predictions, this will lower the variability and lead to a better performing model. I found a picture that repsents a decision trees prediction versus a bagging ensemble method. Hint: the decision tree is on the left ;)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cdn.imgbin.com/17/0/7/imgbin-the-wisdom-of-crowds-wisdom-of-the-crowd-crowdsourcing-others-0Ehm17am7cWP7TMhUGkA7wXjv.jpg&#34; class=&#34;uri&#34;&gt;https://cdn.imgbin.com/17/0/7/imgbin-the-wisdom-of-crowds-wisdom-of-the-crowd-crowdsourcing-others-0Ehm17am7cWP7TMhUGkA7wXjv.jpg&lt;/a&gt;
+&lt;img src=&#34;https://cdn.imgbin.com/17/0/7/imgbin-the-wisdom-of-crowds-wisdom-of-the-crowd-crowdsourcing-others-0Ehm17am7cWP7TMhUGkA7wXjv.jpg&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-about-random-forests&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;What about Random Forests?&lt;/h3&gt;
+&lt;p&gt;The only difference between bagging and random forest is that random forests will use a random subset of the datas features to build the models while bagging uses all features. This can lead to random forest removing a random feature and possibly finding an pattern that was not noticable while using all features. This parameter in functions to fit the models is called &lt;hc&gt;mtry&lt;/hc&gt;. When &lt;hc&gt;mtry&lt;/hc&gt; is equal to the count of independant variables then it is bagging. Anything less than that is random forest. We will fit an example model using the randomForest package for demonstration and when we need to use grid search for parameter selection we will use the &lt;strong&gt;ranger&lt;/strong&gt; package (ranger is written in C# and is much faster when scaling up). The model will be fit using the default parameters, aside from mtry for bagging, and to go over the output of the model.&lt;/p&gt;
+&lt;p&gt;To demonstrate the time difference between fitting models between randomForest and ranger I will use the package &lt;strong&gt;tictoc&lt;/strong&gt; to measure the amount of time it takes to run the code and compare them when we transfer to ranger. Note: &lt;code&gt;randomForest()&lt;/code&gt; requires character columns to be of the factor data type. We will transfrom this into a different data set so we dont change our original data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bagging &amp;lt;- ncol(train) - 1 # Do not include the Y variable
+train_rf &amp;lt;- train %&amp;gt;% 
+  mutate_if(is.character, as.factor)
+
+tic()
+rf_example &amp;lt;- randomForest(
+  formula = income ~ .,
+  data = train_rf,
+  mtry = bagging,
+  ntree = 1000
+)
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 94.728 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic()
+ranger_example &amp;lt;- ranger(
+  formula = income ~ .,
+  data = train_rf,
+  mtry = bagging,
+  num.trees = 1000,
+  verbose = FALSE
+)
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 67.176 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For 1,000 trees it saves us almost 1 minute! To explore random forests and bagging, the &lt;code&gt;randomForest()&lt;/code&gt; function has nice built in functions for visualizing the model. When we want to find an optimized model we will grid search with &lt;strong&gt;ranger&lt;/strong&gt;.&lt;/p&gt;
+&lt;div id=&#34;randomforest-output&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;randomForest Output&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rf_example&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+##  randomForest(formula = income ~ ., data = train_rf, mtry = bagging,      ntree = 1000) 
+##                Type of random forest: classification
+##                      Number of trees: 1000
+## No. of variables tried at each split: 12
+## 
+##         OOB estimate of  error rate: 15.35%
+## Confusion matrix:
+##       &amp;lt;=50K &amp;gt;50K class.error
+## &amp;lt;=50K 22677 2043  0.08264563
+## &amp;gt;50K   2956 4885  0.37699273&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When we &lt;em&gt;print&lt;/em&gt; the model we can see the original call to create the data, the type of random forest, tree count, number of variables per split, OOB estimate, and a confusion matrix. The OOB estimate takes the prediction for each tree. For example, we trained 1,000 trees. The OOB&lt;/p&gt;
+&lt;p&gt;We can see the error rate as the tree count increases using the &lt;hc&gt;plot()&lt;/hc&gt; function.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(rf_example)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/posts/2019-09-13-fitting-tree-models_files/figure-html/unnamed-chunk-55-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can see that around 175 trees the error stops decreasing. This meaning we used too many trees, which translate to too much time spent waiting in terms of computation time. This means we can train a model with a much smaller amount of trees. This will be covered when we do a grid search, but it is nice to visual a model and see how many trees optimizes the error.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;random-forest-grid-search&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Random Forest Grid Search&lt;/h3&gt;
+&lt;p&gt;Just like the decision tree we will grid search for the best random forest model. The two parameters we will be tuning are &lt;em&gt;mtry&lt;/em&gt;, total variables to use, and &lt;em&gt;num.tree&lt;/em&gt;, the tree count. The choice for &lt;em&gt;mtry&lt;/em&gt; is a standard way of checking when I was in college. Due to what we saw in the first random forest model, we shouldnt need anywhere near 1000 trees, but it doesn’t hurt to check. Remember, more trees = more computationally expensive for us. By us I mean my computer :) So I will only check a few tree values. Idealy these models will be trained when there is idle time and/or on a computer that can handle training a lot of large models.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# bagging = total number of independent variables
+rf_grid_search &amp;lt;- list(
+  mtry = unique(
+    ceiling(
+      c(
+        bagging,
+        sqrt(bagging),
+        bagging / 2)
+      )
+    ),
+  num.trees = c(100, 300, 500)
+) %&amp;gt;% 
+  cross_df() %&amp;gt;% 
+  arrange(mtry, num.trees)
+
+rf_grid_search&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 9 x 2
+##    mtry num.trees
+##   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;
+## 1     4       100
+## 2     4       300
+## 3     4       500
+## 4     6       100
+## 5     6       300
+## 6     6       500
+## 7    12       100
+## 8    12       300
+## 9    12       500&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rf-model-fitting&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;RF Model Fitting&lt;/h3&gt;
+&lt;p&gt;Again we will create a model function. This time we will use &lt;strong&gt;ranger&lt;/strong&gt; to fit our RF models. The pmap handles passing in the parameter using …! The other method we could go with is a for loop, however, this is shorter and elegant.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rf_mod &amp;lt;- function(...) {
+  ranger(income ~ ., data = train, ...)
+}
+
+rf_grid_search &amp;lt;- rf_grid_search %&amp;gt;% 
+  mutate(fit = pmap(rf_grid_search, rf_mod))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Growing trees.. Progress: 97%. Estimated remaining time: 1 seconds.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rf_grid_search&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 9 x 3
+##    mtry num.trees fit     
+##   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt;  
+## 1     4       100 &amp;lt;ranger&amp;gt;
+## 2     4       300 &amp;lt;ranger&amp;gt;
+## 3     4       500 &amp;lt;ranger&amp;gt;
+## 4     6       100 &amp;lt;ranger&amp;gt;
+## 5     6       300 &amp;lt;ranger&amp;gt;
+## 6     6       500 &amp;lt;ranger&amp;gt;
+## 7    12       100 &amp;lt;ranger&amp;gt;
+## 8    12       300 &amp;lt;ranger&amp;gt;
+## 9    12       500 &amp;lt;ranger&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We now have 9 ranger models. We will look at accuracy. To reiterate, in a real life setting it may be more applicable to use AUC. Below, notice how &lt;hc&gt;predicted&lt;/hc&gt; needs to be set up. Before when we used predict it returned a vector. &lt;strong&gt;ranger&lt;/strong&gt;’s predict function returns a list object with &lt;strong&gt;predictions&lt;/strong&gt; being one of the list elements. We can use the &lt;hc&gt;pluck()&lt;/hc&gt; function from &lt;strong&gt;purrr&lt;/strong&gt; to grab the named element from the list.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;compute_accuracy &amp;lt;- function(fit, test_features, test_labels) {
+  predicted &amp;lt;- predict(fit, test_features) %&amp;gt;% 
+    pluck(predictions)
+  
+  mean(predicted == test_labels)
+}
+
+test_features &amp;lt;- test %&amp;gt;% select(-income)
+test_labels   &amp;lt;- test$income
+
+rf_grid_search &amp;lt;- rf_grid_search %&amp;gt;%
+  mutate(
+    test_accuracy = map_dbl(
+      fit,
+      compute_accuracy,
+      test_features,
+      test_labels
+      )
+    ) %&amp;gt;%
+  arrange(
+    desc(test_accuracy),
+    mtry, 
+    num.trees
+    )
+  
+rf_grid_search&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 9 x 4
+##    mtry num.trees fit      test_accuracy
+##   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt;           &amp;lt;dbl&amp;gt;
+## 1     4       300 &amp;lt;ranger&amp;gt;         0.862
+## 2     4       100 &amp;lt;ranger&amp;gt;         0.861
+## 3     4       500 &amp;lt;ranger&amp;gt;         0.861
+## 4     6       300 &amp;lt;ranger&amp;gt;         0.855
+## 5     6       500 &amp;lt;ranger&amp;gt;         0.854
+## 6     6       100 &amp;lt;ranger&amp;gt;         0.854
+## 7    12       100 &amp;lt;ranger&amp;gt;         0.846
+## 8    12       500 &amp;lt;ranger&amp;gt;         0.846
+## 9    12       300 &amp;lt;ranger&amp;gt;         0.845&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;best-model-evaluation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Best Model Evaluation&lt;/h3&gt;
+&lt;p&gt;In terms of overall accuracy the best model has a &lt;em&gt;mtry&lt;/em&gt; value of 4 and uses a tree count of 300. Much like what we did with the rpart model we can make a confusion matrix to check our best models performance.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;best_rf_mod &amp;lt;- rf_grid_search %&amp;gt;% 
+  pull(fit) %&amp;gt;% 
+  .[[1]]
+
+best_rf_mod&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Ranger result
+## 
+## Call:
+##  ranger(income ~ ., data = train, ...) 
+## 
+## Type:                             Classification 
+## Number of trees:                  300 
+## Sample size:                      32561 
+## Number of independent variables:  12 
+## Mtry:                             4 
+## Target node size:                 1 
+## Variable importance mode:         none 
+## Splitrule:                        gini 
+## OOB prediction error:             13.89 %&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;features &amp;lt;- test %&amp;gt;%
+  select(-income)
+labels   &amp;lt;- test %&amp;gt;% 
+  pull(income)
+
+class_prediction &amp;lt;- predict(
+  best_rf_mod,
+  test_features
+) %&amp;gt;% 
+  pluck(predictions)
+
+caret::confusionMatrix(
+  data = class_prediction,
+  reference = as.factor(labels)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction &amp;lt;=50K  &amp;gt;50K
+##      &amp;lt;=50K 11619  1423
+##      &amp;gt;50K    816  2423
+##                                           
+##                Accuracy : 0.8625          
+##                  95% CI : (0.8571, 0.8677)
+##     No Information Rate : 0.7638          
+##     P-Value [Acc &amp;gt; NIR] : &amp;lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.5969          
+##                                           
+##  Mcnemar&amp;#39;s Test P-Value : &amp;lt; 2.2e-16       
+##                                           
+##             Sensitivity : 0.9344          
+##             Specificity : 0.6300          
+##          Pos Pred Value : 0.8909          
+##          Neg Pred Value : 0.7481          
+##              Prevalence : 0.7638          
+##          Detection Rate : 0.7137          
+##    Detection Prevalence : 0.8011          
+##       Balanced Accuracy : 0.7822          
+##                                           
+##        &amp;#39;Positive&amp;#39; Class : &amp;lt;=50K           
+## &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our previous simple model had:
+- &lt;strong&gt;Accuracy&lt;/strong&gt;: 84.45%
+- &lt;strong&gt;Sensitivity&lt;/strong&gt;: 94.93%
+- &lt;strong&gt;Specificity&lt;/strong&gt;: 50.57%&lt;/p&gt;
+&lt;p&gt;Our best random forest model does better in every category besides sensitivity, where it dropp by ~ 1%. The RF model was able to catch a lot more (13% more!) people who made more than $50,000! Fantastic! This is the power of the ensemble method of random forest, it will build multiple trees with different data and use different features to find different patterns that are used in the final outcome! I find that so awesome.&lt;/p&gt;
+&lt;p&gt;Now there is still one more tree method to go! This next method isn’t too different from the RF methods. Onto boosted trees!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;boosted-trees&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Boosted Trees&lt;/h2&gt;
+&lt;p&gt;Work in progress..&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Introduction to Neural Networks</title>
