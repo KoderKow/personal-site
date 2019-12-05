@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Image Processing on Kyle Harris</title>
+    <link>/tags/image-processing/</link>
+    <description>Recent content in Image Processing on Kyle Harris</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 04 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/image-processing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tesseract OCR Version 4.1.0 Parameters</title>
+      <link>/2019/2019-12-04-tesseract-ocr-version-4-1-0-parameters/</link>
+      <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/2019-12-04-tesseract-ocr-version-4-1-0-parameters/</guid>
+      <description>Overview During a project my team was having a hard time tracking down an up to date parameters list for Tesseract OCR. The documentation mentions to use tesseract --print-parameters to get the available 600+ options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache.</description>
+    </item>
+    
+  </channel>
+</rss>

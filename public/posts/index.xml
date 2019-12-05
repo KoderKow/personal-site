@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Kyle Harris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tesseract OCR Version 4.1.0 Parameters</title>
+      <link>/2019/2019-12-04-tesseract-ocr-version-4-1-0-parameters/</link>
+      <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/2019-12-04-tesseract-ocr-version-4-1-0-parameters/</guid>
+      <description>Overview During a project my team was having a hard time tracking down an up to date parameters list for Tesseract OCR. The documentation mentions to use tesseract --print-parameters to get the available 600+ options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache.</description>
+    </item>
     
     <item>
       <title>Fitting Tree Models</title>
@@ -17,8 +26,7 @@
       <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/2019-09-13-fitting-tree-models/</guid>
-      <description>EDA Data Cleaning Plot Em’!  Modeling Split the Data Classification Tree Bagging &amp;amp; Random Forests Boosted Trees    library(knitr) library(kableExtra) library(xgboost) library(tidyverse) library(rlang) library(skimr) library(ggthemes) library(kowr) library(countrycode) library(rpart) library(rpart.plot) library(caret) library(ModelMetrics) library(randomForest) library(ranger) library(tictoc) The adult data is obtained from the UCI Machine Learning Repository. On the site they have the data split into multiple pieces:
- data: the training data test: the test data names: column names  We can read the data directly from their website.</description>
+      <description>read_csv() will allow us to read in the data from the site, however, we know the data has no column names. Thus, we shall read in the column names first. The data from names_url is not in a format for easy R interpritation. After some exploration on the website it looks like a .txt file, so we can use readlines to look at the data and find what we are looking for.</description>
     </item>
     
     <item>
