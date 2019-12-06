@@ -28,10 +28,17 @@
 
 &lt;div id=&#34;overview&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Overview&lt;/h1&gt;
-&lt;p&gt;During a project my team was having a hard time tracking down an up to date parameters list for &lt;a href=&#34;https://github.com/tesseract-ocr/tesseract&#34;&gt;Tesseract OCR&lt;/a&gt;. The documentation mentions to use &lt;code&gt;tesseract --print-parameters&lt;/code&gt; to get the available &lt;em&gt;600+&lt;/em&gt; options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache. I have taken the current parameters list for &lt;strong&gt;Tesseract OCR 4.1.0&lt;/strong&gt; and made it available on this page and in JSON format in hopes it will help people explore the available options.&lt;/p&gt;
+&lt;p&gt;During a project my team was having a hard time tracking down an up to date parameters list for &lt;a href=&#34;https://github.com/tesseract-ocr/tesseract&#34;&gt;Tesseract OCR&lt;/a&gt;. The documentation mentions to use &lt;hc&gt;tesseract –print-parameters&lt;/hc&gt; to get the available &lt;em&gt;600+&lt;/em&gt; options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache. I have taken the current parameters list for &lt;strong&gt;Tesseract OCR 4.1.0&lt;/strong&gt; and made it available on this page and in JSON format in hopes it will help people explore the available options.&lt;/p&gt;
 &lt;!-- Below the table there will will be this table is JSON for those wanting the raw data. --&gt;
-&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; The &lt;em&gt;Description&lt;/em&gt; column has apostrophe’s &lt;strong&gt;removed&lt;/strong&gt; due to the major conflicts it was causing me during data cleaning. There are some single and double quotes in the &lt;em&gt;Value&lt;/em&gt; column, these were intially removed and then re-added. I have triple-checked to ensure they are correct since &lt;em&gt;Value&lt;/em&gt; is important when looking at the default value of these parameters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cleaning-process&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Cleaning Process&lt;/h1&gt;
+&lt;p&gt;I used RStudio’s find/replace functionality to clean up the text I copied from the terminal using the &lt;hc&gt;tesseract –print-parameters&lt;/hc&gt; command. The &lt;em&gt;Description&lt;/em&gt; column has apostrophe’s &lt;strong&gt;removed&lt;/strong&gt; due to the major conflicts it was causing me during data cleaning. There are some single and double quotes in the &lt;em&gt;Value&lt;/em&gt; column, these were intially removed and then re-added. I have triple-checked to ensure they are correct since &lt;em&gt;Value&lt;/em&gt; is important when looking at the default value of these parameters.&lt;/p&gt;
 &lt;p&gt;Thank you Tesseract OCR dev team for this fantastic piece of software and making it open source! :)&lt;/p&gt;
+&lt;div id=&#34;json-source&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;JSON Source&lt;/h2&gt;
+&lt;p&gt;If you are interested in the data used in the table, &lt;a href=&#34;https://raw.githubusercontent.com/KoderKow/stuff/master/data/tp_json.json&#34;&gt;here&lt;/a&gt; is a link to the raw data on &lt;a href=&#34;https://github.com/KoderKow/stuff/blob/master/data/tp_json.json&#34;&gt;my GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;parameters&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Parameters&lt;/h1&gt;

@@ -27,10 +27,17 @@ featured_image: ~
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>During a project my team was having a hard time tracking down an up to date parameters list for <a href="https://github.com/tesseract-ocr/tesseract">Tesseract OCR</a>. The documentation mentions to use <code>tesseract --print-parameters</code> to get the available <em>600+</em> options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache. I have taken the current parameters list for <strong>Tesseract OCR 4.1.0</strong> and made it available on this page and in JSON format in hopes it will help people explore the available options.</p>
+<p>During a project my team was having a hard time tracking down an up to date parameters list for <a href="https://github.com/tesseract-ocr/tesseract">Tesseract OCR</a>. The documentation mentions to use <hc>tesseract –print-parameters</hc> to get the available <em>600+</em> options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache. I have taken the current parameters list for <strong>Tesseract OCR 4.1.0</strong> and made it available on this page and in JSON format in hopes it will help people explore the available options.</p>
 <!-- Below the table there will will be this table is JSON for those wanting the raw data. -->
-<p><strong>Disclaimer:</strong> The <em>Description</em> column has apostrophe’s <strong>removed</strong> due to the major conflicts it was causing me during data cleaning. There are some single and double quotes in the <em>Value</em> column, these were intially removed and then re-added. I have triple-checked to ensure they are correct since <em>Value</em> is important when looking at the default value of these parameters.</p>
+</div>
+<div id="cleaning-process" class="section level1">
+<h1>Cleaning Process</h1>
+<p>I used RStudio’s find/replace functionality to clean up the text I copied from the terminal using the <hc>tesseract –print-parameters</hc> command. The <em>Description</em> column has apostrophe’s <strong>removed</strong> due to the major conflicts it was causing me during data cleaning. There are some single and double quotes in the <em>Value</em> column, these were intially removed and then re-added. I have triple-checked to ensure they are correct since <em>Value</em> is important when looking at the default value of these parameters.</p>
 <p>Thank you Tesseract OCR dev team for this fantastic piece of software and making it open source! :)</p>
+<div id="json-source" class="section level2">
+<h2>JSON Source</h2>
+<p>If you are interested in the data used in the table, <a href="https://raw.githubusercontent.com/KoderKow/stuff/master/data/tp_json.json">here</a> is a link to the raw data on <a href="https://github.com/KoderKow/stuff/blob/master/data/tp_json.json">my GitHub</a>.</p>
+</div>
 </div>
 <div id="parameters" class="section level1">
 <h1>Parameters</h1>
