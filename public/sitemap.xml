@@ -7,8 +7,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -19,8 +21,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -31,8 +35,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -43,8 +49,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -55,8 +63,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -67,8 +77,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -79,8 +91,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -91,8 +105,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -103,8 +119,10 @@
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -138,25 +156,29 @@
     </url>
   
     <url>
-      <loc>/tags/trees/</loc>
-      
-      <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
       <loc>/categories/machine-learning/</loc>
       
       <lastmod>2019-09-13T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/tags/trees/</loc>
+      
+      <lastmod>2019-09-13T00:00:00+00:00</lastmod>
+      
+      
+      <changefreq>monthly</changefreq>
+      
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -223,8 +245,10 @@
       <lastmod>2018-06-10T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -235,8 +259,10 @@
       <lastmod>2018-06-10T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -261,8 +287,10 @@
       <lastmod>2018-05-27T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>
@@ -287,8 +315,10 @@
       <lastmod>2018-05-24T00:00:00+00:00</lastmod>
       
       
+      <changefreq>monthly</changefreq>
       
-      <priority>0</priority>
+      
+      <priority>0.5</priority>
       
       
     </url>

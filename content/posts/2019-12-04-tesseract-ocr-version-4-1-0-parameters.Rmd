@@ -28,7 +28,7 @@ tesseract_parameters <- fromJSON(url)
 
 # Overview
 
-During a project my team was having a hard time tracking down an up to date parameters list for [Tesseract OCR](https://github.com/tesseract-ocr/tesseract). The documentation mentions to use <hc>tesseract --print-parameters</hc> to get the available *600+* options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache. I have taken the current parameters list for **Tesseract OCR 4.1.0** and made it available on this page and in JSON format in hopes it will help people explore the available options.
+During a project my team was having a hard time tracking down an up to date parameters list for [Tesseract OCR](https://github.com/tesseract-ocr/tesseract). The documentation mentions to use <hc>tesseract --print-parameters</hc> (two hyphens in front of print) to get the available *600+* options. Personally, I use R at my job so sifting through the terminal and trying to go through a poorly formatted (this may be due to my unfamiliarity to the terminal) list in the terminal can be a headache. I have taken the current parameters list for **Tesseract OCR 4.1.0** and made it available on this page and in JSON format in hopes it will help people explore the available options.
 
 <!-- Below the table there will will be this table is JSON for those wanting the raw data. -->
 
