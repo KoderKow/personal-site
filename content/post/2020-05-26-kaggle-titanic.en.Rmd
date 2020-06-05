@@ -1,0 +1,909 @@
+---
+title: 'Kaggle: Titanic'
+author: Kyle Harris
+date: '2020-05-26'
+slug: kaggle-titanic
+categories: []
+tags: []
+description: ~
+featured_image: ~
+---
+
+# Libraries
+
+```{r}
+library(tidymodels)
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(vip)
+```
+
+# Data
+
+```{r}
+train_raw <- read_csv("/Users/Kow/Downloads/titanic/train.csv") %>% 
+  clean_names() 
+test_raw <- read_csv("/Users/Kow/Downloads/titanic/test.csv") %>% 
+  mutate(survived = NA) %>% 
+  clean_names()
+
+all_data <- bind_rows(train_raw, test_raw) %>% 
+  select(
+    survived,
+    ticket_class = pclass,
+    sex,
+    age,
+    name,
+    n_sibling_and_spouse = sib_sp,
+    n_parents_and_children = parch,
+    ticket_number = ticket,
+    fare,
+    cabin_number = cabin,
+    embarked_from = embarked
+  ) %>% 
+  mutate(
+    survived = ifelse(survived == 0, "no", "yes"),
+    ticket_class = case_when(
+      ticket_class == 1 ~ "Lower",
+      ticket_class == 2 ~ "Middle",
+      ticket_class == 3 ~ "Higher"
+    ),
+    embarked_from = case_when(
+      embarked_from == "C" ~ "Cherbourg",
+      embarked_from == "Q" ~ "Queenstown",
+      embarked_from == "S" ~ "Southampton"
+    ),
+    family_size = n_sibling_and_spouse + n_parents_and_children + 1
+  ) %>% 
+  mutate_if(is.character, as.factor)
+```
+
+# Data Overview
+
+```{r}
+names(all_data)
+```
+
+```{r}
+glimpse(all_data)
+```
+
+```{r}
+skim(all_data)
+```
+
+## Handling Missing Data
+
+### survived
+
+There are 418 missing data points in our outcome, survived. This should be the total rows in the test dataset due to Kaggle not including the answers.
+
+```{r}
+nrow(test_raw)
+```
+
+### cabin_number
+
+We only have 22% of the data for cabin. With 78% missing this may be a column to throw away. We will see how our models handle the NAs. I think it will be good to test models with and without this variable.
+
+### embarked_from
+
+There are two missing values here. Within our **recipes** we will impute this data using KNN (K-Nearest Neighbors)
+
+### age
+
+This data is about 80% complete. We will again use KNN to impute this data. We will need to look into how many groups to specify for this variable. The data is also right skewed.
+
+### fare
+
+One missing value, again, we will impute using KNN.
+
+# Diving Into the Data
+
+## Looking at Single Variables
+
+#### Function for Plotting Single Variables
+
+```{r}
+plot_variable <- function(.data, x) {
+  
+  x_enquo <- rlang::enquo(x)
+  x_text <- rlang::quo_text(x_enquo)
+  x_class <- class(.data[[x_text]])
+  
+  if (x_class %in% c("character", "factor")) {
+    
+    d <- .data %>% 
+      filter(!is.na(!!x_enquo)) %>% 
+      count(!!x_enquo) %>% 
+      mutate(
+        prop = n / sum(n),
+        !!x_enquo := fct_reorder(!!x_enquo, prop, .desc = TRUE)
+      )
+    
+    bars <- d %>% 
+      ggplot(aes(
+        x = !!x_enquo,
+        y = n,
+        fill = !!x_enquo
+      )) +
+      geom_col(color = "black") +
+      geom_label(
+        mapping = aes(label = percent(prop), vjust = 2),
+        show.legend = FALSE,
+        fill = "white"
+      ) +
+      theme(legend.position = "none") +
+      scale_fill_viridis_d(option = "inferno")
+    
+    return(bars)
+    
+  } else if (x_class %in% c("integer", "numeric")) {
+    
+    mu <- mean(.data[[x_text]], na.rm = TRUE)
+    quantiles <- quantile(.data[[x_text]], na.rm = TRUE)
+    q_names <- names(quantiles)
+    
+    q_data <- c(quantiles, mu) %>% 
+      as_tibble() %>% 
+      mutate(
+        quantile = c(q_names, "mean"),
+        quantile = fct_reorder(quantile, value)
+      )
+    
+    hist <- .data %>% 
+      ggplot(aes(x = !!x_enquo)) +
+      geom_histogram(color = "black", fill = "#778899") +
+      geom_vline(
+        data = q_data,
+        mapping = aes(xintercept = value, color = quantile),
+        linetype = "dashed",
+        size = 1.5,
+        alpha = 0.8
+      ) +
+      scale_color_viridis_d(option = "inferno")
+    
+    return(hist)
+    
+  } else {
+    msg <- str_c(
+      "Data type ",
+      x_class,
+      " not supported."
+    )
+    
+    stop(msg)
+  }
+}
+```
+
+### survived
+
+```{r}
+plot_variable(all_data, survived)
+```
+
+### ticket_class
+
+```{r}
+plot_variable(all_data, ticket_class)
+```
+
+### sex
+
+```{r}
+plot_variable(all_data, sex)
+```
+
+### age
+
+```{r, message=FALSE, warning=FALSE}
+plot_variable(all_data, age)
+```
+
+### name
+
+As we saw with skim there are a lot of unique names. Lets take a peak at the data.
+
+```{r}
+all_data %>% 
+  count(name, sort = TRUE)
+```
+
+After the comma there appears to be titles. That could be a promising feature.
+
+```{r}
+all_data <- all_data %>% 
+  mutate(
+    title = name %>% 
+      str_split(", |\\.", simplify = TRUE) %>% 
+      .[, 2] %>% 
+      as.factor()
+  )
+```
+
+```{r}
+plot_variable(all_data, title)
+```
+
+```{r}
+all_data %>% 
+  count(title, sort = TRUE) %>% 
+  mutate(prop = n / sum(n))
+```
+
+```{r}
+all_data %>% 
+  group_by(sex) %>% 
+  count(title, sort = TRUE) %>% 
+  mutate(prop = n / sum(n))
+```
+
+```{r}
+all_data %>% 
+  group_by(sex) %>% 
+  count(title, sort = TRUE) %>% 
+  mutate(prop = n / sum(n)) %>% 
+  count(title)
+```
+
+Interesting, there is no title shared between females and males. I will do some research on these titles and try to collapse them. Thankfully there has been a lot of helpful posts on Kaggle about this! With the table above we can reduce to the titles as they do in [Deep Learning by Example](https://books.google.com/books?id=oulODwAAQBAJ&pg=PA85&lpg=PA85&dq=dona+name+title+titanic&source=bl&ots=5u6XvbCPuk&sig=ACfU3U2j-KP3cxc0LuiDQVpUQUi9uUruaQ&hl=en&sa=X&ved=2ahUKEwj4oYyLrNLpAhWWr54KHWf5DOsQ6AEwAXoECAwQAQ#v=onepage&q=dona%20name%20title%20titanicdona&f=false)
+
+```{r}
+all_data <- all_data %>% 
+  mutate(
+    title = case_when(
+      title == "Jonkheer" ~ "Master",
+      title %in% c("Mlle", "Ms") ~ "Miss",
+      title == "Mme" ~ "Mrs",
+      title %in% c("Capt", "Col", "Don", "Major") ~ "Sir",
+      title %in% c("Dona", "the Countess") ~ "Lady",
+      TRUE ~ as.character(title)
+    ) %>% 
+      as.factor()
+  )
+```
+
+
+### n_sibling_and_spouse
+
+```{r, message=FALSE, warning=FALSE}
+plot_variable(all_data, n_sibling_and_spouse)
+```
+
+### n_parents_and_children
+
+```{r, message=FALSE, warning=FALSE}
+plot_variable(all_data, n_parents_and_children)
+```
+
+### family_size
+
+Test feature, sum sibling/spouse and parents/childen
+
+```{r, message=FALSE, warning=FALSE}
+plot_variable(all_data, family_size)
+```
+
+### ticket_number
+
+```{r}
+ticket_count <- all_data %>% 
+  count(ticket_number, name = "ticket_group_size", sort = TRUE)
+
+ticket_count
+```
+
+There are 929 unique tickets. Ticket numbers are not unique. There looks to be some minor patterns in the names. Perhaps we can mark the rows that have matching tickets.
+
+```{r}
+all_data <- all_data %>% 
+  left_join(ticket_count, by = "ticket_number")
+```
+
+```{r}
+plot_variable(all_data, ticket_group_size)
+```
+
+### fare
+
+```{r, message=FALSE, warning=FALSE}
+plot_variable(all_data, fare)
+```
+
+### cabin_number
+
+```{r}
+all_data %>% 
+  count(cabin_number, sort = TRUE)
+```
+
+We could extract the first letter and see if there is signal there. Or for simplicity, perhaps there is importance for those who have a record and those who do not.
+
+```{r}
+all_data <- all_data %>% 
+  mutate(
+    cabin_record = ifelse(is.na(cabin_number), "no", "yes"),
+    cabin_record = as.factor(cabin_record)
+  )
+```
+
+```{r}
+all_data %>% 
+  count(cabin_record, sort = TRUE)
+```
+
+```{r}
+plot_variable(all_data, cabin_record)
+```
+
+### embarked_from
+
+```{r}
+plot_variable(all_data, embarked_from)
+```
+
+There are a lot of passengers from Southampton.
+
+## Update Data
+
+We have created a new column as well as found columns that we need to remove.
+
+```{r}
+all_data <- all_data %>% 
+  select(-c(name, ticket_number, cabin_number, n_sibling_and_spouse, n_parents_and_children))
+```
+
+## Plot Predictor Vs. Outcome
+
+#### Function for Plotting x Vs. y
+
+```{r}
+plot_two_variables <- function(.data, x, y) {
+  x_enquo <- rlang::enquo(x)
+  y_enquo <- rlang::enquo(y)
+  
+  numeric_check <- .data %>% 
+    pull(!!y_enquo) %>% 
+    is.numeric()
+  
+  if (numeric_check) {
+    p <- ggplot(
+      data = .data,
+      aes(
+        x = !!x_enquo,
+        y = !!y_enquo,
+        fill = !!x_enquo
+      )
+    ) +
+      geom_violin(alpha = 0.95) +
+      labs(x = rlang::quo_name(x_enquo)) 
+    
+    p
+    
+  } else {
+    bar_data <- .data %>% 
+      count(!!x_enquo, !!y_enquo, name = "count") %>% 
+      group_by(!!x_enquo) %>% 
+      mutate(proportion = round(count / sum(count), 2)) %>% 
+      ungroup() %>% 
+      arrange(desc(proportion)) %>% 
+      mutate(
+        !!y_enquo := factor(!!y_enquo, levels = unique(!!y_enquo)),
+        !!x_enquo := factor(!!x_enquo, levels = unique(!!x_enquo))
+      )
+    
+    p <- ggplot(
+      data = bar_data,
+      mapping = aes(
+        x = !!x_enquo,
+        y = proportion,
+        fill = !!y_enquo
+      )
+    ) +
+      geom_col(alpha = 0.95) +
+      # ggrepel::geom_label_repel(
+      #   mapp = aes(
+      #     x = !!x_enquo,
+      #     y = proportion,
+      #     label = scales::percent(proportion)
+      #   ),
+      #   position = position_stack(vjust = 0.5),
+      #   show.legend = FALSE,
+      #   fill = "white"
+      # ) +
+      scale_y_continuous(labels = scales::percent) +
+      labs(x = rlang::quo_name(y_enquo)) 
+    
+    p
+  }
+}
+```
+
+### ticket_class
+
+```{r}
+all_data %>% 
+  drop_na(survived) %>% 
+  plot_two_variables(survived, ticket_class)
+```
+
+### sex
+
+```{r}
+all_data %>% 
+  drop_na(survived) %>% 
+  plot_two_variables(survived, sex)
+```
+
+### age
+
+```{r}
+all_data %>% 
+  drop_na(survived) %>% 
+  plot_two_variables(survived, age)
+```
+
+### fare
+
+```{r}
+all_data %>% 
+  drop_na(survived, fare) %>% 
+  plot_two_variables(survived, fare)
+```
+
+### embarked_from
+
+```{r}
+all_data %>% 
+  drop_na(survived, embarked_from) %>% 
+  plot_two_variables(survived, embarked_from)
+```
+
+### family_size
+
+```{r}
+all_data %>% 
+  drop_na(survived, family_size) %>% 
+  plot_two_variables(survived, family_size)
+```
+
+### title
+
+```{r}
+all_data %>% 
+  drop_na(survived, title) %>% 
+  plot_two_variables(survived, title) +
+  scale_fill_viridis_d()
+```
+
+# Modeling
+
+## Data
+
+We need to split back the transformed training and test data.
+
+```{r}
+main_train <- drop_na(all_data, survived)
+main_test <- filter(all_data, is.na(survived))
+```
+
+To follow the tidymodels work flow we will split our training set into its own train / test set. We will set the strata to our outcome variable (survived) to ensure we have an equal proportion of no/yes in our train and test sets.
+
+```{r}
+titanic_split <- initial_split(
+  data = main_train, 
+  strata = survived,
+  prop = 0.80
+)
+
+titanic_train <- training(titanic_split)
+titanic_test  <- testing(titanic_split)
+```
+
+## Recipes
+
+```{r}
+titanic_recipe <-
+  recipe(survived ~ ., data = titanic_train) %>% 
+  step_knnimpute(
+    embarked_from,
+    neighbors = 3,
+    impute_with = vars(-survived)
+  ) %>% 
+  step_knnimpute(
+    age, fare,
+    neighbors = 5,
+    impute_with = vars(-survived)
+  ) %>% 
+  step_zv(all_predictors())
+```
+
+## 5-Fold Cross Validation
+
+```{r}
+cell_folds <- vfold_cv(
+  titanic_train,
+  v = 5
+  )
+```
+
+## CART
+
+```{r}
+tune_rpart <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune(),
+    min_n = tune()
+  ) %>% 
+  set_engine("rpart") %>% 
+  set_mode("classification")
+
+tune_rpart
+```
+
+### CART Grid
+
+```{r}
+rpart_grid <- grid_latin_hypercube(
+  cost_complexity(),
+  tree_depth(),
+  min_n(),
+  size = 10
+)
+```
+
+```{r}
+rpart_wf <- workflow() %>%
+  add_model(tune_rpart) %>%
+  add_recipe(titanic_recipe)
+
+rpart_res <- 
+  rpart_wf %>% 
+  tune_grid(
+    resamples = cell_folds,
+    grid = rpart_grid
+    )
+
+rpart_res
+```
+
+```{r}
+best_rpart <- rpart_res %>%
+  select_best("roc_auc")
+
+best_rpart
+```
+
+```{r}
+final_rpart_wf <- 
+  rpart_wf %>% 
+  finalize_workflow(best_rpart)
+```
+
+```{r}
+rpart_last_fit <- 
+  final_rpart_wf %>%
+  last_fit(titanic_split) 
+
+rpart_last_fit
+```
+
+```{r}
+rpart_last_fit %>%
+  collect_metrics()
+```
+
+```{r}
+rpart_last_fit %>%
+  collect_predictions() %>% 
+  roc_curve(survived, .pred_yes) %>% 
+  autoplot()
+```
+
+### Final Model
+
+```{r}
+rpart_fit <- final_rpart_wf %>% 
+  fit(data = main_train)
+
+rpart_fit
+```
+
+#### Variable Importance
+
+```{r}
+rpart_fit %>% 
+  pull_workflow_fit() %>% 
+  vip()
+```
+
+#### Submit Data to Kaggle
+
+```{r}
+pred <- predict(rpart_fit, main_test) %>% 
+  bind_cols(select(test_raw, passenger_id))
+
+pred
+```
+
+```{r}
+data_to_submit <- pred %>% 
+  select(PassengerId = passenger_id, Survived = .pred_class) %>% 
+  mutate(Survived = as.numeric(Survived) - 1)
+
+data_to_submit
+```
+
+```{r, eval=FALSE}
+write_csv(data_to_submit, "/Users/Kow/Desktop/20200526_rpart2_kaggle_submission.csv")
+```
+
+## Random Forest / Bagging
+
+```{r}
+cores <- parallel::detectCores() - 1
+cores
+```
+
+```{r}
+tune_ranger <- 
+  rand_forest(
+    mtry = tune(),
+    trees = tune(),
+    min_n = tune()
+  ) %>% 
+  set_engine("ranger", num.threads = cores, importance = "permutation") %>% 
+  set_mode("classification")
+
+tune_ranger
+```
+
+```{r}
+ranger_wf <- workflow() %>%
+  add_model(tune_ranger) %>%
+  add_recipe(titanic_recipe)
+```
+
+```{r}
+ranger_grid <- grid_latin_hypercube(
+  mtry(c(1, 9)),
+  trees(),
+  min_n(),
+  size = 10
+)
+```
+
+```{r}
+ranger_res <- 
+  ranger_wf %>% 
+  tune_grid(
+    resamples = cell_folds,
+    grid = ranger_grid
+  )
+```
+
+```{r, message=FALSE, warning=FALSE}
+best_ranger <- ranger_res %>%
+  select_best("roc_auc")
+
+best_ranger
+```
+
+```{r}
+final_ranger_wf <- 
+  ranger_wf %>% 
+  finalize_workflow(best_ranger)
+```
+
+```{r}
+ranger_last_fit <- 
+  final_ranger_wf %>%
+  last_fit(titanic_split)
+```
+
+```{r}
+ranger_last_fit %>%
+  collect_metrics()
+```
+
+```{r}
+ranger_last_fit %>%
+  collect_predictions() %>% 
+  roc_curve(survived, .pred_yes) %>% 
+  autoplot()
+```
+
+### Final Ranger Model
+
+```{r}
+ranger_fit <- final_ranger_wf %>% 
+  fit(data = main_train)
+
+ranger_fit
+```
+
+#### Variable Importance Plot
+
+```{r}
+ranger_fit %>% 
+  pull_workflow_fit() %>% 
+  vip()
+```
+
+#### Submit Data to Kaggle
+
+```{r}
+pred <- predict(ranger_fit, main_test) %>% 
+  bind_cols(select(test_raw, passenger_id))
+
+pred
+```
+
+```{r}
+data_to_submit <- pred %>% 
+  select(PassengerId = passenger_id, Survived = .pred_class) %>% 
+  mutate(Survived = as.numeric(Survived) - 1)
+
+data_to_submit
+```
+
+```{r, eval=FALSE}
+write_csv(data_to_submit, "/Users/Kow/Desktop/20200526_ranger4_kaggle_submission.csv")
+```
+
+## xgboost
+
+### xgboost recipe
+
+```{r}
+titanic_recipe <-
+  recipe(survived ~ ., data = titanic_train) %>% 
+  step_knnimpute(
+    embarked_from,
+    neighbors = 3,
+    impute_with = vars(ticket_class, sex, age, fare, family_size, title)
+  ) %>% 
+  step_knnimpute(
+    age, fare,
+    neighbors = 5,
+    impute_with = vars(ticket_class, sex, embarked_from, family_size, title)
+  ) %>% 
+  step_zv(all_predictors()) %>% 
+  step_dummy(all_nominal(), -all_outcomes())
+```
+
+```{r}
+xgb_spec <- boost_tree(
+  trees = 1000, 
+  tree_depth = tune(),
+  min_n = tune(), 
+  loss_reduction = tune(), ## first three: model complexity
+  sample_size = tune(),
+  mtry = tune(), ## randomness
+  learn_rate = tune() ## step size
+) %>% 
+  set_engine("xgboost") %>% 
+  set_mode("classification")
+
+xgb_wf <- workflow() %>%
+  add_recipe(titanic_recipe) %>%
+  add_model(xgb_spec)
+
+xgb_grid <- grid_latin_hypercube(
+  tree_depth(),
+  min_n(),
+  loss_reduction(),
+  sample_size = sample_prop(),
+  finalize(mtry(), titanic_train),
+  learn_rate(),
+  size = 10
+)
+
+xgboost_res <- 
+  xgb_wf %>% 
+  tune_grid(
+    resamples = cell_folds,
+    grid = xgb_grid
+  )
+
+xgboost_res %>% 
+  collect_metrics() %>% 
+  filter(.metric == "roc_auc") %>% 
+  arrange(desc(mean))
+
+best_xgb <- xgboost_res %>%
+  select_best("roc_auc")
+
+best_xgb
+
+final_xgb_wf <- 
+  xgb_wf %>% 
+  finalize_workflow(best_xgb)
+
+final_xgb_wf
+
+xgb_fit <- fit(final_xgb_wf, data = main_train)
+```
+
+#### Variable Importance Plot
+
+```{r}
+xgb_fit %>% 
+  pull_workflow_fit() %>% 
+  vip()
+```
+
+#### Submit Data to Kaggle
+
+```{r}
+pred <- predict(xgb_fit, main_test) %>% 
+  bind_cols(select(test_raw, passenger_id))
+
+pred
+```
+
+```{r}
+data_to_submit <- pred %>% 
+  select(PassengerId = passenger_id, Survived = .pred_class) %>% 
+  mutate(Survived = as.numeric(Survived) - 1)
+
+data_to_submit
+```
+
+```{r, eval=FALSE}
+write_csv(data_to_submit, "/Users/Kow/Desktop/20200526_xgb2_kaggle_submission.csv")
+```
+
+<!-- ## Nueral Networks -->
+
+<!-- ```{r} -->
+<!-- keras_spec <- mlp( -->
+<!--   hidden_units = tune(), -->
+<!--   penalty = tune(), -->
+<!--   dropout = tune(), -->
+<!--   epochs = tune() -->
+<!-- ) %>%  -->
+<!--   set_engine("keras") %>%  -->
+<!--   set_mode("classification") -->
+
+<!-- keras_wf <- workflow() %>% -->
+<!--   add_recipe(titanic_recipe) %>% -->
+<!--   add_model(nnet_spec) -->
+
+<!-- keras_grid <- grid_latin_hypercube( -->
+<!--   hidden_units(), -->
+<!--   penalty(), -->
+<!--   dropout(), -->
+<!--   epochs(), -->
+<!--   size = 3 -->
+<!-- ) -->
+
+<!-- keras_res <-  -->
+<!--   keras_wf %>%  -->
+<!--   tune_grid( -->
+<!--     resamples = cell_folds, -->
+<!--     grid = keras_grid -->
+<!--   ) -->
+
+<!-- xgboost_res %>%  -->
+<!--   collect_metrics() %>%  -->
+<!--   filter(.metric == "roc_auc") %>%  -->
+<!--   arrange(desc(mean)) -->
+
+<!-- best_xgb <- xgboost_res %>% -->
+<!--   select_best("roc_auc") -->
+
+<!-- best_xgb -->
+
+<!-- final_xgb_wf <-  -->
+<!--   xgb_wf %>%  -->
+<!--   finalize_workflow(best_xgb) -->
+
+<!-- final_xgb_wf -->
+
+<!-- xgb_fit <- fit(final_xgb_wf, data = main_train) -->
+<!-- ``` -->
+
