@@ -2,6 +2,34 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
+      <loc>/2020/2020-05-26-kaggle-titanic/</loc>
+      
+      <lastmod>2020-05-26T00:00:00+00:00</lastmod>
+      
+      
+      <changefreq>monthly</changefreq>
+      
+      
+      <priority>0.5</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/posts/</loc>
+      
+      <lastmod>2020-05-26T00:00:00+00:00</lastmod>
+      
+      
+      <changefreq>monthly</changefreq>
+      
+      
+      <priority>0.5</priority>
+      
+      
+    </url>
+  
+    <url>
       <loc>/categories/</loc>
       
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
@@ -30,20 +58,6 @@
     </url>
   
     <url>
-      <loc>/</loc>
-      
-      <lastmod>2019-12-04T00:00:00+00:00</lastmod>
-      
-      
-      <changefreq>monthly</changefreq>
-      
-      
-      <priority>0.5</priority>
-      
-      
-    </url>
-  
-    <url>
       <loc>/tags/nlp/</loc>
       
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
@@ -59,20 +73,6 @@
   
     <url>
       <loc>/tags/parameter/</loc>
-      
-      <lastmod>2019-12-04T00:00:00+00:00</lastmod>
-      
-      
-      <changefreq>monthly</changefreq>
-      
-      
-      <priority>0.5</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>/posts/</loc>
       
       <lastmod>2019-12-04T00:00:00+00:00</lastmod>
       
@@ -199,6 +199,20 @@
   
     <url>
       <loc>/about/</loc>
+      
+      <lastmod>2019-05-10T00:00:00+00:00</lastmod>
+      
+      
+      <changefreq>monthly</changefreq>
+      
+      
+      <priority>0.5</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>/</loc>
       
       <lastmod>2019-05-10T00:00:00+00:00</lastmod>
       

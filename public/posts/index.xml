@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Kyle Harris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 04 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kaggle: Titanic</title>
+      <link>/2020/2020-05-26-kaggle-titanic/</link>
+      <pubDate>Tue, 26 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/2020-05-26-kaggle-titanic/</guid>
+      <description>Libraries library(tidymodels) ## Registered S3 method overwritten by &amp;#39;xts&amp;#39;: ## method from ## as.zoo.xts zoo ## ── Attaching packages ─────────────────── ## ✓ broom 0.5.6 ✓ recipes 0.1.9 ## ✓ dials 0.0.4 ✓ rsample 0.0.5 ## ✓ dplyr 0.8.5 ✓ tibble 3.0.1 ## ✓ ggplot2 3.3.0 ✓ tune 0.0.1 ## ✓ infer 0.5.1 ✓ workflows 0.1.0.9000 ## ✓ parsnip 0.0.5 ✓ yardstick 0.0.5 ## ✓ purrr 0.3.3 ## ── Conflicts ── tidymodels_conflicts() ── ## x purrr::discard() masks scales::discard() ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() ## x ggplot2::margin() masks dials::margin() ## x recipes::step() masks stats::step() ## x recipes::yj_trans() masks scales::yj_trans() library(tidyverse) ## ── Attaching packages ─────────────────── ## ✓ readr 1.</description>
+    </item>
     
     <item>
       <title>Tesseract OCR Version 4.1.0 Parameters</title>

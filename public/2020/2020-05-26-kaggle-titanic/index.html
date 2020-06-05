@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  
+  
+  
+  
+  
+  <link rel="prev" href="/2019/2019-12-04-tesseract-ocr-version-4-1-0-parameters/" />
+  
+  <link rel="canonical" href="/2020/2020-05-26-kaggle-titanic/" />
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Kaggle: Titanic | Kyle Harris
+       
+  </title>
+  <meta name="title" content="Kaggle: Titanic | Kyle Harris">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kaggle: Titanic"/>
+<meta name="twitter:description" content="Libraries library(tidymodels) ## Registered S3 method overwritten by &#39;xts&#39;: ## method from ## as.zoo.xts zoo ## ── Attaching packages ─────────────────── ## ✓ broom 0.5.6 ✓ recipes 0.1.9 ## ✓ dials 0.0.4 ✓ rsample 0.0.5 ## ✓ dplyr 0.8.5 ✓ tibble 3.0.1 ## ✓ ggplot2 3.3.0 ✓ tune 0.0.1 ## ✓ infer 0.5.1 ✓ workflows 0.1.0.9000 ## ✓ parsnip 0.0.5 ✓ yardstick 0.0.5 ## ✓ purrr 0.3.3 ## ── Conflicts ── tidymodels_conflicts() ── ## x purrr::discard() masks scales::discard() ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() ## x ggplot2::margin() masks dials::margin() ## x recipes::step() masks stats::step() ## x recipes::yj_trans() masks scales::yj_trans() library(tidyverse) ## ── Attaching packages ─────────────────── ## ✓ readr 1."/>
+
+  <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Kaggle: Titanic",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "\/2020\/2020-05-26-kaggle-titanic\/"
+  },
+  
+  "genre": "posts",
+  
+  "wordcount":  4774 ,
+  "url": "\/2020\/2020-05-26-kaggle-titanic\/",
+  "datePublished": "2020-05-26T00:00:00\x2b00:00",
+  "dateModified": "2020-05-26T00:00:00\x2b00:00",
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fastbyte01",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "\/",
+      "width":  null ,
+      "height":  null 
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Kyle Harris"
+  },
+  "description": ""
+}
+</script>
+</head>
+
+  
+
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="/">Kyle Harris</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about" title="">About</a>
+                
+                <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;<a href="/">Kyle Harris</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about" title="">About</a>
+                
+        </div>
+    </div>
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp">
+    <header class="post-header">
+        <h1 class="post-title">Kaggle: Titanic</h1>
+        <div class="post-meta">
+            Written by <a href="/" rel="author">Kyle Harris</a> with ♥ 
+                <span class="post-time">
+                    on <time datetime=2020-05-26 >26 May 2020</time>
+                </span>
+                in
+                
+                <i class="iconfont icon-timer"></i>
+                23 min
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          
+
+
+<div id="libraries" class="section level1">
+<h1>Libraries</h1>
+<pre class="r"><code>library(tidymodels)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;xts&#39;:
+##   method     from
+##   as.zoo.xts zoo</code></pre>
+<pre><code>## ── Attaching packages ───────────────────</code></pre>
+<pre><code>## ✓ broom     0.5.6          ✓ recipes   0.1.9     
+## ✓ dials     0.0.4          ✓ rsample   0.0.5     
+## ✓ dplyr     0.8.5          ✓ tibble    3.0.1     
+## ✓ ggplot2   3.3.0          ✓ tune      0.0.1     
+## ✓ infer     0.5.1          ✓ workflows 0.1.0.9000
+## ✓ parsnip   0.0.5          ✓ yardstick 0.0.5     
+## ✓ purrr     0.3.3</code></pre>
+<pre><code>## ── Conflicts ── tidymodels_conflicts() ──
+## x purrr::discard()    masks scales::discard()
+## x dplyr::filter()     masks stats::filter()
+## x dplyr::lag()        masks stats::lag()
+## x ggplot2::margin()   masks dials::margin()
+## x recipes::step()     masks stats::step()
+## x recipes::yj_trans() masks scales::yj_trans()</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────</code></pre>
+<pre><code>## ✓ readr   1.3.1     ✓ forcats 0.4.0
+## ✓ stringr 1.4.0</code></pre>
+<pre><code>## ── Conflicts ─── tidyverse_conflicts() ──
+## x readr::col_factor() masks scales::col_factor()
+## x purrr::discard()    masks scales::discard()
+## x dplyr::filter()     masks stats::filter()
+## x stringr::fixed()    masks recipes::fixed()
+## x dplyr::lag()        masks stats::lag()
+## x ggplot2::margin()   masks dials::margin()
+## x readr::spec()       masks yardstick::spec()</code></pre>
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>library(skimr)
+library(vip)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;vip&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:utils&#39;:
+## 
+##     vi</code></pre>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<pre class="r"><code>train_raw &lt;- read_csv(&quot;/Users/Kow/Downloads/titanic/train.csv&quot;) %&gt;% 
+  clean_names() </code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   PassengerId = col_double(),
+##   Survived = col_double(),
+##   Pclass = col_double(),
+##   Name = col_character(),
+##   Sex = col_character(),
+##   Age = col_double(),
+##   SibSp = col_double(),
+##   Parch = col_double(),
+##   Ticket = col_character(),
+##   Fare = col_double(),
+##   Cabin = col_character(),
+##   Embarked = col_character()
+## )</code></pre>
+<pre class="r"><code>test_raw &lt;- read_csv(&quot;/Users/Kow/Downloads/titanic/test.csv&quot;) %&gt;% 
+  mutate(survived = NA) %&gt;% 
+  clean_names()</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   PassengerId = col_double(),
+##   Pclass = col_double(),
+##   Name = col_character(),
+##   Sex = col_character(),
+##   Age = col_double(),
+##   SibSp = col_double(),
+##   Parch = col_double(),
+##   Ticket = col_character(),
+##   Fare = col_double(),
+##   Cabin = col_character(),
+##   Embarked = col_character()
+## )</code></pre>
+<pre class="r"><code>all_data &lt;- bind_rows(train_raw, test_raw) %&gt;% 
+  select(
+    survived,
+    ticket_class = pclass,
+    sex,
+    age,
+    name,
+    n_sibling_and_spouse = sib_sp,
+    n_parents_and_children = parch,
+    ticket_number = ticket,
+    fare,
+    cabin_number = cabin,
+    embarked_from = embarked
+  ) %&gt;% 
+  mutate(
+    survived = ifelse(survived == 0, &quot;no&quot;, &quot;yes&quot;),
+    ticket_class = case_when(
+      ticket_class == 1 ~ &quot;Lower&quot;,
+      ticket_class == 2 ~ &quot;Middle&quot;,
+      ticket_class == 3 ~ &quot;Higher&quot;
+    ),
+    embarked_from = case_when(
+      embarked_from == &quot;C&quot; ~ &quot;Cherbourg&quot;,
+      embarked_from == &quot;Q&quot; ~ &quot;Queenstown&quot;,
+      embarked_from == &quot;S&quot; ~ &quot;Southampton&quot;
+    ),
+    family_size = n_sibling_and_spouse + n_parents_and_children + 1
+  ) %&gt;% 
+  mutate_if(is.character, as.factor)</code></pre>
+</div>
+<div id="data-overview" class="section level1">
+<h1>Data Overview</h1>
+<pre class="r"><code>names(all_data)</code></pre>
+<pre><code>##  [1] &quot;survived&quot;               &quot;ticket_class&quot;           &quot;sex&quot;                   
+##  [4] &quot;age&quot;                    &quot;name&quot;                   &quot;n_sibling_and_spouse&quot;  
+##  [7] &quot;n_parents_and_children&quot; &quot;ticket_number&quot;          &quot;fare&quot;                  
+## [10] &quot;cabin_number&quot;           &quot;embarked_from&quot;          &quot;family_size&quot;</code></pre>
+<pre class="r"><code>glimpse(all_data)</code></pre>
+<pre><code>## Rows: 1,309
+## Columns: 12
+## $ survived               &lt;fct&gt; no, yes, yes, yes, no, no, no, no, yes, yes, y…
+## $ ticket_class           &lt;fct&gt; Higher, Lower, Higher, Lower, Higher, Higher, …
+## $ sex                    &lt;fct&gt; male, female, female, female, male, male, male…
+## $ age                    &lt;dbl&gt; 22, 38, 26, 35, 35, NA, 54, 2, 27, 14, 4, 58, …
+## $ name                   &lt;fct&gt; &quot;Braund, Mr. Owen Harris&quot;, &quot;Cumings, Mrs. John…
+## $ n_sibling_and_spouse   &lt;dbl&gt; 1, 1, 0, 1, 0, 0, 0, 3, 0, 1, 1, 0, 0, 1, 0, 0…
+## $ n_parents_and_children &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 1, 0, 0, 5, 0, 0…
+## $ ticket_number          &lt;fct&gt; A/5 21171, PC 17599, STON/O2. 3101282, 113803,…
+## $ fare                   &lt;dbl&gt; 7.2500, 71.2833, 7.9250, 53.1000, 8.0500, 8.45…
+## $ cabin_number           &lt;fct&gt; NA, C85, NA, C123, NA, NA, E46, NA, NA, NA, G6…
+## $ embarked_from          &lt;fct&gt; Southampton, Cherbourg, Southampton, Southampt…
+## $ family_size            &lt;dbl&gt; 2, 2, 1, 2, 1, 1, 1, 5, 3, 2, 3, 1, 1, 7, 1, 1…</code></pre>
+<pre class="r"><code>skim(all_data)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-5">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">all_data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">1309</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">12</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">factor</td>
+<td align="left">7</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">ordered</th>
+<th align="right">n_unique</th>
+<th align="left">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">survived</td>
+<td align="right">418</td>
+<td align="right">0.68</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">no: 549, yes: 342</td>
+</tr>
+<tr class="even">
+<td align="left">ticket_class</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Hig: 709, Low: 323, Mid: 277</td>
+</tr>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">mal: 843, fem: 466</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">1307</td>
+<td align="left">Con: 2, Kel: 2, Abb: 1, Abb: 1</td>
+</tr>
+<tr class="odd">
+<td align="left">ticket_number</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">929</td>
+<td align="left">CA.: 11, 160: 8, CA : 8, 310: 7</td>
+</tr>
+<tr class="even">
+<td align="left">cabin_number</td>
+<td align="right">1014</td>
+<td align="right">0.23</td>
+<td align="left">FALSE</td>
+<td align="right">186</td>
+<td align="left">C23: 6, B57: 5, G6: 5, B96: 4</td>
+</tr>
+<tr class="odd">
+<td align="left">embarked_from</td>
+<td align="right">2</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Sou: 914, Che: 270, Que: 123</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">age</td>
+<td align="right">263</td>
+<td align="right">0.8</td>
+<td align="right">29.88</td>
+<td align="right">14.41</td>
+<td align="right">0.17</td>
+<td align="right">21.0</td>
+<td align="right">28.00</td>
+<td align="right">39.00</td>
+<td align="right">80.00</td>
+<td align="left">▂▇▅▂▁</td>
+</tr>
+<tr class="even">
+<td align="left">n_sibling_and_spouse</td>
+<td align="right">0</td>
+<td align="right">1.0</td>
+<td align="right">0.50</td>
+<td align="right">1.04</td>
+<td align="right">0.00</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">1.00</td>
+<td align="right">8.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">n_parents_and_children</td>
+<td align="right">0</td>
+<td align="right">1.0</td>
+<td align="right">0.39</td>
+<td align="right">0.87</td>
+<td align="right">0.00</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">9.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">fare</td>
+<td align="right">1</td>
+<td align="right">1.0</td>
+<td align="right">33.30</td>
+<td align="right">51.76</td>
+<td align="right">0.00</td>
+<td align="right">7.9</td>
+<td align="right">14.45</td>
+<td align="right">31.27</td>
+<td align="right">512.33</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">family_size</td>
+<td align="right">0</td>
+<td align="right">1.0</td>
+<td align="right">1.88</td>
+<td align="right">1.58</td>
+<td align="right">1.00</td>
+<td align="right">1.0</td>
+<td align="right">1.00</td>
+<td align="right">2.00</td>
+<td align="right">11.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+<div id="handling-missing-data" class="section level2">
+<h2>Handling Missing Data</h2>
+<div id="survived" class="section level3">
+<h3>survived</h3>
+<p>There are 418 missing data points in our outcome, survived. This should be the total rows in the test dataset due to Kaggle not including the answers.</p>
+<pre class="r"><code>nrow(test_raw)</code></pre>
+<pre><code>## [1] 418</code></pre>
+</div>
+<div id="cabin_number" class="section level3">
+<h3>cabin_number</h3>
+<p>We only have 22% of the data for cabin. With 78% missing this may be a column to throw away. We will see how our models handle the NAs. I think it will be good to test models with and without this variable.</p>
+</div>
+<div id="embarked_from" class="section level3">
+<h3>embarked_from</h3>
+<p>There are two missing values here. Within our <strong>recipes</strong> we will impute this data using KNN (K-Nearest Neighbors)</p>
+</div>
+<div id="age" class="section level3">
+<h3>age</h3>
+<p>This data is about 80% complete. We will again use KNN to impute this data. We will need to look into how many groups to specify for this variable. The data is also right skewed.</p>
+</div>
+<div id="fare" class="section level3">
+<h3>fare</h3>
+<p>One missing value, again, we will impute using KNN.</p>
+</div>
+</div>
+</div>
+<div id="diving-into-the-data" class="section level1">
+<h1>Diving Into the Data</h1>
+<div id="looking-at-single-variables" class="section level2">
+<h2>Looking at Single Variables</h2>
+<div id="function-for-plotting-single-variables" class="section level4">
+<h4>Function for Plotting Single Variables</h4>
+<pre class="r"><code>plot_variable &lt;- function(.data, x) {
+  
+  x_enquo &lt;- rlang::enquo(x)
+  x_text &lt;- rlang::quo_text(x_enquo)
+  x_class &lt;- class(.data[[x_text]])
+  
+  if (x_class %in% c(&quot;character&quot;, &quot;factor&quot;)) {
+    
+    d &lt;- .data %&gt;% 
+      filter(!is.na(!!x_enquo)) %&gt;% 
+      count(!!x_enquo) %&gt;% 
+      mutate(
+        prop = n / sum(n),
+        !!x_enquo := fct_reorder(!!x_enquo, prop, .desc = TRUE)
+      )
+    
+    bars &lt;- d %&gt;% 
+      ggplot(aes(
+        x = !!x_enquo,
+        y = n,
+        fill = !!x_enquo
+      )) +
+      geom_col(color = &quot;black&quot;) +
+      geom_label(
+        mapping = aes(label = percent(prop), vjust = 2),
+        show.legend = FALSE,
+        fill = &quot;white&quot;
+      ) +
+      theme(legend.position = &quot;none&quot;) +
+      scale_fill_viridis_d(option = &quot;inferno&quot;)
+    
+    return(bars)
+    
+  } else if (x_class %in% c(&quot;integer&quot;, &quot;numeric&quot;)) {
+    
+    mu &lt;- mean(.data[[x_text]], na.rm = TRUE)
+    quantiles &lt;- quantile(.data[[x_text]], na.rm = TRUE)
+    q_names &lt;- names(quantiles)
+    
+    q_data &lt;- c(quantiles, mu) %&gt;% 
+      as_tibble() %&gt;% 
+      mutate(
+        quantile = c(q_names, &quot;mean&quot;),
+        quantile = fct_reorder(quantile, value)
+      )
+    
+    hist &lt;- .data %&gt;% 
+      ggplot(aes(x = !!x_enquo)) +
+      geom_histogram(color = &quot;black&quot;, fill = &quot;#778899&quot;) +
+      geom_vline(
+        data = q_data,
+        mapping = aes(xintercept = value, color = quantile),
+        linetype = &quot;dashed&quot;,
+        size = 1.5,
+        alpha = 0.8
+      ) +
+      scale_color_viridis_d(option = &quot;inferno&quot;)
+    
+    return(hist)
+    
+  } else {
+    msg &lt;- str_c(
+      &quot;Data type &quot;,
+      x_class,
+      &quot; not supported.&quot;
+    )
+    
+    stop(msg)
+  }
+}</code></pre>
+</div>
+<div id="survived-1" class="section level3">
+<h3>survived</h3>
+<pre class="r"><code>plot_variable(all_data, survived)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="ticket_class" class="section level3">
+<h3>ticket_class</h3>
+<pre class="r"><code>plot_variable(all_data, ticket_class)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="sex" class="section level3">
+<h3>sex</h3>
+<pre class="r"><code>plot_variable(all_data, sex)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="age-1" class="section level3">
+<h3>age</h3>
+<pre class="r"><code>plot_variable(all_data, age)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="name" class="section level3">
+<h3>name</h3>
+<p>As we saw with skim there are a lot of unique names. Lets take a peak at the data.</p>
+<pre class="r"><code>all_data %&gt;% 
+  count(name, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 1,307 x 2
+##    name                                      n
+##    &lt;fct&gt;                                 &lt;int&gt;
+##  1 Connolly, Miss. Kate                      2
+##  2 Kelly, Mr. James                          2
+##  3 Abbing, Mr. Anthony                       1
+##  4 Abbott, Master. Eugene Joseph             1
+##  5 Abbott, Mr. Rossmore Edward               1
+##  6 Abbott, Mrs. Stanton (Rosa Hunt)          1
+##  7 Abelseth, Miss. Karen Marie               1
+##  8 Abelseth, Mr. Olaus Jorgensen             1
+##  9 Abelson, Mr. Samuel                       1
+## 10 Abelson, Mrs. Samuel (Hannah Wizosky)     1
+## # … with 1,297 more rows</code></pre>
+<p>After the comma there appears to be titles. That could be a promising feature.</p>
+<pre class="r"><code>all_data &lt;- all_data %&gt;% 
+  mutate(
+    title = name %&gt;% 
+      str_split(&quot;, |\\.&quot;, simplify = TRUE) %&gt;% 
+      .[, 2] %&gt;% 
+      as.factor()
+  )</code></pre>
+<pre class="r"><code>plot_variable(all_data, title)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>all_data %&gt;% 
+  count(title, sort = TRUE) %&gt;% 
+  mutate(prop = n / sum(n))</code></pre>
+<pre><code>## # A tibble: 18 x 3
+##    title            n     prop
+##    &lt;fct&gt;        &lt;int&gt;    &lt;dbl&gt;
+##  1 Mr             757 0.578   
+##  2 Miss           260 0.199   
+##  3 Mrs            197 0.150   
+##  4 Master          61 0.0466  
+##  5 Dr               8 0.00611 
+##  6 Rev              8 0.00611 
+##  7 Col              4 0.00306 
+##  8 Major            2 0.00153 
+##  9 Mlle             2 0.00153 
+## 10 Ms               2 0.00153 
+## 11 Capt             1 0.000764
+## 12 Don              1 0.000764
+## 13 Dona             1 0.000764
+## 14 Jonkheer         1 0.000764
+## 15 Lady             1 0.000764
+## 16 Mme              1 0.000764
+## 17 Sir              1 0.000764
+## 18 the Countess     1 0.000764</code></pre>
+<pre class="r"><code>all_data %&gt;% 
+  group_by(sex) %&gt;% 
+  count(title, sort = TRUE) %&gt;% 
+  mutate(prop = n / sum(n))</code></pre>
+<pre><code>## # A tibble: 19 x 4
+## # Groups:   sex [2]
+##    sex    title            n    prop
+##    &lt;fct&gt;  &lt;fct&gt;        &lt;int&gt;   &lt;dbl&gt;
+##  1 male   Mr             757 0.898  
+##  2 female Miss           260 0.558  
+##  3 female Mrs            197 0.423  
+##  4 male   Master          61 0.0724 
+##  5 male   Rev              8 0.00949
+##  6 male   Dr               7 0.00830
+##  7 male   Col              4 0.00474
+##  8 female Mlle             2 0.00429
+##  9 female Ms               2 0.00429
+## 10 male   Major            2 0.00237
+## 11 female Dona             1 0.00215
+## 12 female Dr               1 0.00215
+## 13 female Lady             1 0.00215
+## 14 female Mme              1 0.00215
+## 15 female the Countess     1 0.00215
+## 16 male   Capt             1 0.00119
+## 17 male   Don              1 0.00119
+## 18 male   Jonkheer         1 0.00119
+## 19 male   Sir              1 0.00119</code></pre>
+<pre class="r"><code>all_data %&gt;% 
+  group_by(sex) %&gt;% 
+  count(title, sort = TRUE) %&gt;% 
+  mutate(prop = n / sum(n)) %&gt;% 
+  count(title)</code></pre>
+<pre><code>## # A tibble: 19 x 3
+## # Groups:   sex [2]
+##    sex    title            n
+##    &lt;fct&gt;  &lt;fct&gt;        &lt;int&gt;
+##  1 female Dona             1
+##  2 female Dr               1
+##  3 female Lady             1
+##  4 female Miss             1
+##  5 female Mlle             1
+##  6 female Mme              1
+##  7 female Mrs              1
+##  8 female Ms               1
+##  9 female the Countess     1
+## 10 male   Capt             1
+## 11 male   Col              1
+## 12 male   Don              1
+## 13 male   Dr               1
+## 14 male   Jonkheer         1
+## 15 male   Major            1
+## 16 male   Master           1
+## 17 male   Mr               1
+## 18 male   Rev              1
+## 19 male   Sir              1</code></pre>
+<p>Interesting, there is no title shared between females and males. I will do some research on these titles and try to collapse them. Thankfully there has been a lot of helpful posts on Kaggle about this! With the table above we can reduce to the titles as they do in <a href="https://books.google.com/books?id=oulODwAAQBAJ&amp;pg=PA85&amp;lpg=PA85&amp;dq=dona+name+title+titanic&amp;source=bl&amp;ots=5u6XvbCPuk&amp;sig=ACfU3U2j-KP3cxc0LuiDQVpUQUi9uUruaQ&amp;hl=en&amp;sa=X&amp;ved=2ahUKEwj4oYyLrNLpAhWWr54KHWf5DOsQ6AEwAXoECAwQAQ#v=onepage&amp;q=dona%20name%20title%20titanicdona&amp;f=false">Deep Learning by Example</a></p>
+<pre class="r"><code>all_data &lt;- all_data %&gt;% 
+  mutate(
+    title = case_when(
+      title == &quot;Jonkheer&quot; ~ &quot;Master&quot;,
+      title %in% c(&quot;Mlle&quot;, &quot;Ms&quot;) ~ &quot;Miss&quot;,
+      title == &quot;Mme&quot; ~ &quot;Mrs&quot;,
+      title %in% c(&quot;Capt&quot;, &quot;Col&quot;, &quot;Don&quot;, &quot;Major&quot;) ~ &quot;Sir&quot;,
+      title %in% c(&quot;Dona&quot;, &quot;the Countess&quot;) ~ &quot;Lady&quot;,
+      TRUE ~ as.character(title)
+    ) %&gt;% 
+      as.factor()
+  )</code></pre>
+</div>
+<div id="n_sibling_and_spouse" class="section level3">
+<h3>n_sibling_and_spouse</h3>
+<pre class="r"><code>plot_variable(all_data, n_sibling_and_spouse)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="n_parents_and_children" class="section level3">
+<h3>n_parents_and_children</h3>
+<pre class="r"><code>plot_variable(all_data, n_parents_and_children)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="family_size" class="section level3">
+<h3>family_size</h3>
+<p>Test feature, sum sibling/spouse and parents/childen</p>
+<pre class="r"><code>plot_variable(all_data, family_size)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="ticket_number" class="section level3">
+<h3>ticket_number</h3>
+<pre class="r"><code>ticket_count &lt;- all_data %&gt;% 
+  count(ticket_number, name = &quot;ticket_group_size&quot;, sort = TRUE)
+
+ticket_count</code></pre>
+<pre><code>## # A tibble: 929 x 2
+##    ticket_number ticket_group_size
+##    &lt;fct&gt;                     &lt;int&gt;
+##  1 CA. 2343                     11
+##  2 1601                          8
+##  3 CA 2144                       8
+##  4 3101295                       7
+##  5 347077                        7
+##  6 347082                        7
+##  7 PC 17608                      7
+##  8 S.O.C. 14879                  7
+##  9 113781                        6
+## 10 19950                         6
+## # … with 919 more rows</code></pre>
+<p>There are 929 unique tickets. Ticket numbers are not unique. There looks to be some minor patterns in the names. Perhaps we can mark the rows that have matching tickets.</p>
+<pre class="r"><code>all_data &lt;- all_data %&gt;% 
+  left_join(ticket_count, by = &quot;ticket_number&quot;)</code></pre>
+<pre class="r"><code>plot_variable(all_data, ticket_group_size)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+<div id="fare-1" class="section level3">
+<h3>fare</h3>
+<pre class="r"><code>plot_variable(all_data, fare)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+<div id="cabin_number-1" class="section level3">
+<h3>cabin_number</h3>
+<pre class="r"><code>all_data %&gt;% 
+  count(cabin_number, sort = TRUE)</code></pre>
+<pre><code>## Warning: Factor `cabin_number` contains implicit NA, consider using
+## `forcats::fct_explicit_na`</code></pre>
+<pre><code>## # A tibble: 187 x 2
+##    cabin_number        n
+##    &lt;fct&gt;           &lt;int&gt;
+##  1 &lt;NA&gt;             1014
+##  2 C23 C25 C27         6
+##  3 B57 B59 B63 B66     5
+##  4 G6                  5
+##  5 B96 B98             4
+##  6 C22 C26             4
+##  7 C78                 4
+##  8 D                   4
+##  9 F2                  4
+## 10 F33                 4
+## # … with 177 more rows</code></pre>
+<p>We could extract the first letter and see if there is signal there. Or for simplicity, perhaps there is importance for those who have a record and those who do not.</p>
+<pre class="r"><code>all_data &lt;- all_data %&gt;% 
+  mutate(
+    cabin_record = ifelse(is.na(cabin_number), &quot;no&quot;, &quot;yes&quot;),
+    cabin_record = as.factor(cabin_record)
+  )</code></pre>
+<pre class="r"><code>all_data %&gt;% 
+  count(cabin_record, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   cabin_record     n
+##   &lt;fct&gt;        &lt;int&gt;
+## 1 no            1014
+## 2 yes            295</code></pre>
+<pre class="r"><code>plot_variable(all_data, cabin_record)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="embarked_from-1" class="section level3">
+<h3>embarked_from</h3>
+<pre class="r"><code>plot_variable(all_data, embarked_from)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>There are a lot of passengers from Southampton.</p>
+</div>
+</div>
+<div id="update-data" class="section level2">
+<h2>Update Data</h2>
+<p>We have created a new column as well as found columns that we need to remove.</p>
+<pre class="r"><code>all_data &lt;- all_data %&gt;% 
+  select(-c(name, ticket_number, cabin_number, n_sibling_and_spouse, n_parents_and_children))</code></pre>
+</div>
+<div id="plot-predictor-vs.-outcome" class="section level2">
+<h2>Plot Predictor Vs. Outcome</h2>
+<div id="function-for-plotting-x-vs.-y" class="section level4">
+<h4>Function for Plotting x Vs. y</h4>
+<pre class="r"><code>plot_two_variables &lt;- function(.data, x, y) {
+  x_enquo &lt;- rlang::enquo(x)
+  y_enquo &lt;- rlang::enquo(y)
+  
+  numeric_check &lt;- .data %&gt;% 
+    pull(!!y_enquo) %&gt;% 
+    is.numeric()
+  
+  if (numeric_check) {
+    p &lt;- ggplot(
+      data = .data,
+      aes(
+        x = !!x_enquo,
+        y = !!y_enquo,
+        fill = !!x_enquo
+      )
+    ) +
+      geom_violin(alpha = 0.95) +
+      labs(x = rlang::quo_name(x_enquo)) 
+    
+    p
+    
+  } else {
+    bar_data &lt;- .data %&gt;% 
+      count(!!x_enquo, !!y_enquo, name = &quot;count&quot;) %&gt;% 
+      group_by(!!x_enquo) %&gt;% 
+      mutate(proportion = round(count / sum(count), 2)) %&gt;% 
+      ungroup() %&gt;% 
+      arrange(desc(proportion)) %&gt;% 
+      mutate(
+        !!y_enquo := factor(!!y_enquo, levels = unique(!!y_enquo)),
+        !!x_enquo := factor(!!x_enquo, levels = unique(!!x_enquo))
+      )
+    
+    p &lt;- ggplot(
+      data = bar_data,
+      mapping = aes(
+        x = !!x_enquo,
+        y = proportion,
+        fill = !!y_enquo
+      )
+    ) +
+      geom_col(alpha = 0.95) +
+      # ggrepel::geom_label_repel(
+      #   mapp = aes(
+      #     x = !!x_enquo,
+      #     y = proportion,
+      #     label = scales::percent(proportion)
+      #   ),
+      #   position = position_stack(vjust = 0.5),
+      #   show.legend = FALSE,
+      #   fill = &quot;white&quot;
+      # ) +
+      scale_y_continuous(labels = scales::percent) +
+      labs(x = rlang::quo_name(y_enquo)) 
+    
+    p
+  }
+}</code></pre>
+</div>
+<div id="ticket_class-1" class="section level3">
+<h3>ticket_class</h3>
+<pre class="r"><code>all_data %&gt;% 
+  drop_na(survived) %&gt;% 
+  plot_two_variables(survived, ticket_class)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+</div>
+<div id="sex-1" class="section level3">
+<h3>sex</h3>
+<pre class="r"><code>all_data %&gt;% 
+  drop_na(survived) %&gt;% 
+  plot_two_variables(survived, sex)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+</div>
+<div id="age-2" class="section level3">
+<h3>age</h3>
+<pre class="r"><code>all_data %&gt;% 
+  drop_na(survived) %&gt;% 
+  plot_two_variables(survived, age)</code></pre>
+<pre><code>## Warning: Removed 177 rows containing non-finite values (stat_ydensity).</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+</div>
+<div id="fare-2" class="section level3">
+<h3>fare</h3>
+<pre class="r"><code>all_data %&gt;% 
+  drop_na(survived, fare) %&gt;% 
+  plot_two_variables(survived, fare)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+</div>
+<div id="embarked_from-2" class="section level3">
+<h3>embarked_from</h3>
+<pre class="r"><code>all_data %&gt;% 
+  drop_na(survived, embarked_from) %&gt;% 
+  plot_two_variables(survived, embarked_from)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+</div>
+<div id="family_size-1" class="section level3">
+<h3>family_size</h3>
+<pre class="r"><code>all_data %&gt;% 
+  drop_na(survived, family_size) %&gt;% 
+  plot_two_variables(survived, family_size)</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+</div>
+<div id="title" class="section level3">
+<h3>title</h3>
+<pre class="r"><code>all_data %&gt;% 
+  drop_na(survived, title) %&gt;% 
+  plot_two_variables(survived, title) +
+  scale_fill_viridis_d()</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="modeling" class="section level1">
+<h1>Modeling</h1>
+<div id="data-1" class="section level2">
+<h2>Data</h2>
+<p>We need to split back the transformed training and test data.</p>
+<pre class="r"><code>main_train &lt;- drop_na(all_data, survived)
+main_test &lt;- filter(all_data, is.na(survived))</code></pre>
+<p>To follow the tidymodels work flow we will split our training set into its own train / test set. We will set the strata to our outcome variable (survived) to ensure we have an equal proportion of no/yes in our train and test sets.</p>
+<pre class="r"><code>titanic_split &lt;- initial_split(
+  data = main_train, 
+  strata = survived,
+  prop = 0.80
+)
+
+titanic_train &lt;- training(titanic_split)
+titanic_test  &lt;- testing(titanic_split)</code></pre>
+</div>
+<div id="recipes" class="section level2">
+<h2>Recipes</h2>
+<pre class="r"><code>titanic_recipe &lt;-
+  recipe(survived ~ ., data = titanic_train) %&gt;% 
+  step_knnimpute(
+    embarked_from,
+    neighbors = 3,
+    impute_with = vars(-survived)
+  ) %&gt;% 
+  step_knnimpute(
+    age, fare,
+    neighbors = 5,
+    impute_with = vars(-survived)
+  ) %&gt;% 
+  step_zv(all_predictors())</code></pre>
+</div>
+<div id="fold-cross-validation" class="section level2">
+<h2>5-Fold Cross Validation</h2>
+<pre class="r"><code>cell_folds &lt;- vfold_cv(
+  titanic_train,
+  v = 5
+  )</code></pre>
+</div>
+<div id="cart" class="section level2">
+<h2>CART</h2>
+<pre class="r"><code>tune_rpart &lt;- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune(),
+    min_n = tune()
+  ) %&gt;% 
+  set_engine(&quot;rpart&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;)
+
+tune_rpart</code></pre>
+<pre><code>## Decision Tree Model Specification (classification)
+## 
+## Main Arguments:
+##   cost_complexity = tune()
+##   tree_depth = tune()
+##   min_n = tune()
+## 
+## Computational engine: rpart</code></pre>
+<div id="cart-grid" class="section level3">
+<h3>CART Grid</h3>
+<pre class="r"><code>rpart_grid &lt;- grid_latin_hypercube(
+  cost_complexity(),
+  tree_depth(),
+  min_n(),
+  size = 10
+)</code></pre>
+<pre class="r"><code>rpart_wf &lt;- workflow() %&gt;%
+  add_model(tune_rpart) %&gt;%
+  add_recipe(titanic_recipe)
+
+rpart_res &lt;- 
+  rpart_wf %&gt;% 
+  tune_grid(
+    resamples = cell_folds,
+    grid = rpart_grid
+    )</code></pre>
+<pre><code>## ! Fold1: model  1/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  2/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  3/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  4/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  5/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  6/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  7/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  8/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  9/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model 10/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre class="r"><code>rpart_res</code></pre>
+<pre><code>## #  5-fold cross-validation 
+## # A tibble: 5 x 4
+##   splits            id    .metrics          .notes           
+##   &lt;list&gt;            &lt;chr&gt; &lt;list&gt;            &lt;list&gt;           
+## 1 &lt;split [571/143]&gt; Fold1 &lt;tibble [20 × 6]&gt; &lt;tibble [10 × 1]&gt;
+## 2 &lt;split [571/143]&gt; Fold2 &lt;tibble [20 × 6]&gt; &lt;tibble [0 × 1]&gt; 
+## 3 &lt;split [571/143]&gt; Fold3 &lt;tibble [20 × 6]&gt; &lt;tibble [0 × 1]&gt; 
+## 4 &lt;split [571/143]&gt; Fold4 &lt;tibble [20 × 6]&gt; &lt;tibble [0 × 1]&gt; 
+## 5 &lt;split [572/142]&gt; Fold5 &lt;tibble [20 × 6]&gt; &lt;tibble [0 × 1]&gt;</code></pre>
+<pre class="r"><code>best_rpart &lt;- rpart_res %&gt;%
+  select_best(&quot;roc_auc&quot;)
+
+best_rpart</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   cost_complexity tree_depth min_n
+##             &lt;dbl&gt;      &lt;int&gt; &lt;int&gt;
+## 1    0.0000000244          9    27</code></pre>
+<pre class="r"><code>final_rpart_wf &lt;- 
+  rpart_wf %&gt;% 
+  finalize_workflow(best_rpart)</code></pre>
+<pre class="r"><code>rpart_last_fit &lt;- 
+  final_rpart_wf %&gt;%
+  last_fit(titanic_split) </code></pre>
+<pre><code>## ! Resample1: model (predictions): Novel levels found in column &#39;embarked_from&#39;: NA. T...</code></pre>
+<pre class="r"><code>rpart_last_fit</code></pre>
+<pre><code>## # # Monte Carlo cross-validation (0.8/0.2) with 1 resamples  
+## # A tibble: 1 x 6
+##   splits        id           .metrics      .notes      .predictions    .workflow
+##   &lt;list&gt;        &lt;chr&gt;        &lt;list&gt;        &lt;list&gt;      &lt;list&gt;          &lt;list&gt;   
+## 1 &lt;split [714/… train/test … &lt;tibble [2 ×… &lt;tibble [1… &lt;tibble [177 ×… &lt;workflo…</code></pre>
+<pre class="r"><code>rpart_last_fit %&gt;%
+  collect_metrics()</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy binary         0.814
+## 2 roc_auc  binary         0.846</code></pre>
+<pre class="r"><code>rpart_last_fit %&gt;%
+  collect_predictions() %&gt;% 
+  roc_curve(survived, .pred_yes) %&gt;% 
+  autoplot()</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+</div>
+<div id="final-model" class="section level3">
+<h3>Final Model</h3>
+<pre class="r"><code>rpart_fit &lt;- final_rpart_wf %&gt;% 
+  fit(data = main_train)
+
+rpart_fit</code></pre>
+<pre><code>## ══ Workflow [trained] ═══════════════════
+## Preprocessor: Recipe
+## Model: decision_tree()
+## 
+## ── Preprocessor ─────────────────────────
+## 3 Recipe Steps
+## 
+## ● step_knnimpute()
+## ● step_knnimpute()
+## ● step_zv()
+## 
+## ── Model ────────────────────────────────
+## n= 891 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##   1) root 891 342 no (0.61616162 0.38383838)  
+##     2) title=Dr,Mr,Rev,Sir 537  87 no (0.83798883 0.16201117)  
+##       4) cabin_record=no 436  48 no (0.88990826 0.11009174) *
+##       5) cabin_record=yes 101  39 no (0.61386139 0.38613861)  
+##        10) age&gt;=36.25 64  20 no (0.68750000 0.31250000)  
+##          20) ticket_group_size&gt;=2.5 10   1 no (0.90000000 0.10000000) *
+##          21) ticket_group_size&lt; 2.5 54  19 no (0.64814815 0.35185185)  
+##            42) age&lt; 47.5 27   7 no (0.74074074 0.25925926) *
+##            43) age&gt;=47.5 27  12 no (0.55555556 0.44444444)  
+##              86) age&gt;=54.55 13   3 no (0.76923077 0.23076923) *
+##              87) age&lt; 54.55 14   5 yes (0.35714286 0.64285714) *
+##        11) age&lt; 36.25 37  18 yes (0.48648649 0.51351351)  
+##          22) age&lt; 24.5 9   2 no (0.77777778 0.22222222) *
+##          23) age&gt;=24.5 28  11 yes (0.39285714 0.60714286) *
+##     3) title=Lady,Master,Miss,Mrs 354  99 yes (0.27966102 0.72033898)  
+##       6) ticket_class=Higher 172  83 no (0.51744186 0.48255814)  
+##        12) ticket_group_size&gt;=4.5 44   3 no (0.93181818 0.06818182) *
+##        13) ticket_group_size&lt; 4.5 128  48 yes (0.37500000 0.62500000)  
+##          26) age&gt;=24.2 42  19 no (0.54761905 0.45238095)  
+##            52) age&gt;=35.5 9   2 no (0.77777778 0.22222222) *
+##            53) age&lt; 35.5 33  16 yes (0.48484848 0.51515152)  
+##             106) title=Miss 12   4 no (0.66666667 0.33333333) *
+##             107) title=Mrs 21   8 yes (0.38095238 0.61904762) *
+##          27) age&lt; 24.2 86  25 yes (0.29069767 0.70930233)  
+##            54) age&gt;=6.4 70  24 yes (0.34285714 0.65714286)  
+##             108) fare&gt;=8.08335 33  16 yes (0.48484848 0.51515152)  
+##               216) title=Miss 22   7 no (0.68181818 0.31818182) *
+##               217) title=Master,Mrs 11   1 yes (0.09090909 0.90909091) *
+##             109) fare&lt; 8.08335 37   8 yes (0.21621622 0.78378378) *
+##            55) age&lt; 6.4 16   1 yes (0.06250000 0.93750000) *
+##       7) ticket_class=Lower,Middle 182  10 yes (0.05494505 0.94505495) *</code></pre>
+<div id="variable-importance" class="section level4">
+<h4>Variable Importance</h4>
+<pre class="r"><code>rpart_fit %&gt;% 
+  pull_workflow_fit() %&gt;% 
+  vip()</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+</div>
+<div id="submit-data-to-kaggle" class="section level4">
+<h4>Submit Data to Kaggle</h4>
+<pre class="r"><code>pred &lt;- predict(rpart_fit, main_test) %&gt;% 
+  bind_cols(select(test_raw, passenger_id))
+
+pred</code></pre>
+<pre><code>## # A tibble: 418 x 2
+##    .pred_class passenger_id
+##    &lt;fct&gt;              &lt;dbl&gt;
+##  1 no                   892
+##  2 no                   893
+##  3 no                   894
+##  4 no                   895
+##  5 yes                  896
+##  6 no                   897
+##  7 no                   898
+##  8 no                   899
+##  9 yes                  900
+## 10 no                   901
+## # … with 408 more rows</code></pre>
+<pre class="r"><code>data_to_submit &lt;- pred %&gt;% 
+  select(PassengerId = passenger_id, Survived = .pred_class) %&gt;% 
+  mutate(Survived = as.numeric(Survived) - 1)
+
+data_to_submit</code></pre>
+<pre><code>## # A tibble: 418 x 2
+##    PassengerId Survived
+##          &lt;dbl&gt;    &lt;dbl&gt;
+##  1         892        0
+##  2         893        0
+##  3         894        0
+##  4         895        0
+##  5         896        1
+##  6         897        0
+##  7         898        0
+##  8         899        0
+##  9         900        1
+## 10         901        0
+## # … with 408 more rows</code></pre>
+<pre class="r"><code>write_csv(data_to_submit, &quot;/Users/Kow/Desktop/20200526_rpart2_kaggle_submission.csv&quot;)</code></pre>
+</div>
+</div>
+</div>
+<div id="random-forest-bagging" class="section level2">
+<h2>Random Forest / Bagging</h2>
+<pre class="r"><code>cores &lt;- parallel::detectCores() - 1
+cores</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>tune_ranger &lt;- 
+  rand_forest(
+    mtry = tune(),
+    trees = tune(),
+    min_n = tune()
+  ) %&gt;% 
+  set_engine(&quot;ranger&quot;, num.threads = cores, importance = &quot;permutation&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;)
+
+tune_ranger</code></pre>
+<pre><code>## Random Forest Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = tune()
+##   trees = tune()
+##   min_n = tune()
+## 
+## Engine-Specific Arguments:
+##   num.threads = cores
+##   importance = permutation
+## 
+## Computational engine: ranger</code></pre>
+<pre class="r"><code>ranger_wf &lt;- workflow() %&gt;%
+  add_model(tune_ranger) %&gt;%
+  add_recipe(titanic_recipe)</code></pre>
+<pre class="r"><code>ranger_grid &lt;- grid_latin_hypercube(
+  mtry(c(1, 9)),
+  trees(),
+  min_n(),
+  size = 10
+)</code></pre>
+<pre class="r"><code>ranger_res &lt;- 
+  ranger_wf %&gt;% 
+  tune_grid(
+    resamples = cell_folds,
+    grid = ranger_grid
+  )</code></pre>
+<pre><code>## i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+<pre><code>## ! Fold1: model  1/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  2/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  3/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  4/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  5/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  6/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  7/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  8/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  9/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model 10/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre class="r"><code>best_ranger &lt;- ranger_res %&gt;%
+  select_best(&quot;roc_auc&quot;)
+
+best_ranger</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##    mtry trees min_n
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     4   856    19</code></pre>
+<pre class="r"><code>final_ranger_wf &lt;- 
+  ranger_wf %&gt;% 
+  finalize_workflow(best_ranger)</code></pre>
+<pre class="r"><code>ranger_last_fit &lt;- 
+  final_ranger_wf %&gt;%
+  last_fit(titanic_split)</code></pre>
+<pre><code>## ! Resample1: model (predictions): Novel levels found in column &#39;embarked_from&#39;: NA. T...</code></pre>
+<pre class="r"><code>ranger_last_fit %&gt;%
+  collect_metrics()</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy binary         0.859
+## 2 roc_auc  binary         0.886</code></pre>
+<pre class="r"><code>ranger_last_fit %&gt;%
+  collect_predictions() %&gt;% 
+  roc_curve(survived, .pred_yes) %&gt;% 
+  autoplot()</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
+<div id="final-ranger-model" class="section level3">
+<h3>Final Ranger Model</h3>
+<pre class="r"><code>ranger_fit &lt;- final_ranger_wf %&gt;% 
+  fit(data = main_train)
+
+ranger_fit</code></pre>
+<pre><code>## ══ Workflow [trained] ═══════════════════
+## Preprocessor: Recipe
+## Model: rand_forest()
+## 
+## ── Preprocessor ─────────────────────────
+## 3 Recipe Steps
+## 
+## ● step_knnimpute()
+## ● step_knnimpute()
+## ● step_zv()
+## 
+## ── Model ────────────────────────────────
+## Ranger result
+## 
+## Call:
+##  ranger::ranger(formula = formula, data = data, mtry = ~4L, num.trees = ~856L,      min.node.size = ~19L, num.threads = ~cores, importance = ~&quot;permutation&quot;,      verbose = FALSE, seed = sample.int(10^5, 1), probability = TRUE) 
+## 
+## Type:                             Probability estimation 
+## Number of trees:                  856 
+## Sample size:                      891 
+## Number of independent variables:  9 
+## Mtry:                             4 
+## Target node size:                 19 
+## Variable importance mode:         permutation 
+## Splitrule:                        gini 
+## OOB prediction error (Brier s.):  0.1249214</code></pre>
+<div id="variable-importance-plot" class="section level4">
+<h4>Variable Importance Plot</h4>
+<pre class="r"><code>ranger_fit %&gt;% 
+  pull_workflow_fit() %&gt;% 
+  vip()</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
+</div>
+<div id="submit-data-to-kaggle-1" class="section level4">
+<h4>Submit Data to Kaggle</h4>
+<pre class="r"><code>pred &lt;- predict(ranger_fit, main_test) %&gt;% 
+  bind_cols(select(test_raw, passenger_id))
+
+pred</code></pre>
+<pre><code>## # A tibble: 418 x 2
+##    .pred_class passenger_id
+##    &lt;fct&gt;              &lt;dbl&gt;
+##  1 no                   892
+##  2 no                   893
+##  3 no                   894
+##  4 no                   895
+##  5 yes                  896
+##  6 no                   897
+##  7 no                   898
+##  8 no                   899
+##  9 yes                  900
+## 10 no                   901
+## # … with 408 more rows</code></pre>
+<pre class="r"><code>data_to_submit &lt;- pred %&gt;% 
+  select(PassengerId = passenger_id, Survived = .pred_class) %&gt;% 
+  mutate(Survived = as.numeric(Survived) - 1)
+
+data_to_submit</code></pre>
+<pre><code>## # A tibble: 418 x 2
+##    PassengerId Survived
+##          &lt;dbl&gt;    &lt;dbl&gt;
+##  1         892        0
+##  2         893        0
+##  3         894        0
+##  4         895        0
+##  5         896        1
+##  6         897        0
+##  7         898        0
+##  8         899        0
+##  9         900        1
+## 10         901        0
+## # … with 408 more rows</code></pre>
+<pre class="r"><code>write_csv(data_to_submit, &quot;/Users/Kow/Desktop/20200526_ranger4_kaggle_submission.csv&quot;)</code></pre>
+</div>
+</div>
+</div>
+<div id="xgboost" class="section level2">
+<h2>xgboost</h2>
+<div id="xgboost-recipe" class="section level3">
+<h3>xgboost recipe</h3>
+<pre class="r"><code>titanic_recipe &lt;-
+  recipe(survived ~ ., data = titanic_train) %&gt;% 
+  step_knnimpute(
+    embarked_from,
+    neighbors = 3,
+    impute_with = vars(ticket_class, sex, age, fare, family_size, title)
+  ) %&gt;% 
+  step_knnimpute(
+    age, fare,
+    neighbors = 5,
+    impute_with = vars(ticket_class, sex, embarked_from, family_size, title)
+  ) %&gt;% 
+  step_zv(all_predictors()) %&gt;% 
+  step_dummy(all_nominal(), -all_outcomes())</code></pre>
+<pre class="r"><code>xgb_spec &lt;- boost_tree(
+  trees = 1000, 
+  tree_depth = tune(),
+  min_n = tune(), 
+  loss_reduction = tune(), ## first three: model complexity
+  sample_size = tune(),
+  mtry = tune(), ## randomness
+  learn_rate = tune() ## step size
+) %&gt;% 
+  set_engine(&quot;xgboost&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;)
+
+xgb_wf &lt;- workflow() %&gt;%
+  add_recipe(titanic_recipe) %&gt;%
+  add_model(xgb_spec)
+
+xgb_grid &lt;- grid_latin_hypercube(
+  tree_depth(),
+  min_n(),
+  loss_reduction(),
+  sample_size = sample_prop(),
+  finalize(mtry(), titanic_train),
+  learn_rate(),
+  size = 10
+)
+
+xgboost_res &lt;- 
+  xgb_wf %&gt;% 
+  tune_grid(
+    resamples = cell_folds,
+    grid = xgb_grid
+  )</code></pre>
+<pre><code>## i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+<pre><code>## ! Fold1: model  1/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  2/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  3/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  4/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  5/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  6/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  7/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  8/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model  9/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre><code>## ! Fold1: model 10/10 (predictions): Novel levels found in column &#39;embarked_from&#39;:...</code></pre>
+<pre class="r"><code>xgboost_res %&gt;% 
+  collect_metrics() %&gt;% 
+  filter(.metric == &quot;roc_auc&quot;) %&gt;% 
+  arrange(desc(mean))</code></pre>
+<pre><code>## # A tibble: 10 x 11
+##     mtry min_n tree_depth learn_rate loss_reduction sample_size .metric
+##    &lt;int&gt; &lt;int&gt;      &lt;int&gt;      &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+##  1     4     5          5   2.49e- 3       1.96e+ 1     0.0771  roc_auc
+##  2     2    33         12   8.63e- 5       2.58e- 7     0.0397  roc_auc
+##  3     3     9          8   6.21e- 8       1.29e- 2     0.0665  roc_auc
+##  4     3    30          2   5.14e- 7       7.90e-10     0.0519  roc_auc
+##  5     5    40          7   5.46e- 2       1.86e- 6     0.0446  roc_auc
+##  6     6    16         14   8.35e- 6       1.93e- 3     0.00263 roc_auc
+##  7     6    23         14   8.69e- 9       5.69e- 4     0.0164  roc_auc
+##  8     8    20          8   1.19e- 9       7.65e- 1     0.0899  roc_auc
+##  9     8    25          4   4.27e- 4       4.34e- 9     0.0206  roc_auc
+## 10     9    10         10   4.62e-10       2.15e- 5     0.0960  roc_auc
+## # … with 4 more variables: .estimator &lt;chr&gt;, mean &lt;dbl&gt;, n &lt;int&gt;, std_err &lt;dbl&gt;</code></pre>
+<pre class="r"><code>best_xgb &lt;- xgboost_res %&gt;%
+  select_best(&quot;roc_auc&quot;)
+
+best_xgb</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##    mtry min_n tree_depth learn_rate loss_reduction sample_size
+##   &lt;int&gt; &lt;int&gt;      &lt;int&gt;      &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+## 1     4     5          5    0.00249           19.6      0.0771</code></pre>
+<pre class="r"><code>final_xgb_wf &lt;- 
+  xgb_wf %&gt;% 
+  finalize_workflow(best_xgb)
+
+final_xgb_wf</code></pre>
+<pre><code>## ══ Workflow ═════════════════════════════
+## Preprocessor: Recipe
+## Model: boost_tree()
+## 
+## ── Preprocessor ─────────────────────────
+## 4 Recipe Steps
+## 
+## ● step_knnimpute()
+## ● step_knnimpute()
+## ● step_zv()
+## ● step_dummy()
+## 
+## ── Model ────────────────────────────────
+## Boosted Tree Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = 4
+##   trees = 1000
+##   min_n = 5
+##   tree_depth = 5
+##   learn_rate = 0.00248555949370703
+##   loss_reduction = 19.5959461362535
+##   sample_size = 0.0770739600434899
+## 
+## Computational engine: xgboost</code></pre>
+<pre class="r"><code>xgb_fit &lt;- fit(final_xgb_wf, data = main_train)</code></pre>
+<div id="variable-importance-plot-1" class="section level4">
+<h4>Variable Importance Plot</h4>
+<pre class="r"><code>xgb_fit %&gt;% 
+  pull_workflow_fit() %&gt;% 
+  vip()</code></pre>
+<pre><code>## Warning: `as.tibble()` is deprecated as of tibble 2.0.0.
+## Please use `as_tibble()` instead.
+## The signature and semantics have changed, see `?as_tibble`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<p><img src="/posts/2020-05-26-kaggle-titanic.en_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+</div>
+<div id="submit-data-to-kaggle-2" class="section level4">
+<h4>Submit Data to Kaggle</h4>
+<pre class="r"><code>pred &lt;- predict(xgb_fit, main_test) %&gt;% 
+  bind_cols(select(test_raw, passenger_id))
+
+pred</code></pre>
+<pre><code>## # A tibble: 418 x 2
+##    .pred_class passenger_id
+##    &lt;fct&gt;              &lt;dbl&gt;
+##  1 no                   892
+##  2 no                   893
+##  3 no                   894
+##  4 no                   895
+##  5 no                   896
+##  6 no                   897
+##  7 no                   898
+##  8 no                   899
+##  9 no                   900
+## 10 no                   901
+## # … with 408 more rows</code></pre>
+<pre class="r"><code>data_to_submit &lt;- pred %&gt;% 
+  select(PassengerId = passenger_id, Survived = .pred_class) %&gt;% 
+  mutate(Survived = as.numeric(Survived) - 1)
+
+data_to_submit</code></pre>
+<pre><code>## # A tibble: 418 x 2
+##    PassengerId Survived
+##          &lt;dbl&gt;    &lt;dbl&gt;
+##  1         892        0
+##  2         893        0
+##  3         894        0
+##  4         895        0
+##  5         896        0
+##  6         897        0
+##  7         898        0
+##  8         899        0
+##  9         900        0
+## 10         901        0
+## # … with 408 more rows</code></pre>
+<pre class="r"><code>write_csv(data_to_submit, &quot;/Users/Kow/Desktop/20200526_xgb2_kaggle_submission.csv&quot;)</code></pre>
+<!-- ## Nueral Networks -->
+<!-- ```{r} -->
+<!-- keras_spec <- mlp( -->
+<!--   hidden_units = tune(), -->
+<!--   penalty = tune(), -->
+<!--   dropout = tune(), -->
+<!--   epochs = tune() -->
+<!-- ) %>%  -->
+<!--   set_engine("keras") %>%  -->
+<!--   set_mode("classification") -->
+<!-- keras_wf <- workflow() %>% -->
+<!--   add_recipe(titanic_recipe) %>% -->
+<!--   add_model(nnet_spec) -->
+<!-- keras_grid <- grid_latin_hypercube( -->
+<!--   hidden_units(), -->
+<!--   penalty(), -->
+<!--   dropout(), -->
+<!--   epochs(), -->
+<!--   size = 3 -->
+<!-- ) -->
+<!-- keras_res <-  -->
+<!--   keras_wf %>%  -->
+<!--   tune_grid( -->
+<!--     resamples = cell_folds, -->
+<!--     grid = keras_grid -->
+<!--   ) -->
+<!-- xgboost_res %>%  -->
+<!--   collect_metrics() %>%  -->
+<!--   filter(.metric == "roc_auc") %>%  -->
+<!--   arrange(desc(mean)) -->
+<!-- best_xgb <- xgboost_res %>% -->
+<!--   select_best("roc_auc") -->
+<!-- best_xgb -->
+<!-- final_xgb_wf <-  -->
+<!--   xgb_wf %>%  -->
+<!--   finalize_workflow(best_xgb) -->
+<!-- final_xgb_wf -->
+<!-- xgb_fit <- fit(final_xgb_wf, data = main_train) -->
+<!-- ``` -->
+</div>
+</div>
+</div>
+</div>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Kyle Harris </span>
+                </p>
+            
+           
+            <p class="copyright-item">
+                    <span>Words:</span>
+                   <span>4774</span>
+            </p>
+            
+            <p class="copyright-item">
+                
+                <span>Share:</span>
+                <span>
+
+      
+        <a href="//twitter.com/share?url=%2f2020%2f2020-05-26-kaggle-titanic%2f&amp;text=Kaggle%3a%20Titanic&amp;via=koderkow" target="_blank" title="Share on Twitter">
+          <i class="iconfont icon-twitter"></i>
+        </a>
+        
+      
+      
+        <a href="//www.facebook.com/sharer/sharer.php?u=%2f2020%2f2020-05-26-kaggle-titanic%2f" target="_blank" title="Share on Facebook">
+          <i class="iconfont icon-facebook"></i>
+        </a>
+        
+      
+      
+      
+      
+        <a href="//www.linkedin.com/shareArticle?url=%2f2020%2f2020-05-26-kaggle-titanic%2f&amp;title=Kaggle%3a%20Titanic" target="_blank" title="Share on LinkedIn">
+          <i class="iconfont icon-linkedin"></i>
+        </a>
+        
+      
+      
+        
+      
+        
+      
+
+          
+
+          
+
+          
+
+          
+</span>
+            </p>
+                       
+
+             
+            <p class="copyright-item">
+                Released under <a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">Back</a></span> · 
+                <span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="/2019/2019-12-04-tesseract-ocr-version-4-1-0-parameters/" class="prev" rel="prev" title="Tesseract OCR Version 4.1.0 Parameters"><i class="iconfont icon-dajiantou"></i>&nbsp;Tesseract OCR Version 4.1.0 Parameters</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+          <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'koderkow';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+
+
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2019 - 2020</span>
+        
+         
+            <span class="author" itemprop="copyrightHolder"><a href="/">Kyle Harris</a> | </span>
+         
+
+		  <span>Crafted with ❤️ by <a href="https://github.com/Fastbyte01/KeepIt" target="_blank" rel="external nofollow noopener noreffer">KeepIt</a> & <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a></span>
+    </div>
+    
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.12/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119864602-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+     </div>
+  </body>
+</html>
